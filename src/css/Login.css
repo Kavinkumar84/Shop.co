@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding:0 0 45px 0;
+  padding: 0 0 45px 0;
 }
 
 .login-card {
@@ -19,18 +19,17 @@
   padding: 28px;
   border-radius: 14px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  
 }
-.logo-container{
+.logo-container {
   width: 420px;
 
-    /* border: 1px solid black; */
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
 }
-.logo{
+.logo {
   display: flex;
   align-items: center;
   gap: 0px;
@@ -89,7 +88,8 @@
   color: #999;
   font-size: 13px;
 }
-.form-field {  /* Changed from .input-group */
+.form-field {
+  /* Changed from .input-group */
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
@@ -122,9 +122,9 @@
   font-size: 15px;
   background: transparent;
 }
-.input-box input::placeholder{
+.input-box input::placeholder {
   color: #757587;
-} 
+}
 .eye-icon {
   color: #999;
   cursor: pointer;
@@ -215,4 +215,62 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
   -webkit-text-fill-color: #000 !important;
   transition: background-color 9999s ease-in-out 0s;
+}
+
+.strength-bar {
+  width: 100%;
+  height: 8px;
+  background: #e6e6e6;
+  border-radius: 10px;
+  margin-top: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strength-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 10px;
+  transition: width 0.4s ease-in-out, background 0.4s;
+}
+
+/* Levels */
+.strength-fill.weak {
+  background: linear-gradient(90deg, #ff4d4f, #ff7875);
+}
+
+.strength-fill.fair {
+  background: linear-gradient(90deg, #ffa940, #ffd666);
+}
+
+.strength-fill.good {
+  background: linear-gradient(90deg, #52c41a, #95de64);
+}
+
+.strength-fill.strong {
+  background: linear-gradient(90deg, #389e0d, #73d13d);
+  box-shadow: 0 0 8px rgba(56, 158, 13, 0.6);
+}
+
+.strength-text {
+  color: #d93025;
+  font-size: 15px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.form-field:has(.strength-bar) {
+  margin-bottom: 10px;
+}
+.static-error-box {
+  width: 100%;
+  padding: 12px;
+  margin: 14px 0;
+  border-radius: 10px;
+  background-color: #fff1f1;
+  border: 1px solid #ffb3b3;
+  color: #e53935;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
 }

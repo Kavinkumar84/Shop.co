@@ -9,97 +9,90 @@ import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import { IoEyeOffOutline } from "react-icons/io5";
 import axios from "axios";
+import ForgotPass from "./ForgetPass";
+import Otp from "./Otp";
 
 const Login = () => {
   const [isValid, setIsValid] = useState(false);
   const [passwordError, setPasswordError] = useState("");
-  const [showError, setShowError] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // 🔥 Forgot password flow
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotStep, setForgotStep] = useState("email");
+  const [resetEmail, setResetEmail] = useState("");
 
   const [UserData, setUserData] = useState({
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
-  function handleChange(e) {
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...UserData, [name]: value });
 
-    if (submitted && name === "password") {
-      validatePassword(value);
-    }
+    if (submitted && name === "email") validateEmail(value);
+    if (submitted && name === "password") validatePassword(value);
+    if (showError) setShowError(false);
+  };
 
-    if (submitted && name === "email") {
-      validateEmail(value);
-    }
-    if (showError) {
-      setShowError(false);
-    }
-  }
-
-  function handleSubmit() {
+  const handleSubmit = () => {
     setSubmitted(true);
-
     validateEmail(UserData.email);
     validatePassword(UserData.password);
 
     if (!isEmailValid || !isValid) return;
 
     axios
-      .post("http://localhost:5000/shop.co/Auth/loginUser", {
-        email: UserData.email,
-        password: UserData.password,
-      })
+      .post("http://localhost:5000/shop.co/Auth/loginUser", UserData)
       .then((res) => {
-        if (res.data.Success) {
-          navigate("/");
-        } else {
-          setShowError(true);
-        }
+        if (res.data.Success) navigate("/");
+        else setShowError(true);
       })
-      .catch(() => {
-        setShowError(true);
-      });
-  }
+      .catch(() => setShowError(true));
+  };
 
-  function validatePassword(value) {
-    if (value.length == 0) {
+  const validatePassword = (value) => {
+    if (!value) {
       setPasswordError("Password required");
       setIsValid(false);
     } else if (value.length < 8) {
       setPasswordError("Password must be at least 8 characters");
       setIsValid(false);
     } else if (!/[a-z]/.test(value)) {
-      setPasswordError("Password must contain a lowercase letter");
+      setPasswordError("Must contain lowercase letter");
       setIsValid(false);
     } else if (!/[A-Z]/.test(value)) {
-      setPasswordError("Password must contain an uppercase letter");
+      setPasswordError("Must contain uppercase letter");
       setIsValid(false);
     } else if (!/[0-9]/.test(value)) {
-      setPasswordError("Password must contain a number");
+      setPasswordError("Must contain a number");
       setIsValid(false);
     } else {
       setPasswordError("");
       setIsValid(true);
     }
-  }
-  function validateEmail(value) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  };
 
+  const validateEmail = (value) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!value) {
       setEmailError("Email is required");
       setIsEmailValid(false);
-    } else if (!emailRegex.test(value)) {
-      setEmailError("Please enter a valid email address");
+    } else if (!regex.test(value)) {
+      setEmailError("Enter valid email");
       setIsEmailValid(false);
     } else {
       setEmailError("");
       setIsEmailValid(true);
     }
-  }
+  };
 
   return (
     <div className="login-page">
@@ -112,7 +105,8 @@ const Login = () => {
         </div>
         <p className="subtitle">Welcome back! Log in to continue shopping</p>
       </div>
-      {showError && (
+
+     {showError && (
         <div className="error-box">
           <div className="error-icon">
             <MdOutlineErrorOutline />
@@ -194,7 +188,9 @@ const Login = () => {
           )}
         </div>
 
-        <div className="forgot">Forgot password?</div>
+        <div className="forgot" onClick={() => setShowForgot(true)}>
+          Forgot password?
+        </div>
 
         <button
           className="signin-btn"
@@ -211,6 +207,26 @@ const Login = () => {
           </span>
         </p>
       </div>
+      {showForgot && forgotStep === "email" && (
+        <ForgotPass
+          onClose={() => setShowForgot(false)}
+          onSendOtp={(email) => {
+            setResetEmail(email);
+            setForgotStep("otp");
+          }}
+        />
+      )}
+
+      {showForgot && forgotStep === "otp" && (
+        <Otp
+          email={resetEmail}
+          onClose={() => {
+            setShowForgot(false);
+            setForgotStep("email");
+          }}
+          onBack={() => setForgotStep("email")}
+        />
+      )}
     </div>
   );
 };

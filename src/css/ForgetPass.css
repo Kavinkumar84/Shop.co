@@ -1,0 +1,166 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cross-model {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  font-size: 25px;
+  color: #9c9a9a;
+}
+
+.forgot-modal {
+  background: #fff;
+  width: 420px;
+  padding: 15px 28px 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mail-logo {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background-color: #6a5cff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: #fff;
+}
+.logo-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.forget-heading {
+  margin-top: 10px;
+  font-size: 25px;
+  font-weight: 550;
+}
+.forget-subheading {
+  margin-top: 7px;
+  margin-bottom: 17px;
+  color: #9c9a9a;
+}
+.otp-input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 19px;
+  font-weight: 100;
+}
+.otp-input-box input {
+  letter-spacing: 10px;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 25px;
+  background: transparent;
+  text-align: center;
+  font-weight: 700;
+}
+.resend {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7a13d5;
+  cursor: pointer;
+}
+.back-mail {
+  margin-top: 20px;
+  cursor: pointer;
+}
+.your-mail {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  margin-top: 5px;
+  color: #9c9a9a;
+}
+.input-box,
+.otp-input-box {
+  width: 100%;
+}
+.form-email-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.input-error {
+  border: 1px solid #ff4d4f;
+  background-color: #fff5f5;
+}
+
+.password-error {
+  color: #d93025;
+  font-size: 13px;
+  margin-top: 6px;
+}
+.otp-box-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.otp-box {
+  width: 48px;
+  height: 55px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.otp-box:focus {
+  border-color: #7c5cff;
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.2);
+}
+
+.otp-text {
+  width: 100%;
+  font-size: 13px;
+  font-weight: 700;
+  color: #535353;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.otp-success-box {
+  /* margin-top: 14px; */
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #e9f9ef;
+  color: #0f9d58;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 15px;
+}
