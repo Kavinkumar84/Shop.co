@@ -26,7 +26,7 @@ const Otp = ({ onClose, onBack, email }) => {
     if (showSuccess) {
       const timer = setTimeout(() => {
         setShowSuccess(false);
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }

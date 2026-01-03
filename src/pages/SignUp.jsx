@@ -10,7 +10,7 @@ import {
   HiOutlineMail,
 } from "react-icons/hi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { MdPersonOutline } from "react-icons/md";
+import { MdPersonOutline, MdPhone } from "react-icons/md";
 const SignUp = () => {
   const [isFilled, setisFilled] = useState(true);
   const [UserData, setUserData] = useState({
@@ -25,6 +25,7 @@ const SignUp = () => {
   const [matchError, setMatchError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
+  
 
   const checkPasswordStrength = (password) => {
     let score = 0;
@@ -95,7 +96,9 @@ const SignUp = () => {
         </button>
 
         <div className="divider">
+          <div className="or-line"></div>
           <span>OR</span>
+          <div className="or-line"></div>
         </div>
 
         <div className="form-field">
@@ -110,6 +113,13 @@ const SignUp = () => {
           <div className="input-box">
             <HiOutlineMail />
             <input type="email" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div className="form-field">
+          <label>Phone Number</label>
+          <div className="input-box">
+            <MdPhone />
+            <input type="number" placeholder="1234567890" />
           </div>
         </div>
 
@@ -195,7 +205,7 @@ const SignUp = () => {
         <p className="signup-text">
           Already have an account?{" "}
           <span>
-            <Link to={"/login"}>Sign in</Link>
+            <Link to={"/login"} style={{textDecoration:"none",color:"rgb(79 70 229)"}}>Sign in</Link>
           </span>
         </p>
       </div>

@@ -2,7 +2,7 @@ import "../css/Login.css";
 import { FcGoogle } from "react-icons/fc";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import { AiOutlineEye } from "react-icons/ai";
-import Logo from "../assets/Logo.webp";
+import Logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineErrorOutline } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
@@ -126,7 +126,9 @@ const Login = () => {
         </button>
 
         <div className="divider">
+          <div className="or-line"></div>
           <span>OR</span>
+          <div className="or-line"></div>
         </div>
 
         <div className="form-field">
@@ -203,7 +205,7 @@ const Login = () => {
         <p className="signup-text">
           Don&apos;t have an account?{" "}
           <span>
-            <Link to={"/signup"}>Create Account</Link>
+            <Link to={"/signup"} style={{textDecoration:"none",color:"rgb(79 70 229)"}}>Create Account</Link>
           </span>
         </p>
       </div>
