@@ -17,11 +17,10 @@
   font-size: 25px;
   color: #9c9a9a;
 }
-.forgot{
-    color: rgb(79 70 229);
-    font-weight: 700;
-    font-size: 13px;
-
+.forgot {
+  color: rgb(79 70 229);
+  font-weight: 700;
+  font-size: 13px;
 }
 .forgot-modal {
   background: #fff;
@@ -33,16 +32,16 @@
   flex-direction: column;
   align-items: center;
 }
-.divider{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
 }
-.or-line{
-    width: 40%;
-    border: 1px solid rgb(219, 218, 218);
-    height: 0px;
+.or-line {
+  width: 40%;
+  border: 1px solid rgb(219, 218, 218);
+  height: 0px;
 }
 .mail-logo {
   width: 62px;
@@ -129,11 +128,27 @@
   border: 1px solid #ff4d4f;
   background-color: #fff5f5;
 }
+.otp-box {
+  border: 1.5px solid #d1d5db;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.otp-box:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.otp-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+}
 
 .password-error {
   color: #d93025;
   font-size: 13px;
-  margin-top: 6px;
+  /* margin-top: 6px; */
+  width: 100%;
+  text-align: start;
 }
 .otp-box-container {
   display: flex;
@@ -179,4 +194,82 @@
   font-weight: 500;
   width: 100%;
   margin-bottom: 15px;
+}
+.resend-wrapper {
+  margin-top: 12px;
+  font-size: 14px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.resend-text {
+  color: #555;
+}
+
+.resend-timer {
+  color: #999;
+}
+
+.resend-link {
+  color: #7a13d5;
+  cursor: pointer;
+  font-weight: 500;
+}
+.resending {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9b5cff;
+  font-weight: 500;
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-top: 2px solid #9b5cff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.otp-msg-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+/* SUCCESS (GREEN) */
+.otp-msg-box.success {
+  background: #ecfdf3;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+/* ERROR (RED) */
+.otp-msg-box.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+.success-msg {
+  background: #e6fffa;
+  color: #0f766e;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
 }

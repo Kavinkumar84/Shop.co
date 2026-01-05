@@ -11,6 +11,7 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import axios from "axios";
 import ForgotPass from "./ForgetPass";
 import Otp from "./Otp";
+import ResetPassword from "./ResetPassword";
 
 const Login = () => {
   const [isValid, setIsValid] = useState(false);
@@ -20,8 +21,6 @@ const Login = () => {
   const [submitted, setSubmitted] = useState(false);
   const [showError, setShowError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // 🔥 Forgot password flow
   const [showForgot, setShowForgot] = useState(false);
   const [forgotStep, setForgotStep] = useState("email");
   const [resetEmail, setResetEmail] = useState("");
@@ -131,7 +130,7 @@ const Login = () => {
           <div className="or-line"></div>
         </div>
 
-        <div className="form-field">
+        <div className="form-field mb-0">
           <label>Email Address</label>
 
           <div
@@ -154,7 +153,7 @@ const Login = () => {
           )}
         </div>
 
-        <div className="form-field">
+        <div className="form-field mb-0">
           <label>Password</label>
 
           <div
@@ -220,15 +219,27 @@ const Login = () => {
       )}
 
       {showForgot && forgotStep === "otp" && (
-        <Otp
-          email={resetEmail}
-          onClose={() => {
-            setShowForgot(false);
-            setForgotStep("email");
-          }}
-          onBack={() => setForgotStep("email")}
-        />
-      )}
+  <Otp
+    email={resetEmail}
+    onClose={() => {
+      setShowForgot(false);
+      setForgotStep("email");
+    }}
+    onBack={() => setForgotStep("email")}
+    onVerified={() => setForgotStep("reset")}
+  />
+)}
+{showForgot && forgotStep === "reset" && (
+  <ResetPassword
+    email={resetEmail}   // ✅ CORRECT
+    onClose={() => {
+      setShowForgot(false);
+      setForgotStep("email");
+    }}
+  />
+)}
+
+
     </div>
   );
 };

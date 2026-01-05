@@ -3,6 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import "../css/ForgetPass.css";
 import { FiMail } from "react-icons/fi";
+import axios from "axios";
 
 const ForgotPass = ({ onClose, onSendOtp }) => {
   const [email, setEmail] = useState("");
@@ -19,9 +20,21 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
       setError("Enter a valid email address");
       return;
     }
-
-    setError("");
-    onSendOtp(email);
+    axios
+      .post("http://localhost:5000/shop.co/Auth/forgetPass", { email })
+      .then((res) => {
+        if (res.data.success) {
+          setError("");
+          onSendOtp(email);
+        } else {
+          setError(res.data.message);
+        }
+      })
+      .catch((err) => {
+        setError(
+          err.response?.data?.message || "Server error. Try again later"
+        );
+      });
   };
 
   return (
@@ -51,12 +64,12 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if (error) setError(""); // 🔥 removes red while typing
+                if (error) setError("");
               }}
             />
           </div>
 
-          {error && <p className="password-error">{error}</p>}
+          {error && <p className="password-error mb-0">{error}</p>}
         </div>
 
         <button className="signin-btn" onClick={handleSendOtp}>

@@ -9,8 +9,11 @@ import {
   HiOutlineLockOpen,
   HiOutlineMail,
 } from "react-icons/hi";
+
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdPersonOutline, MdPhone } from "react-icons/md";
+import CountryDropdown from "./CountryDropdown";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 const SignUp = () => {
   const [isFilled, setisFilled] = useState(true);
   const [UserData, setUserData] = useState({
@@ -18,15 +21,17 @@ const SignUp = () => {
     email: "",
     password: "",
     repassword: "",
+    phoneNumber: "",
+    countryCode: "",
   });
-
+  const [ErrorShow, setErrorShow] = useState(false);
   const [strengthScore, setStrengthScore] = useState(0);
   const [strengthLabel, setStrengthLabel] = useState("");
   const [matchError, setMatchError] = useState("");
+  const [Error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-  
-
+  const navigate = useNavigate();
   const checkPasswordStrength = (password) => {
     let score = 0;
 
@@ -63,19 +68,68 @@ const SignUp = () => {
         value !== UserData.password ? "Passwords do not match" : ""
       );
     }
-    if(!isFilled){
-      setisFilled(true)
+    if (!isFilled) {
+      setisFilled(true);
     }
   };
 
   function handleSubmit(e) {
     e.preventDefault();
-    const { name, email, password, repassword } = UserData;
-    if (!name || !email || !password || !repassword) {
+    const { name, email, password, repassword, countryCode, phoneNumber } =
+      UserData;
+
+    if (!name) {
+      setError("Please fill name fields");
       setisFilled(false);
-       return; 
+      return;
+    }
+    if (!email) {
+      setError("Please fill email fields");
+      setisFilled(false);
+      return;
+    }
+    if (!password) {
+      setError("Please fill password fields");
+      setisFilled(false);
+      return;
+    }
+    if (!repassword) {
+      setError("Please fill confirm password fields");
+      setisFilled(false);
+      return;
+    }
+    if (!countryCode) {
+      setError("Please select country code");
+      setisFilled(false);
+      return;
+    }
+    if (!phoneNumber) {
+      setError("Please fill phone number fields");
+      setisFilled(false);
+      return;
+    }
+    if (strengthScore != 100) {
+      setError("Please enter Strong password");
+      setisFilled(false);
+      return;
     }
     setisFilled(true);
+    axios
+      .post("http://localhost:5000/shop.co/Auth/createUser", UserData)
+      .then((res) => {
+        setErrorShow(true);
+
+        setTimeout(() => {
+          setErrorShow(false);
+          navigate("/login");
+        }, 3000);
+      })
+      .catch((err) => {
+        setisFilled(false);
+        setError(
+          err.response?.data?.message || "Server error. Try again later"
+        );
+      });
   }
 
   return (
@@ -105,21 +159,48 @@ const SignUp = () => {
           <label>Name</label>
           <div className="input-box">
             <MdPersonOutline />
-            <input type="text" placeholder="John Doe" />
+            <input
+              type="text"
+              placeholder="John Doe"
+              name="name"
+              value={UserData.name}
+              onChange={handleChange}
+            />
           </div>
         </div>
         <div className="form-field">
           <label>Email Address</label>
           <div className="input-box">
             <HiOutlineMail />
-            <input type="email" placeholder="you@example.com" />
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={UserData.email}
+              name="email"
+              onChange={handleChange}
+            />
           </div>
         </div>
         <div className="form-field">
           <label>Phone Number</label>
-          <div className="input-box">
-            <MdPhone />
-            <input type="number" placeholder="1234567890" />
+          <div className="d-flex gap-2">
+            <CountryDropdown
+              value={UserData.countryCode || "+1"}
+              onSelect={(code) =>
+                setUserData({ ...UserData, countryCode: code })
+              }
+            />
+
+            <div className="input-box">
+              <MdPhone />
+              <input
+                type="number"
+                placeholder="1234567890"
+                name="phoneNumber"
+                value={UserData.phoneNumber}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
 
@@ -193,9 +274,10 @@ const SignUp = () => {
 
           {matchError && <p className="password-error">{matchError}</p>}
         </div>
-        {!isFilled && (
-          <div className="static-error-box">
-            Please fill in all required fields
+        {!isFilled && <div className="static-error-box">{Error}</div>}
+        {ErrorShow && (
+          <div className="otp-success-box">
+            <IoMdCheckmarkCircleOutline /> Sign Up Successfull
           </div>
         )}
         <button className="signin-btn" onClick={handleSubmit}>
@@ -205,7 +287,12 @@ const SignUp = () => {
         <p className="signup-text">
           Already have an account?{" "}
           <span>
-            <Link to={"/login"} style={{textDecoration:"none",color:"rgb(79 70 229)"}}>Sign in</Link>
+            <Link
+              to={"/login"}
+              style={{ textDecoration: "none", color: "rgb(79 70 229)" }}
+            >
+              Sign in
+            </Link>
           </span>
         </p>
       </div>
