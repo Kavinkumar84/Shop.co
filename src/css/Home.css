@@ -1,7 +1,8 @@
 #Home {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .home-category {
@@ -15,14 +16,13 @@
   margin: auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;100%
+  align-items: center;
 }
 
 .category-box {
   width: 140px;
   text-align: center;
   cursor: pointer;
-  /* border: 1PX solid black; */
 }
 
 .category-box-top img {
@@ -48,4 +48,390 @@
 
 .down-arrow {
   font-size: 12px;
+}
+.carousel {
+  width: 99.1%;
+  margin: 20px 0;
+}
+
+.banner-container {
+  width: 100%;
+  min-height: 400px;
+  /* background-image: url("../assets/ban.png"); */
+  background: #2C3E50;  
+background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+  /* border: 1px solid  gray; */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 0px;
+}
+.banner-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.banner-left {
+  flex: 1;
+  padding: 60px 0 60px 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+}
+
+.new-arrival-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 6px 14px;
+  border-radius: 20px;
+  width: fit-content;
+  margin-bottom: 24px;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: #3b82f6;
+  border-radius: 50%;
+}
+
+.badge-text {
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.banner-title {
+  font-size: 72px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+}
+
+.banner-description {
+  color: purple;
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 32px;
+}
+
+.feature-tags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.feature-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.feature-icon {
+  width: 16px;
+  height: 16px;
+  color: #3b82f6;
+}
+
+.banner-buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.banner-right {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  padding-left: 50px;
+}
+
+.headphone-card {
+  width: 420px;
+  height: 380px;
+  background: #dedede;
+  background: radial-gradient(
+    circle,
+    rgba(222, 222, 222, 1) 0%,
+    rgba(47, 52, 64, 1) 100%
+  );
+  /* background-color: white; */
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  /* overflow: hidden; */
+  z-index: 2;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 16px;
+  left: -18px;            /* pull outside card */
+  background: #0b0f14;
+  padding: 10px 18px;
+  border-radius: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: rotate(-6deg); /* tilt like image */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.discount-label {
+  color: #9ca3af;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.discount-value {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.discount-badge::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 7px;
+  width: 3px;
+  height: 80%;
+  background: #3b82f6;
+  border-radius: 4px;
+}
+
+
+.headphone-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 40px;
+}
+
+.compact-fold {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fold-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fold-icon-lines {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    #fff 2px,
+    transparent 2px,
+    transparent 5px,
+    #fff 5px,
+    #fff 7px,
+    transparent 7px,
+    transparent 10px,
+    #fff 10px
+  );
+}
+
+.fold-text {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.bt-badge {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bt-icon {
+  width: 16px;
+  height: 16px;
+  color: #3b82f6;
+}
+
+.bt-text {
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.decorative-circle {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.decorative-circle-2 {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  border: 1px solid rgba(59, 130, 246, 0.05);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.arrow-left,
+.arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.arrow-left:hover,
+.arrow-right:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.arrow-left {
+  left: 20px;
+}
+
+.arrow-right {
+  right: 20px;
+}
+
+@media (max-width: 1024px) {
+  .banner-left {
+    padding: 40px 0 40px 40px;
+  }
+
+  .banner-title {
+    font-size: 56px;
+  }
+
+  .headphone-card {
+    width: 340px;
+    height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-content {
+    flex-direction: column;
+  }
+
+  .banner-left {
+    padding: 30px;
+  }
+
+  .banner-title {
+    font-size: 42px;
+  }
+
+  .banner-right {
+    padding: 20px;
+  }
+
+  .headphone-card {
+    width: 100%;
+    max-width: 400px;
+  }
 }

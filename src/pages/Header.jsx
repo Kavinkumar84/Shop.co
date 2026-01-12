@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/Header.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -8,6 +8,30 @@ import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline, IoIosLogOut } from "react-icons/io";
 
 const Header = () => {
+  const [loggedUser, setLoggedUser] = useState(null);
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("user") ;
+      if (stored) {
+        let parseData = JSON.parse(stored);
+        setLoggedUser(parseData);
+        console.log(parseData.user.name);
+        
+      }
+    } catch (err) {
+      console.error("Corrupted user data");
+      localStorage.removeItem("user");
+    }
+  }, []);
+  function handleSignOut() {
+    if(loggedUser.provider == "google"){
+      signOut(auth);
+    }
+  localStorage.removeItem("user");
+  setLoggedUser(null); 
+}
+
+
   return (
     <header className="header">
       <div className="header-container">
@@ -23,17 +47,19 @@ const Header = () => {
           <div className="drop">
             <div className="header-profile">
               <i className="bi bi-person-circle header-icon pro"></i>
-              <Link to="/login" className="login-btn">
+
+              {!loggedUser && <Link to="/login" className="login-btn">
                 Login / Signup
-              </Link>
+              </Link>}
+              {loggedUser && <div className="profile-name">{loggedUser.user.name}</div> }
             </div>
-            <div className="down">
+            {loggedUser&& <div className="down">
               <div className="profile-menu">
                 <div className="profile-header">
                   <IoPersonCircleOutline className="profile-avatar" />
                   <div>
-                    <p className="profile-name">KK</p>
-                    <p className="profile-email">kavinv@drngpit.ac.in</p>
+                    <p className="profile-name">{loggedUser.user.name}</p>
+                    <p className="profile-email">{loggedUser.user.email}</p>
                   </div>
                 </div>
 
@@ -52,11 +78,11 @@ const Header = () => {
                   </div>
                 </div>
 
-                <div className="profile-logout">
+                <div className="profile-logout" onClick={handleSignOut}>
                   <IoIosLogOut /> <span>Sign out</span>
                 </div>
               </div>
-            </div>
+            </div> }
           </div>
           <div className="header-profile">
             <i className="bi bi-bag header-icon"></i>
@@ -70,9 +96,9 @@ const Header = () => {
               Wishlist
             </Link>
           </div>
-          <div className="header-profile fs-5">
+          {/* <div className="header-profile fs-5">
             <BsThreeDotsVertical />
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

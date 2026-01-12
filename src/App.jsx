@@ -9,6 +9,7 @@ import Favorites from './pages/Favorites';
 import './css/App.css'
 import Otp from './pages/Otp';
 import ResetPassword from './pages/ResetPassword';
+import PageNotFound from './pages/PageNotFound';
 
 const App = () => {
   return (
@@ -32,8 +33,8 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/Cart" element={<Cart />} />
-        <Route path="/ResetPassword" element={<ResetPassword/>} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

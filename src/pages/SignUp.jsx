@@ -194,11 +194,18 @@ const SignUp = () => {
             <div className="input-box">
               <MdPhone />
               <input
-                type="number"
+                type="tel"
+                pattern="[0-9]{10}"
                 placeholder="1234567890"
                 name="phoneNumber"
                 value={UserData.phoneNumber}
-                onChange={handleChange}
+                onChange={(e) =>
+                  setUserData({
+                    ...UserData,
+                    phoneNumber: e.target.value.replace(/\D/g, ""),
+                  })
+                }
+                maxLength={10}
               />
             </div>
           </div>

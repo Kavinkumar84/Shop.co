@@ -12,6 +12,8 @@ import axios from "axios";
 import ForgotPass from "./ForgetPass";
 import Otp from "./Otp";
 import ResetPassword from "./ResetPassword";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../firebase/FirebaseAuth";
 
 const Login = () => {
   const [isValid, setIsValid] = useState(false);
@@ -51,10 +53,23 @@ const Login = () => {
     axios
       .post("http://localhost:5000/shop.co/Auth/loginUser", UserData)
       .then((res) => {
-        if (res.data.Success) navigate("/");
-        else setShowError(true);
+        if (res.data.success) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              user: res.data.user,
+              token: res.data.token,
+            })
+          );
+          navigate("/");
+        } else {
+          setShowError(true);
+        }
       })
-      .catch(() => setShowError(true));
+      .catch((error) => {
+        setShowError(true);
+        console.log(error);
+      });
   };
 
   const validatePassword = (value) => {
@@ -93,6 +108,50 @@ const Login = () => {
     }
   };
 
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  function handleGoogle() {
+    if (googleLoading) return;
+
+    setGoogleLoading(true);
+
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        const user = res.user;
+
+        const googleUserData = {
+          provider : user.provider,
+          name: user.displayName,
+          email: user.email,
+          isEmailVerified: user.emailVerified,
+        };
+
+        return axios.post(
+          "http://localhost:5000/shop.co/Auth/googleAuth",
+          googleUserData
+        );
+      })
+      .then((res) => {
+        if (res.data.success) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              user: res.data.user,
+              token: res.data.token,
+            })
+          );
+          navigate("/");
+        } else {
+          setShowError(true);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setShowError(true);
+      })
+      .finally(() => setGoogleLoading(false));
+  }
+
   return (
     <div className="login-page">
       <div className="logo-container">
@@ -105,7 +164,7 @@ const Login = () => {
         <p className="subtitle">Welcome back! Log in to continue shopping</p>
       </div>
 
-     {showError && (
+      {showError && (
         <div className="error-box">
           <div className="error-icon">
             <MdOutlineErrorOutline />
@@ -119,7 +178,7 @@ const Login = () => {
         </div>
       )}
       <div className="login-card">
-        <button className="google-btn">
+        <button className="google-btn" onClick={handleGoogle}>
           <FcGoogle size={22} />
           Continue with Google
         </button>
@@ -174,7 +233,7 @@ const Login = () => {
             {!showPassword ? (
               <AiOutlineEye
                 className="eye-icon"
-                onClick={() => setShowPassword(!false)}
+                onClick={() => setShowPassword(!showPassword)}
               />
             ) : (
               <IoEyeOffOutline
@@ -204,7 +263,12 @@ const Login = () => {
         <p className="signup-text">
           Don&apos;t have an account?{" "}
           <span>
-            <Link to={"/signup"} style={{textDecoration:"none",color:"rgb(79 70 229)"}}>Create Account</Link>
+            <Link
+              to={"/signup"}
+              style={{ textDecoration: "none", color: "rgb(79 70 229)" }}
+            >
+              Create Account
+            </Link>
           </span>
         </p>
       </div>
@@ -219,27 +283,25 @@ const Login = () => {
       )}
 
       {showForgot && forgotStep === "otp" && (
-  <Otp
-    email={resetEmail}
-    onClose={() => {
-      setShowForgot(false);
-      setForgotStep("email");
-    }}
-    onBack={() => setForgotStep("email")}
-    onVerified={() => setForgotStep("reset")}
-  />
-)}
-{showForgot && forgotStep === "reset" && (
-  <ResetPassword
-    email={resetEmail}   // ✅ CORRECT
-    onClose={() => {
-      setShowForgot(false);
-      setForgotStep("email");
-    }}
-  />
-)}
-
-
+        <Otp
+          email={resetEmail}
+          onClose={() => {
+            setShowForgot(false);
+            setForgotStep("email");
+          }}
+          onBack={() => setForgotStep("email")}
+          onVerified={() => setForgotStep("reset")}
+        />
+      )}
+      {showForgot && forgotStep === "reset" && (
+        <ResetPassword
+          email={resetEmail} // ✅ CORRECT
+          onClose={() => {
+            setShowForgot(false);
+            setForgotStep("email");
+          }}
+        />
+      )}
     </div>
   );
 };
