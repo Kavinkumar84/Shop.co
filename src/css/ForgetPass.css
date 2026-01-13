@@ -425,29 +425,224 @@
 }
 
 /* ========== Responsive ========== */
-@media (max-width: 520px) {
+
+/* Tablets */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
   .forgot-modal {
     max-width: 100%;
-    padding: 20px 24px 28px 24px;
+    padding: 22px 28px 30px 28px;
+  }
+
+  .mail-logo {
+    width: 68px;
+    height: 68px;
+    font-size: 34px;
+  }
+
+  .forget-heading {
+    font-size: 24px;
+  }
+
+  .forget-subheading {
+    font-size: 13px;
+  }
+
+  .otp-box {
+    width: 50px;
+    height: 58px;
+    font-size: 23px;
+  }
+
+  .password-requirements {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 520px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .forgot-modal {
+    max-width: 100%;
+    padding: 20px 22px 26px 22px;
+    border-radius: 14px;
+  }
+
+  .cross-model {
+    top: 16px;
+    right: 16px;
+    font-size: 20px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .logo-content {
+    margin-bottom: 20px;
   }
 
   .mail-logo {
     width: 64px;
     height: 64px;
     font-size: 32px;
+    margin-bottom: 14px;
   }
 
   .forget-heading {
     font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .forget-subheading {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  /* Form fields */
+  .form-email-field {
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .form-email-field label {
+    font-size: 13px;
+  }
+
+  .forgot-modal .input-box {
+    padding: 11px 14px;
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .forgot-modal .input-box input {
+    font-size: 14px;
+  }
+
+  /* OTP boxes */
+  .otp-text {
+    font-size: 13px;
+    margin-bottom: 6px;
   }
 
   .otp-box-container {
-    gap: 8px;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 14px;
   }
 
   .otp-box {
     width: 46px;
     height: 54px;
-    font-size: 22px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  /* Email display */
+  .your-mail {
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  /* Password requirements */
+  .password-requirements {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  .req-item {
+    font-size: 11px;
+  }
+
+  .password-error {
+    font-size: 12px;
+  }
+
+  /* Message boxes */
+  .otp-msg-box,
+  .otp-success-box {
+    padding: 10px 14px;
+    font-size: 13px;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .otp-msg-box svg {
+    font-size: 18px;
+  }
+
+  .success-msg {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  /* Resend section */
+  .resend-wrapper {
+    margin-top: 14px;
+    font-size: 13px;
+    gap: 5px;
+  }
+
+  .loader {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Back link */
+  .back-mail {
+    margin-top: 16px;
+    font-size: 13px;
+    gap: 5px;
+  }
+
+  /* Buttons */
+  .forgot-modal .signin-btn {
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .forgot-modal {
+    padding: 18px 16px 24px 16px;
+  }
+
+  .mail-logo {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+  }
+
+  .forget-heading {
+    font-size: 20px;
+  }
+
+  .otp-box-container {
+    gap: 5px;
+  }
+
+  .otp-box {
+    width: 42px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .forgot-modal .input-box {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .forgot-modal .signin-btn {
+    padding: 11px;
+    font-size: 13px;
   }
 }

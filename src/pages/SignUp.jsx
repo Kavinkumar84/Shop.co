@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
@@ -43,6 +43,7 @@ const SignUp = () => {
   const [submitted, setSubmitted] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
+  const phoneInputRef = useRef(null);
 
   const hasMinLength = UserData.password.length >= 8;
   const hasLowercase = /[a-z]/.test(UserData.password);
@@ -217,31 +218,42 @@ const SignUp = () => {
 
         <div className="form-field">
           <label>Phone Number (Optional)</label>
-          <div className="d-flex gap-2">
-            <CountryDropdown
-              value={UserData.countryCode || "+1"}
-              onSelect={(code) => {
-                setUserData({ ...UserData, countryCode: code });
-                if (submitted) setFieldErrors((prev) => ({ ...prev, countryCode: "" }));
-              }}
-            />
-            <div className={`input-box ${submitted && fieldErrors.phoneNumber ? "input-error" : ""}`}>
-              <MdPhone />
-              <input
-                type="tel"
-                pattern="[0-9]{10}"
-                placeholder="10-digit phone number"
-                name="phoneNumber"
-                value={UserData.phoneNumber}
-                onChange={(e) => {
-                  setUserData({
-                    ...UserData,
-                    phoneNumber: e.target.value.replace(/\D/g, ""),
-                  });
-                  if (submitted) setFieldErrors((prev) => ({ ...prev, phoneNumber: "" }));
+          <div className="d-flex gap-2" style={{ pointerEvents: 'none' }}>
+            <div style={{ pointerEvents: 'auto' }}>
+              <CountryDropdown
+                value={UserData.countryCode || "+1"}
+                onSelect={(code) => {
+                  setUserData({ ...UserData, countryCode: code });
+                  if (submitted) setFieldErrors((prev) => ({ ...prev, countryCode: "" }));
                 }}
-                maxLength={10}
               />
+            </div>
+            <div style={{ flex: 1, pointerEvents: 'auto' }} onClick={(e) => e.stopPropagation()}>
+              <div
+                className={`input-box ${submitted && fieldErrors.phoneNumber ? "input-error" : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  phoneInputRef.current?.focus();
+                }}
+              >
+                <MdPhone style={{ pointerEvents: 'none' }} />
+                <input
+                  ref={phoneInputRef}
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  placeholder="10-digit phone number"
+                  name="phoneNumber"
+                  value={UserData.phoneNumber}
+                  onChange={(e) => {
+                    setUserData({
+                      ...UserData,
+                      phoneNumber: e.target.value.replace(/\D/g, ""),
+                    });
+                    if (submitted) setFieldErrors((prev) => ({ ...prev, phoneNumber: "" }));
+                  }}
+                  maxLength={10}
+                />
+              </div>
             </div>
           </div>
           {submitted && (fieldErrors.countryCode || fieldErrors.phoneNumber) && (

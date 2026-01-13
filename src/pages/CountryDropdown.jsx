@@ -7,6 +7,7 @@ const CountryDropdown = ({ value, onSelect }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const ref = useRef();
+  const searchInputRef = useRef();
 
   useEffect(() => {
     axios
@@ -20,10 +21,10 @@ const CountryDropdown = ({ value, onSelect }) => {
 
             return num < 1000
               ? {
-                  name: c.name.common,
-                  code,
-                  flag: c.flags.svg,
-                }
+                name: c.name.common,
+                code,
+                flag: c.flags.svg,
+              }
               : null;
           })
           .filter(Boolean)
@@ -38,7 +39,7 @@ const CountryDropdown = ({ value, onSelect }) => {
     setFiltered(
       countries.filter(
         (c) =>
-          c.name.toLowerCase().includes(search.toLowerCase()) ||
+          c.name.toLowerCase().startsWith(search.toLowerCase()) ||
           c.code.includes(search)
       )
     );
@@ -50,15 +51,29 @@ const CountryDropdown = ({ value, onSelect }) => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  useEffect(() => {
+    if (open && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [open]);
+
   return (
-    <div className="country-dropdown" ref={ref}>
-      <div className="input-box input-country" onClick={() => setOpen(!open)}>
-        <input value={value} readOnly />
+    <div className="country-dropdown" ref={ref} style={{ pointerEvents: 'auto', zIndex: 1 }}>
+      <div
+        className="input-box input-country"
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(!open);
+        }}
+        style={{ cursor: 'pointer', overflow: 'hidden' }}
+      >
+        <input value={value} readOnly style={{ cursor: 'pointer', width: '100%' }} />
       </div>
 
       {open && (
         <div className="country-menu">
           <input
+            ref={searchInputRef}
             className="country-search"
             placeholder="Search..."
             value={search}

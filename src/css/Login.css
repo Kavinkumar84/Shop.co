@@ -552,7 +552,7 @@
 /* ========== Responsive ========== */
 @media (max-width: 520px) {
   .login-card {
-    padding: 24px 20px;
+    padding: 24px 16px;
   }
 
   .txt {
@@ -564,14 +564,98 @@
     height: 40px;
   }
 
+  /* Phone number field fixes */
+  .d-flex.gap-2 {
+    gap: 8px !important;
+    flex-wrap: nowrap;
+  }
+
+  .input-country {
+    width: 80px !important;
+    min-width: 80px !important;
+    flex-shrink: 0;
+  }
+
+  .input-country input {
+    font-size: 14px !important;
+  }
+
+  /* Phone input container */
+  .d-flex.gap-2 > div:last-child {
+    flex: 1;
+    min-width: 0; /* Important for flex child overflow */
+  }
+
+  .input-box {
+    width: 100%;
+    padding: 11px 12px;
+    gap: 8px;
+  }
+
+  .input-box input {
+    font-size: 14px;
+    min-width: 0;
+  }
+
+  /* Country dropdown menu positioning */
+  .country-menu {
+    width: 100%;
+    max-width: calc(100vw - 40px);
+    left: 0;
+    right: auto;
+  }
+
+  /* Password requirements */
   .password-requirements {
     grid-template-columns: 1fr;
   }
 
+  /* Form options - keep on same line */
   .form-options {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .remember-me {
+    font-size: 13px;
+  }
+
+  .forgot {
+    font-size: 13px;
+  }
+
+  /* Terms & Conditions - Better mobile layout */
+  .remember-me {
+    font-size: 12px;
+    line-height: 1.6;
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  .remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .remember-me a {
+    display: inline;
+    word-wrap: break-word;
+  }
+
+  /* Adjust form field spacing */
+  .form-field {
+    margin-bottom: 14px;
+  }
+
+  .form-field label {
+    font-size: 13px;
+  }
+
+  /* Button adjustments */
+  .signin-btn,
+  .google-btn {
+    font-size: 14px;
   }
 }
 input:-webkit-autofill,
