@@ -2,87 +2,70 @@ import axios from "axios";
 import React, { useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { CiLock } from "react-icons/ci";
-import { HiOutlineLockClosed } from "react-icons/hi";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi";
 import { IoEyeOffOutline } from "react-icons/io5";
-import { RxCross2, RxCrossCircled } from "react-icons/rx";
-import { useNavigate } from "react-router-dom";
+import { RxCross2 } from "react-icons/rx";
+import toast from 'react-hot-toast';
 
 const ResetPassword = ({ onClose, email }) => {
   const [form, setForm] = useState({
     password: "",
     confirmPassword: "",
   });
-  const [success, setSuccess] = useState("");
-  const [showMsg, setShowMsg] = useState(false);
-  const [msg, setMsg] = useState("");
-  const [isError, setIsError] = useState(false);
 
-  const nav = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
-  const [error, setError] = useState("");
-  const [error1, setError1] = useState("");
+  const [matchError, setMatchError] = useState("");
+  const [isResetting, setIsResetting] = useState(false);
+
+  const hasMinLength = form.password.length >= 8;
+  const hasLowercase = /[a-z]/.test(form.password);
+  const hasUppercase = /[A-Z]/.test(form.password);
+  const hasNumber = /[0-9]/.test(form.password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(form.password);
+  const isStrongPassword =
+    hasMinLength && hasLowercase && hasUppercase && hasNumber && hasSpecial;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setForm({ ...form, [name]: value });
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
-    if (name === "password") {
-      setError1("");
-
-      if (!/[A-Z]/.test(value)) {
-        setError1("Must contain at least one uppercase letter");
-        return;
-      }
-
-      if (!/[a-z]/.test(value)) {
-        setError1("Must contain at least one lowercase letter");
-        return;
-      }
-
-      if (!/[0-9]/.test(value)) {
-        setError1("Must contain at least one number");
-        return;
-      }
-      if (value.length > 0 && value.length < 8) {
-        setError1("Password must be at least 8 characters");
-        return;
-      }
-
-      if (form.confirmPassword && value !== form.confirmPassword) {
-        setError("Passwords do not match");
-      } else {
-        setError("");
-      }
+    if (name === "password" && form.confirmPassword) {
+      setMatchError(value !== form.confirmPassword ? "Passwords do not match" : "");
     }
 
     if (name === "confirmPassword") {
-      if (value !== form.password) {
-        setError("Passwords do not match");
-        return;
-      } else {
-        setError("");
-      }
+      setMatchError(value !== form.password ? "Passwords do not match" : "");
     }
   };
 
   const handleReset = async () => {
     setSubmitted(true);
-    console.log(email);
 
     if (!form.password || !form.confirmPassword) {
-      setError("Password is required");
+      setMatchError("Password is required");
       return;
     }
 
-    if (error || error1) return;
+    if (!isStrongPassword) {
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setMatchError("Passwords do not match");
+      return;
+    }
+
+    setIsResetting(true);
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/shop.co/Auth/resetPass",
+        "https://shop-co-backend-seven.vercel.app/shop.co/Auth/resetPass",
         {
           email,
           password: form.password,
@@ -90,21 +73,19 @@ const ResetPassword = ({ onClose, email }) => {
       );
 
       if (res.data.Success) {
-        setIsError(false);
-        setMsg("Password updated successfully");
-        setShowMsg(true);
-
+        toast.success("Password reset successful! You can now login.");
         setTimeout(() => {
-          setShowMsg(false);
-          onClose(); 
+          onClose();
         }, 1000);
       } else {
-        setIsError(true);
-        setMsg(res.data.message);
-        setShowMsg(true);
+        toast.error(res.data.message || "Password reset failed. Please try again.");
       }
     } catch (err) {
-      setError(err.response?.data?.Message || "Something went wrong");
+      const errorMsg = err.response?.data?.Message || "Password reset failed. Please try again.";
+      setMatchError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -123,12 +104,12 @@ const ResetPassword = ({ onClose, email }) => {
           <div className="forget-subheading">Create your new password</div>
         </div>
 
-        <div className="form-email-field mb-0">
+        <div className="form-email-field mb-3">
           <label>New Password</label>
           <div
-            className={`input-box ${submitted && error ? "input-error" : ""}`}
+            className={`input-box ${submitted && !isStrongPassword ? "input-error" : ""}`}
           >
-            <HiOutlineLockClosed />
+            {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter new password"
@@ -148,14 +129,39 @@ const ResetPassword = ({ onClose, email }) => {
               />
             )}
           </div>
+
+          {!isStrongPassword && (
+            <div className="password-requirements">
+              <div className={`req-item ${hasMinLength ? "valid" : ""}`}>
+                <span className="req-icon">{hasMinLength ? "✓" : "×"}</span>
+                At least 8 characters
+              </div>
+              <div className={`req-item ${hasUppercase ? "valid" : ""}`}>
+                <span className="req-icon">{hasUppercase ? "✓" : "×"}</span>
+                One uppercase letter
+              </div>
+              <div className={`req-item ${hasLowercase ? "valid" : ""}`}>
+                <span className="req-icon">{hasLowercase ? "✓" : "×"}</span>
+                One lowercase letter
+              </div>
+              <div className={`req-item ${hasNumber ? "valid" : ""}`}>
+                <span className="req-icon">{hasNumber ? "✓" : "×"}</span>
+                One number
+              </div>
+              <div className={`req-item ${hasSpecial ? "valid" : ""}`}>
+                <span className="req-icon">{hasSpecial ? "✓" : "×"}</span>
+                One special character
+              </div>
+            </div>
+          )}
         </div>
-        {error1 && <p className="password-error mb-2 ">{error1}</p>}
+
         <div className="form-email-field mb-3">
           <label>Confirm Password</label>
           <div
-            className={`input-box ${submitted && error ? "input-error" : ""}`}
+            className={`input-box ${(submitted && matchError) || matchError ? "input-error" : ""}`}
           >
-            <HiOutlineLockClosed />
+            {showPassword1 ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
             <input
               type={showPassword1 ? "text" : "password"}
               placeholder="Confirm password"
@@ -176,16 +182,17 @@ const ResetPassword = ({ onClose, email }) => {
             )}
           </div>
         </div>
-        {submitted && error && <div className="password-error">{error}</div>}
-        {showMsg && (
-          <div className={`otp-msg-box ${isError ? "error" : "success"}`}>
-            {isError ? <RxCrossCircled /> : <IoMdCheckmarkCircleOutline />}
-            <span>{msg}</span>
-          </div>
-        )}
 
-        <button className="signin-btn mt-2" onClick={handleReset}>
-          Reset Password
+        {matchError && <div className="password-error mb-2 mt-0">{matchError}</div>}
+
+        <button
+          className={`signin-btn mt-2 ${isResetting ? "loading" : ""}`}
+          onClick={handleReset}
+          disabled={isResetting}
+          aria-busy={isResetting}
+        >
+          {isResetting && <div className="btn-spinner"></div>}
+          {isResetting ? "Resetting password..." : "Reset Password"}
         </button>
       </div>
     </div>

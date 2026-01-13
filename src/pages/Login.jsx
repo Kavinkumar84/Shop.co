@@ -1,19 +1,17 @@
 import "../css/Login.css";
 import { FcGoogle } from "react-icons/fc";
-import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
-import { AiOutlineEye } from "react-icons/ai";
-import Logo from "../assets/logo.png";
+import { HiOutlineMail, HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Logo from "../assets/Logo.webp";
 import { Link, useNavigate } from "react-router-dom";
-import { MdOutlineErrorOutline } from "react-icons/md";
-import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
-import { IoEyeOffOutline } from "react-icons/io5";
 import axios from "axios";
 import ForgotPass from "./ForgetPass";
 import Otp from "./Otp";
 import ResetPassword from "./ResetPassword";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase/FirebaseAuth";
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [isValid, setIsValid] = useState(false);
@@ -21,11 +19,12 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [showError, setShowError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const [forgotStep, setForgotStep] = useState("email");
   const [resetEmail, setResetEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const [UserData, setUserData] = useState({
     email: "",
@@ -40,7 +39,6 @@ const Login = () => {
 
     if (submitted && name === "email") validateEmail(value);
     if (submitted && name === "password") validatePassword(value);
-    if (showError) setShowError(false);
   };
 
   const handleSubmit = () => {
@@ -50,10 +48,13 @@ const Login = () => {
 
     if (!isEmailValid || !isValid) return;
 
+    setIsLoading(true);
+
     axios
-      .post("http://localhost:5000/shop.co/Auth/loginUser", UserData)
+      .post("https://shop-co-backend-seven.vercel.app/shop.co/Auth/loginUser", UserData)
       .then((res) => {
         if (res.data.success) {
+          toast.success("Login successful! Redirecting...");
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -61,14 +62,18 @@ const Login = () => {
               token: res.data.token,
             })
           );
-          navigate("/");
+          setTimeout(() => navigate("/"), 1500);
         } else {
-          setShowError(true);
+          toast.error("Invalid credentials. Please check your credentials.");
         }
       })
       .catch((error) => {
-        setShowError(true);
+        const errorMsg = error.response?.data?.message || "Login failed. Please check your credentials.";
+        toast.error(errorMsg);
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -108,10 +113,8 @@ const Login = () => {
     }
   };
 
-  const [googleLoading, setGoogleLoading] = useState(false);
-
   function handleGoogle() {
-    if (googleLoading) return;
+    if (googleLoading || isLoading) return;
 
     setGoogleLoading(true);
 
@@ -120,19 +123,20 @@ const Login = () => {
         const user = res.user;
 
         const googleUserData = {
-          provider : user.provider,
+          provider: user.provider,
           name: user.displayName,
           email: user.email,
           isEmailVerified: user.emailVerified,
         };
 
         return axios.post(
-          "http://localhost:5000/shop.co/Auth/googleAuth",
+          "https://shop-co-backend-seven.vercel.app/shop.co/Auth/googleAuth",
           googleUserData
         );
       })
       .then((res) => {
         if (res.data.success) {
+          toast.success("Login successful! Redirecting...");
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -140,14 +144,14 @@ const Login = () => {
               token: res.data.token,
             })
           );
-          navigate("/");
+          setTimeout(() => navigate("/"), 1500);
         } else {
-          setShowError(true);
+          toast.error("Google login failed. Please try again.");
         }
       })
       .catch((err) => {
         console.error(err);
-        setShowError(true);
+        toast.error("Google login failed. Please try again.");
       })
       .finally(() => setGoogleLoading(false));
   }
@@ -157,71 +161,38 @@ const Login = () => {
       <div className="logo-container">
         <div className="logo">
           <div className="logo-icon">
-            <img src={Logo} alt="" />
+            <img src={Logo} alt="ShopCo Logo" />
           </div>
-          <div className="txt">Shop.co</div>
+          <div className="txt">ShopCo</div>
         </div>
-        <p className="subtitle">Welcome back! Log in to continue shopping</p>
+        <p className="subtitle">Your Electronics Destination</p>
       </div>
 
-      {showError && (
-        <div className="error-box">
-          <div className="error-icon">
-            <MdOutlineErrorOutline />
-          </div>
-          <span className="error-text">
-            Invalid credentials. Please try again.
-          </span>
-          <span className="error-close" onClick={() => setShowError(false)}>
-            <RxCross2 />
-          </span>
-        </div>
-      )}
       <div className="login-card">
-        <button className="google-btn" onClick={handleGoogle}>
-          <FcGoogle size={22} />
-          Continue with Google
-        </button>
+        <h2 className="card-title1">Welcome Back</h2>
+        <p className="card-subtitle1">Sign in to continue shopping</p>
 
-        <div className="divider">
-          <div className="or-line"></div>
-          <span>OR</span>
-          <div className="or-line"></div>
-        </div>
-
-        <div className="form-field mb-0">
+        <div className="form-field">
           <label>Email Address</label>
-
-          <div
-            className={`input-box ${
-              submitted && emailError ? "input-error" : ""
-            }`}
-          >
-            <HiOutlineMail className="eye-icon" />
+          <div className={`input-box ${submitted && emailError ? "input-error" : ""}`}>
+            <HiOutlineMail />
             <input
               type="email"
-              placeholder="you@example.com"
+              placeholder="Enter your email"
               name="email"
               value={UserData.email}
               onChange={handleChange}
             />
           </div>
-
           {submitted && emailError && (
-            <p className="password-error">{emailError}</p>
+            <p className="password-error mb-0">{emailError}</p>
           )}
         </div>
 
-        <div className="form-field mb-0">
+        <div className="form-field">
           <label>Password</label>
-
-          <div
-            className={`input-box ${
-              submitted && passwordError ? "input-error" : ""
-            }`}
-          >
-            <HiOutlineLockClosed className="eye-icon" />
-
+          <div className={`input-box ${submitted && passwordError ? "input-error" : ""}`}>
+            {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
@@ -229,35 +200,65 @@ const Login = () => {
               value={UserData.password}
               onChange={handleChange}
             />
-
-            {!showPassword ? (
-              <AiOutlineEye
+            {showPassword ? (
+              <AiOutlineEyeInvisible
                 className="eye-icon"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword(false)}
               />
             ) : (
-              <IoEyeOffOutline
+              <AiOutlineEye
                 className="eye-icon"
-                onClick={() => setShowPassword(!true)}
+                onClick={() => setShowPassword(true)}
               />
             )}
           </div>
-
           {submitted && passwordError && (
-            <p className="password-error">{passwordError}</p>
+            <p className="password-error mb-0">{passwordError}</p>
           )}
         </div>
 
-        <div className="forgot" onClick={() => setShowForgot(true)}>
-          Forgot password?
+        <div className="form-options">
+          <label className="remember-me">
+            <input type="checkbox" />
+            Remember me
+          </label>
+          <span className="forgot" onClick={() => setShowForgot(true)}>
+            Forgot Password?
+          </span>
         </div>
 
         <button
-          className="signin-btn"
-          disabled={submitted && (!isEmailValid || !isValid)}
+          className={`signin-btn ${isLoading ? 'loading' : ''}`}
+          disabled={isLoading || (submitted && (!isEmailValid || !isValid))}
           onClick={handleSubmit}
+          aria-busy={isLoading}
+          aria-disabled={isLoading}
         >
-          Sign In →
+          {isLoading && <div className="btn-spinner"></div>}
+          {isLoading ? 'Signing in...' : 'Sign In'}
+        </button>
+
+        <div className="divider">
+          <div className="or-line"></div>
+          <span>or continue with</span>
+          <div className="or-line"></div>
+        </div>
+
+        <button
+          className={`google-btn ${googleLoading ? 'loading' : ''}`}
+          onClick={handleGoogle}
+          disabled={googleLoading || isLoading}
+          aria-busy={googleLoading}
+        >
+          {googleLoading && <div className="btn-spinner"></div>}
+          {googleLoading ? (
+            'Signing in...'
+          ) : (
+            <>
+              <FcGoogle size={22} />
+              Sign in with Google
+            </>
+          )}
         </button>
 
         <p className="signup-text">
@@ -272,6 +273,7 @@ const Login = () => {
           </span>
         </p>
       </div>
+
       {showForgot && forgotStep === "email" && (
         <ForgotPass
           onClose={() => setShowForgot(false)}
@@ -293,9 +295,10 @@ const Login = () => {
           onVerified={() => setForgotStep("reset")}
         />
       )}
+
       {showForgot && forgotStep === "reset" && (
         <ResetPassword
-          email={resetEmail} // ✅ CORRECT
+          email={resetEmail}
           onClose={() => {
             setShowForgot(false);
             setForgotStep("email");

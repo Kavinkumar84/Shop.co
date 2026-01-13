@@ -4,10 +4,12 @@ import { useState } from "react";
 import "../css/ForgetPass.css";
 import { FiMail } from "react-icons/fi";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const ForgotPass = ({ onClose, onSendOtp }) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendOtp = () => {
     if (!email) {
@@ -20,20 +22,26 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
       setError("Enter a valid email address");
       return;
     }
+
+    setIsLoading(true);
+
     axios
-      .post("http://localhost:5000/shop.co/Auth/forgetPass", { email })
+      .post("https://shop-co-backend-seven.vercel.app/shop.co/Auth/forgetPass", { email })
       .then((res) => {
         if (res.data.success) {
           setError("");
+          toast.success("Password reset link sent to your email.");
           onSendOtp(email);
         } else {
-          setError(res.data.message);
+          toast.error(res.data.message || "Failed to send reset link. Please try again.");
         }
       })
       .catch((err) => {
-        setError(
-          err.response?.data?.message || "Server error. Try again later"
-        );
+        const errorMsg = err.response?.data?.message || "Failed to send reset link. Please try again.";
+        toast.error(errorMsg);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -72,8 +80,14 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
           {error && <p className="password-error mb-0">{error}</p>}
         </div>
 
-        <button className="signin-btn" onClick={handleSendOtp}>
-          Send OTP
+        <button
+          className={`signin-btn ${isLoading ? 'loading' : ''}`}
+          onClick={handleSendOtp}
+          disabled={isLoading}
+          aria-busy={isLoading}
+        >
+          {isLoading && <div className="btn-spinner"></div>}
+          {isLoading ? 'Sending OTP...' : 'Send OTP'}
         </button>
       </div>
     </div>

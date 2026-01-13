@@ -1,234 +1,363 @@
+/* ========== Modal Overlay ========== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(15, 15, 35, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
+  padding: 20px;
 }
 
-.cross-model {
-  width: 100%;
-  display: flex;
-  justify-content: end;
-  font-size: 25px;
-  color: #9c9a9a;
-}
-.forgot {
-  color: rgb(79 70 229);
-  font-weight: 700;
-  font-size: 13px;
-}
+/* ========== Modal Card ========== */
 .forgot-modal {
-  background: #fff;
-  width: 420px;
-  padding: 15px 28px 40px 32px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 32px 32px 32px;
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
-.divider {
+
+/* ========== Close Button ========== */
+.cross-model {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-}
-.or-line {
-  width: 40%;
-  border: 1px solid rgb(219, 218, 218);
-  height: 0px;
-}
-.mail-logo {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  background-color: #6a5cff;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  font-size: 30px;
-  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
 }
+
+.cross-model:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ========== Logo/Icon Section ========== */
 .logo-content {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 24px;
 }
+
+.mail-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+  margin-bottom: 16px;
+}
+
 .forget-heading {
-  margin-top: 10px;
-  font-size: 25px;
-  font-weight: 550;
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+  text-align: center;
 }
+
 .forget-subheading {
-  margin-top: 7px;
-  margin-bottom: 17px;
-  color: #9c9a9a;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin-bottom: 8px;
 }
-.otp-input-box {
+
+/* ========== Form Fields ========== */
+.form-email-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-email-field label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Input box styles inherited from Login.css but redefined here for modal */
+.forgot-modal .input-box {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 10px;
-  overflow: hidden;
-  font-size: 19px;
-  font-weight: 100;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  width: 100%;
 }
-.otp-input-box input {
-  letter-spacing: 10px;
+
+.forgot-modal .input-box:focus-within {
+  border-color: #4F46E5;
+  background: rgba(79, 70, 229, 0.08);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.forgot-modal .input-box input {
   border: none;
   outline: none;
   flex: 1;
-  font-size: 25px;
-  background: transparent;
-  text-align: center;
-  font-weight: 700;
-}
-.resend {
-  margin-top: 10px;
-  width: 100%;
-  text-align: center;
   font-size: 15px;
+  background: transparent;
+  color: #ffffff;
+}
+
+.forgot-modal .input-box input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.forgot-modal .input-box.input-error {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.forgot-modal .input-box.input-error > svg:first-child {
+  color: #ef4444;
+}
+
+/* ========== Error Messages ========== */
+.password-error {
+  color: #e88787;
+  font-size: 13px;
+  margin-top: 6px;
+  width: 100%;
+  text-align: start;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-3 {
+  margin-bottom: 12px;
+}
+
+/* ========== Password Requirements Grid ========== */
+.password-requirements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+
+.req-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.3s ease;
+}
+
+.req-item .req-icon {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.req-item.valid {
+  color: #22c55e;
+}
+
+.req-item.valid .req-icon {
+  color: #22c55e;
+}
+
+/* ========== OTP Input Boxes ========== */
+.otp-text {
+  width: 100%;
+  font-size: 14px;
   font-weight: 600;
-  color: #7a13d5;
-  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
 }
-.back-mail {
-  margin-top: 20px;
-  cursor: pointer;
+
+.otp-box-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  width: 100%;
 }
+
+.otp-box {
+  width: 52px;
+  height: 60px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.otp-box:focus {
+  border-color: #4F46E5;
+  background: rgba(79, 70, 229, 0.08);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.otp-box.otp-error {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* ========== Email Display ========== */
 .your-mail {
   width: 100%;
   text-align: center;
   font-size: 13px;
   font-weight: 400;
-  margin-bottom: 15px;
-  margin-top: 5px;
-  color: #9c9a9a;
-}
-.input-box,
-.otp-input-box {
-  width: 100%;
-}
-.form-email-field {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-.input-error {
-  border: 1px solid #ff4d4f;
-  background-color: #fff5f5;
-}
-.otp-box {
-  border: 1.5px solid #d1d5db;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+  margin-top: 4px;
 }
 
-.otp-box:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-}
-
-.otp-error {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
-}
-
-.password-error {
-  color: #d93025;
-  font-size: 13px;
-  /* margin-top: 6px; */
-  width: 100%;
-  text-align: start;
-}
-.otp-box-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.otp-box {
-  width: 48px;
-  height: 55px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 700;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  outline: none;
-}
-
-.otp-box:focus {
-  border-color: #7c5cff;
-  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.2);
-}
-
-.otp-text {
-  width: 100%;
-  font-size: 13px;
-  font-weight: 700;
-  color: #535353;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
-.otp-success-box {
-  /* margin-top: 14px; */
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: #e9f9ef;
-  color: #0f9d58;
+/* ========== Message Boxes ========== */
+.otp-msg-box {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.otp-msg-box svg {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* SUCCESS (GREEN) */
+.otp-msg-box.success {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* ERROR (RED) */
+.otp-msg-box.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.otp-success-box {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
   font-weight: 500;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
-.resend-wrapper {
+
+.success-msg {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
   margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ========== Resend Section ========== */
+.resend-wrapper {
+  margin-top: 16px;
   font-size: 14px;
   display: flex;
   gap: 6px;
   justify-content: center;
+  align-items: center;
 }
 
 .resend-text {
-  color: #555;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .resend-timer {
-  color: #999;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
 }
 
 .resend-link {
-  color: #7a13d5;
+  color: #06B6D4;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
+
+.resend-link:hover {
+  color: #22d3ee;
+}
+
 .resending {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #9b5cff;
+  color: #06B6D4;
   font-weight: 500;
 }
 
 .loader {
   width: 16px;
   height: 16px;
-  border: 2px solid #ddd;
-  border-top: 2px solid #9b5cff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: 2px solid #06B6D4;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -239,37 +368,86 @@
   }
 }
 
-.otp-msg-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
+/* ========== Back Link ========== */
+.back-mail {
+  margin-top: 20px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   font-weight: 500;
-  margin-bottom: 15px;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* SUCCESS (GREEN) */
-.otp-msg-box.success {
-  background: #ecfdf3;
-  color: #047857;
-  border: 1px solid #a7f3d0;
+.back-mail:hover {
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* ERROR (RED) */
-.otp-msg-box.error {
-  background: #fef2f2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
+/* ========== Button Styles (duplicated for modal context) ========== */
+.forgot-modal .signin-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 4px;
 }
-.success-msg {
-  background: #e6fffa;
-  color: #0f766e;
-  padding: 10px;
-  border-radius: 6px;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
+
+.forgot-modal .signin-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
+}
+
+.forgot-modal .signin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.forgot-modal .signin-btn.loading {
+  position: relative;
+  cursor: not-allowed;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 520px) {
+  .forgot-modal {
+    max-width: 100%;
+    padding: 20px 24px 28px 24px;
+  }
+
+  .mail-logo {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+  }
+
+  .forget-heading {
+    font-size: 22px;
+  }
+
+  .otp-box-container {
+    gap: 8px;
+  }
+
+  .otp-box {
+    width: 46px;
+    height: 54px;
+    font-size: 22px;
+  }
 }

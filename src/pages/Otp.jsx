@@ -1,22 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IoMdCheckmarkCircleOutline,
-  IoMdCloseCircleOutline,
-} from "react-icons/io";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdOutlineKey } from "react-icons/md";
-import { RxCross2, RxCrossCircled } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
+import toast from 'react-hot-toast';
 
 const Otp = ({ onClose, onBack, email, onVerified }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const inputsRef = useRef([]);
-  const [isError, setIsError] = useState(false);
-
-  const [showMsg, setShowMsg] = useState(true);
-  const [msg, setMsg] = useState("OTP sent to your email! Check your inbox.");
-
   const [isResending, setIsResending] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const formatTime = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -24,20 +18,8 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
     return `${m}:${s}`;
   };
 
-  const showMessage = (text, error = false) => {
-    setMsg(text);
-    setIsError(error);
-    setShowMsg(true);
-
-    setTimeout(() => {
-      setShowMsg(false);
-      setIsError(false);
-    }, 3000);
-  };
-
   useEffect(() => {
-    showMessage("OTP sent to your email! Check your inbox.");
-    setResendTimer(120);
+    setResendTimer(60);
   }, []);
 
   useEffect(() => {
@@ -49,16 +31,6 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
 
     return () => clearInterval(interval);
   }, [resendTimer]);
-
-  useEffect(() => {
-    if (!showMsg) return;
-
-    const timer = setTimeout(() => {
-      setShowMsg(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [showMsg]);
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -97,16 +69,16 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
       setIsResending(true);
 
       const res = await axios.post(
-        "http://localhost:5000/shop.co/Auth/forgetPass",
+        "https://shop-co-backend-seven.vercel.app/shop.co/Auth/forgetPass",
         { email }
       );
 
       if (res.data.success) {
-        showMessage("New OTP has been sent to your email.");
-        setResendTimer(120);
+        toast.success("New OTP has been sent to your email.");
+        setResendTimer(60);
       }
     } catch (err) {
-      showMessage(err.response?.data?.message || "Failed to send OTP");
+      toast.error(err.response?.data?.message || "Failed to send OTP");
     } finally {
       setIsResending(false);
     }
@@ -116,13 +88,15 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
     const enteredOtp = otp.join("");
 
     if (enteredOtp.length !== 6) {
-      showMessage("Please enter valid 6-digit OTP", true);
+      toast.error("Please enter valid 6-digit OTP");
       return;
     }
 
+    setIsVerifying(true);
+
     try {
       const res = await axios.post(
-        "http://localhost:5000/shop.co/Auth/verifyOtp",
+        "https://shop-co-backend-seven.vercel.app/shop.co/Auth/verifyOtp",
         {
           email,
           otp: enteredOtp,
@@ -130,14 +104,14 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
       );
 
       if (res.data.Success) {
-        showMessage("OTP verified successfully", false);
+        toast.success("OTP verified successfully!");
         setTimeout(() => onVerified(), 1000);
       }
     } catch (err) {
-      showMessage(
-        err.response?.data?.message || "Invalid OTP",
-        true
-      );
+      const errorMsg = err.response?.data?.message || "Invalid OTP";
+      toast.error(errorMsg);
+    } finally {
+      setIsVerifying(false);
     }
   };
 
@@ -179,15 +153,14 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
 
         <div className="your-mail">Check your email: {email}</div>
 
-        {showMsg && (
-          <div className={`otp-msg-box ${isError ? "error" : "success"}`}>
-            {isError ? <RxCrossCircled /> : <IoMdCheckmarkCircleOutline />}
-            <span>{msg}</span>
-          </div>
-        )}
-
-        <button className="signin-btn" onClick={handleVerifyOtp}>
-          Verify OTP
+        <button
+          className={`signin-btn ${isVerifying ? 'loading' : ''}`}
+          onClick={handleVerifyOtp}
+          disabled={isVerifying}
+          aria-busy={isVerifying}
+        >
+          {isVerifying && <div className="btn-spinner"></div>}
+          {isVerifying ? 'Verifying OTP...' : 'Verify OTP'}
         </button>
 
         <div className="resend-wrapper">
