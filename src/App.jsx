@@ -5,12 +5,9 @@ import Header from './pages/Header';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
-import Cart from './pages/Cart';
 import Favorites from './pages/Favorites';
-import './css/App.css'
-import Otp from './pages/Otp';
-import ResetPassword from './pages/ResetPassword';
 import PageNotFound from './pages/PageNotFound';
+import './css/App.css'
 
 const App = () => {
   return (
@@ -64,18 +61,23 @@ const App = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const isAuthPage = ['/login', '/signup', '/forgetpass'].includes(
-    location.pathname.toLowerCase()
-  );
+  const hideHeaderRoutes = [
+    "/login",
+    "/signup",
+    "/forgetpass"
+  ];
+
+  const validRoutes = ["/", "/login", "/signup", "/favorites"];
+  const isAuthPage = hideHeaderRoutes.includes(location.pathname.toLowerCase());
+  const isNotFoundPage = !validRoutes.includes(location.pathname.toLowerCase());
 
   return (
     <div className='App'>
-      {!isAuthPage && <Header />}
+      {!isAuthPage && !isNotFoundPage && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/Cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
