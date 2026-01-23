@@ -26,7 +26,7 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
     setIsLoading(true);
 
     axios
-      .post("https://shop-co-backend-seven.vercel.app/shop.co/Auth/forgetPass", { email })
+      .post("https://api.shopco.site/Auth/forgetPass", { email })
       .then((res) => {
         if (res.data.success) {
           setError("");

@@ -65,7 +65,7 @@ const ResetPassword = ({ onClose, email }) => {
 
     try {
       const res = await axios.post(
-        "https://shop-co-backend-seven.vercel.app/shop.co/Auth/resetPass",
+        "https://api.shopco.site/Auth/resetPass",
         {
           email,
           password: form.password,

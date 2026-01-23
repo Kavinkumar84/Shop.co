@@ -51,7 +51,7 @@ const Login = () => {
     setIsLoading(true);
 
     axios
-      .post("https://shop-co-backend-seven.vercel.app/shop.co/Auth/loginUser", UserData)
+      .post("https://api.shopco.site/Auth/loginUser", UserData)
       .then((res) => {
         if (res.data.success) {
           toast.success("Login successful! Redirecting...");
@@ -70,7 +70,6 @@ const Login = () => {
       .catch((error) => {
         const errorMsg = error.response?.data?.message || "Login failed. Please check your credentials.";
         toast.error(errorMsg);
-        console.log(error);
       })
       .finally(() => {
         setIsLoading(false);
@@ -127,10 +126,11 @@ const Login = () => {
           name: user.displayName,
           email: user.email,
           isEmailVerified: user.emailVerified,
+          profileUrl: user.photoURL,
         };
 
         return axios.post(
-          "https://shop-co-backend-seven.vercel.app/shop.co/Auth/googleAuth",
+          "https://api.shopco.site/Auth/googleAuth",
           googleUserData
         );
       })
@@ -150,7 +150,6 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        console.error(err);
         toast.error("Google login failed. Please try again.");
       })
       .finally(() => setGoogleLoading(false));

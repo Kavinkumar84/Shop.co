@@ -69,7 +69,7 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
       setIsResending(true);
 
       const res = await axios.post(
-        "https://shop-co-backend-seven.vercel.app/shop.co/Auth/forgetPass",
+        "https://api.shopco.site/Auth/forgetPass",
         { email }
       );
 
@@ -96,7 +96,7 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
 
     try {
       const res = await axios.post(
-        "https://shop-co-backend-seven.vercel.app/shop.co/Auth/verifyOtp",
+        "https://api.shopco.site/Auth/verifyOtp",
         {
           email,
           otp: enteredOtp,

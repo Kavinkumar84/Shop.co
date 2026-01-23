@@ -83,14 +83,14 @@
   font-family: Arial, sans-serif;
 }
 
-.profile-header {
+.profile-header1 {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.profile-avatar {
+.profile-avatar1 {
   font-size: 42px;
   color: #1a73e8;
 }

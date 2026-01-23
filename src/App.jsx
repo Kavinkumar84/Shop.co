@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import UserDashboard from './pages/UserDashboard';
 import PageNotFound from './pages/PageNotFound';
 import './css/App.css'
 
@@ -64,10 +65,11 @@ const AppContent = () => {
   const hideHeaderRoutes = [
     "/login",
     "/signup",
-    "/forgetpass"
+    "/forgetpass",
+    "/dashboard"
   ];
 
-  const validRoutes = ["/", "/login", "/signup", "/favorites"];
+  const validRoutes = ["/", "/login", "/signup", "/favorites",];
   const isAuthPage = hideHeaderRoutes.includes(location.pathname.toLowerCase());
   const isNotFoundPage = !validRoutes.includes(location.pathname.toLowerCase());
 
@@ -79,10 +81,13 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
 };
+
+
 
 export default App;

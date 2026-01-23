@@ -89,10 +89,11 @@ const SignUp = () => {
           name: user.displayName,
           email: user.email,
           isEmailVerified: user.emailVerified,
+          profileUrl: user.photoURL,
         };
 
         return axios.post(
-          "https://shop-co-backend-seven.vercel.app/shop.co/Auth/googleAuth",
+          "https://api.shopco.site/Auth/googleAuth",
           googleUserData
         );
       })
@@ -150,7 +151,7 @@ const SignUp = () => {
     setIsSubmitting(true);
 
     axios
-      .post("https://shop-co-backend-seven.vercel.app/shop.co/Auth/createUser", UserData)
+      .post("https://api.shopco.site/Auth/createUser", UserData)
       .then((res) => {
         toast.success("Account created successfully! Redirecting to login...");
         setTimeout(() => {

@@ -55,15 +55,15 @@ const Header = () => {
             </div>
             {loggedUser&& <div className="down">
               <div className="profile-menu">
-                <div className="profile-header">
-                  <IoPersonCircleOutline className="profile-avatar" />
-                  <div>
+                <div className="profile-header1">
+                  <IoPersonCircleOutline className="profile-avatar1" />
+                 <div className="">
                     <p className="profile-name">{loggedUser.user.name}</p>
                     <p className="profile-email">{loggedUser.user.email}</p>
                   </div>
                 </div>
 
-                <button className="profile-btn">View Profile</button>
+                <Link to={'/dashboard'}><button className="profile-btn">View Profile</button></Link>
 
                 <div className="profile-links">
                   <div className="profile-item">
@@ -96,9 +96,7 @@ const Header = () => {
               Wishlist
             </Link>
           </div>
-          {/* <div className="header-profile fs-5">
-            <BsThreeDotsVertical />
-          </div> */}
+          
         </div>
       </div>
     </header>
