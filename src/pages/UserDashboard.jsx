@@ -345,14 +345,14 @@ const UserDashboard = () => {
                                     <h3>Total Orders</h3>
                                     <span className="trend-positive">+12%</span>
                                 </div>
-                                <p className="stat-value">42</p>
+                                <p className="stat-value">₹0</p>
                             </div>
 
                             <div className="stat-card">
                                 <div className="stat-header">
                                     <h3>Lifetime Spent</h3>
                                 </div>
-                                <p className="stat-value">$4,820.00</p>
+                                <p className="stat-value">₹0</p>
                             </div>
 
                             <div className="stat-card">

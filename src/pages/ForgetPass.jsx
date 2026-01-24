@@ -30,14 +30,14 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
       .then((res) => {
         if (res.data.success) {
           setError("");
-          toast.success("Password reset link sent to your email.");
+          toast.success("OTP sent successfully to your email.");
           onSendOtp(email);
         } else {
-          toast.error(res.data.message || "Failed to send reset link. Please try again.");
+          toast.error(res.data.message || "Failed to send OTP. Please try again.");
         }
       })
       .catch((err) => {
-        const errorMsg = err.response?.data?.message || "Failed to send reset link. Please try again.";
+        const errorMsg = err.response?.data?.message || "Failed to send OTP. Please try again.";
         toast.error(errorMsg);
       })
       .finally(() => {

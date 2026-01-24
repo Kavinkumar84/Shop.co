@@ -134,7 +134,6 @@ const SignUp = () => {
       email: !email ? "Email is required" : "",
       password: !password ? "Password is required" : !isStrongPassword ? "Please enter a strong password" : "",
       repassword: !repassword ? "Confirm password is required" : "",
-      countryCode: !countryCode ? "Country code is required" : "",
       phoneNumber: !phoneNumber ? "Phone number is required" : "",
     };
 
@@ -222,7 +221,7 @@ const SignUp = () => {
           <div className="d-flex gap-2" style={{ pointerEvents: 'none' }}>
             <div style={{ pointerEvents: 'auto' }}>
               <CountryDropdown
-                value={UserData.countryCode || "+1"}
+                value={UserData.countryCode || "+91"}
                 onSelect={(code) => {
                   setUserData({ ...UserData, countryCode: code });
                   if (submitted) setFieldErrors((prev) => ({ ...prev, countryCode: "" }));

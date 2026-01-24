@@ -78,7 +78,7 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
         setResendTimer(60);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to send OTP");
+      toast.error(err.response?.data?.message || "Failed to send OTP. Please try again.");
     } finally {
       setIsResending(false);
     }
@@ -107,8 +107,9 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
         toast.success("OTP verified successfully!");
         setTimeout(() => onVerified(), 1000);
       }
+      
     } catch (err) {
-      const errorMsg = err.response?.data?.message || "Invalid OTP";
+      const errorMsg = err.response?.data?.message || "Invalid OTP. Please try again.";
       toast.error(errorMsg);
     } finally {
       setIsVerifying(false);
