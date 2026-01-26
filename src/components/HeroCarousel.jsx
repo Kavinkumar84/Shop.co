@@ -10,7 +10,6 @@ import hpLaptopImage from '../assets/carosel/HP_laptop.webp';
 const HeroCarousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [isPaused, setIsPaused] = useState(false);
 
     const carouselSlides = [
         {
@@ -76,19 +75,11 @@ const HeroCarousel = () => {
         }
     };
 
-    // Auto-play functionality
-    useEffect(() => {
-        if (!isPaused) {
-            const interval = setInterval(nextSlide, 5000);
-            return () => clearInterval(interval);
-        }
-    }, [nextSlide, isPaused]);
+
 
     return (
         <div
             className="hero-carousel"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
         >
             <div className="carousel-container">
                 {/* Slides */}
@@ -97,8 +88,8 @@ const HeroCarousel = () => {
                         <div
                             key={slide.id}
                             className={`carousel-slide ${index === currentSlide ? 'active' : ''} ${index === (currentSlide - 1 + carouselSlides.length) % carouselSlides.length
-                                    ? 'prev'
-                                    : ''
+                                ? 'prev'
+                                : ''
                                 } ${index === (currentSlide + 1) % carouselSlides.length ? 'next' : ''}`}
                             style={{ background: slide.bgGradient }}
                         >
@@ -152,7 +143,6 @@ const HeroCarousel = () => {
                     <i className="bi bi-chevron-right"></i>
                 </button>
 
-                {/* Pagination Dots */}
                 <div className="carousel-pagination">
                     {carouselSlides.map((_, index) => (
                         <button
@@ -161,18 +151,14 @@ const HeroCarousel = () => {
                             onClick={() => goToSlide(index)}
                             aria-label={`Go to slide ${index + 1}`}
                         >
-                            <span className="dot-progress"></span>
+                            <span
+                                className="dot-progress"
+                                onAnimationEnd={nextSlide}
+                            ></span>
                         </button>
                     ))}
                 </div>
 
-                {/* Progress Bar */}
-                <div className="carousel-progress">
-                    <div
-                        className="progress-bar"
-                        style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
-                    ></div>
-                </div>
             </div>
         </div>
     );

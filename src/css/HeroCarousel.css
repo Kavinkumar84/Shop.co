@@ -390,6 +390,10 @@
     animation: dotProgress 5s linear;
 }
 
+.hero-carousel:hover .pagination-dot.active .dot-progress {
+    animation-play-state: paused;
+}
+
 @keyframes dotProgress {
     from {
         width: 0%;
