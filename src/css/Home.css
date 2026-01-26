@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
 .home-category {
@@ -398,13 +399,43 @@ background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, F
   right: 20px;
 }
 
+/* ===================================
+   RESPONSIVE DESIGN - COMPREHENSIVE
+   =================================== */
+
+/* Large Tablet (1024px) */
 @media (max-width: 1024px) {
+  .home-category {
+    width: 96%;
+  }
+
+  .category-box {
+    width: 120px;
+  }
+
+  .category-box-top img {
+    width: 100px;
+    height: 60px;
+  }
+
+  .category-box-bottom {
+    font-size: 13px;
+  }
+
+  .carousel {
+    width: 97%;
+  }
+
   .banner-left {
-    padding: 40px 0 40px 40px;
+    padding: 40px 0 40px 80px;
   }
 
   .banner-title {
     font-size: 56px;
+  }
+
+  .banner-description {
+    font-size: 14px;
   }
 
   .headphone-card {
@@ -413,25 +444,421 @@ background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, F
   }
 }
 
+/* Tablet (768px) */
 @media (max-width: 768px) {
+  #Home {
+    margin-top: 5px;
+    gap: 15px;
+  }
+
+  .home-category {
+    width: 95%;
+    padding: 10px 0;
+  }
+
+  .category-drop {
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 10px;
+    padding: 0 10px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .category-drop::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  .category-box {
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .category-box-top img {
+    width: 90px;
+    height: 55px;
+  }
+
+  .category-box-bottom {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .carousel {
+    width: 95%;
+    margin: 15px 0;
+  }
+
+  .banner-container {
+    min-height: 350px;
+  }
+
   .banner-content {
     flex-direction: column;
+    padding: 20px;
   }
 
   .banner-left {
-    padding: 30px;
+    padding: 30px 20px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .new-arrival-badge {
+    margin-bottom: 20px;
   }
 
   .banner-title {
     font-size: 42px;
+    letter-spacing: -1px;
+  }
+
+  .banner-description {
+    font-size: 14px;
+    max-width: 100%;
+    margin: 0 auto 28px;
+  }
+
+  .feature-tags {
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .feature-tag {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .banner-buttons {
+    justify-content: center;
+  }
+
+  .btn-primary {
+    padding: 12px 28px;
+    font-size: 14px;
   }
 
   .banner-right {
     padding: 20px;
+    justify-content: center;
   }
 
   .headphone-card {
     width: 100%;
-    max-width: 400px;
+    max-width: 380px;
+    height: 300px;
+  }
+
+  .headphone-image {
+    padding: 30px;
+  }
+
+  .arrow-left,
+  .arrow-right {
+    width: 36px;
+    height: 36px;
+  }
+
+  .arrow-left {
+    left: 15px;
+  }
+
+  .arrow-right {
+    right: 15px;
+  }
+
+  .decorative-circle {
+    width: 400px;
+    height: 400px;
+  }
+
+  .decorative-circle-2 {
+    width: 550px;
+    height: 550px;
   }
 }
+
+/* Mobile (520px) */
+@media (max-width: 520px) {
+  #Home {
+    margin-top: 5px;
+    gap: 12px;
+  }
+
+  .home-category {
+    width: 98%;
+    padding: 8px 0;
+  }
+
+  .category-drop {
+    gap: 8px;
+    padding: 0 8px;
+  }
+
+  .category-box {
+    width: 100px;
+  }
+
+  .category-box-top img {
+    width: 80px;
+    height: 50px;
+  }
+
+  .category-box-bottom {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+
+  .carousel {
+    width: 98%;
+    margin: 10px 0;
+  }
+
+  .banner-container {
+    min-height: 450px;
+  }
+
+  .banner-content {
+    padding: 15px;
+  }
+
+  .banner-left {
+    padding: 25px 15px;
+  }
+
+  .new-arrival-badge {
+    padding: 5px 12px;
+    margin-bottom: 16px;
+  }
+
+  .badge-text {
+    font-size: 11px;
+  }
+
+  .banner-title {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .banner-description {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .feature-tags {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .feature-tag {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .feature-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .banner-buttons {
+    gap: 12px;
+  }
+
+  .btn-primary {
+    padding: 11px 24px;
+    font-size: 13px;
+  }
+
+  .banner-right {
+    padding: 15px 10px;
+  }
+
+  .headphone-card {
+    max-width: 320px;
+    height: 280px;
+  }
+
+  .headphone-image {
+    padding: 25px;
+  }
+
+  .discount-badge {
+    padding: 8px 14px;
+    left: -15px;
+  }
+
+  .discount-label {
+    font-size: 10px;
+  }
+
+  .discount-value {
+    font-size: 16px;
+  }
+
+  .bt-badge {
+    padding: 6px 12px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .bt-text {
+    font-size: 11px;
+  }
+
+  /* Hide arrows on mobile */
+  .arrow-left,
+  .arrow-right {
+    display: none;
+  }
+
+  .decorative-circle {
+    width: 300px;
+    height: 300px;
+  }
+
+  .decorative-circle-2 {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+/* Small Mobile (360px) */
+@media (max-width: 360px) {
+  #Home {
+    gap: 10px;
+  }
+
+  .home-category {
+    width: 100%;
+    padding: 6px 0;
+  }
+
+  .category-drop {
+    gap: 6px;
+    padding: 0 6px;
+  }
+
+  .category-box {
+    width: 85px;
+  }
+
+  .category-box-top img {
+    width: 70px;
+    height: 45px;
+  }
+
+  .category-box-bottom {
+    font-size: 10px;
+  }
+
+  .carousel {
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  .banner-container {
+    min-height: 420px;
+  }
+
+  .banner-content {
+    padding: 12px;
+  }
+
+  .banner-left {
+    padding: 20px 12px;
+  }
+
+  .new-arrival-badge {
+    padding: 4px 10px;
+    margin-bottom: 14px;
+  }
+
+  .badge-text {
+    font-size: 10px;
+  }
+
+  .banner-title {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .banner-description {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+
+  .feature-tags {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .feature-tag {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .feature-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+
+  .banner-right {
+    padding: 12px 8px;
+  }
+
+  .headphone-card {
+    max-width: 280px;
+    height: 250px;
+  }
+
+  .headphone-image {
+    padding: 20px;
+  }
+
+  .discount-badge {
+    padding: 6px 12px;
+    left: -12px;
+    top: 12px;
+  }
+
+  .discount-label {
+    font-size: 9px;
+  }
+
+  .discount-value {
+    font-size: 14px;
+  }
+
+  .bt-badge {
+    padding: 5px 10px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .bt-text {
+    font-size: 10px;
+  }
+
+  .bt-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .decorative-circle {
+    width: 250px;
+    height: 250px;
+  }
+
+  .decorative-circle-2 {
+    width: 350px;
+    height: 350px;
+  }
+}
+

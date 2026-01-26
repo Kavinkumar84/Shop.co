@@ -197,3 +197,220 @@
   color: #000;
   font-weight: 500;
 }
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  font-size: 28px;
+  color: #000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Tablet and below (992px) */
+@media (max-width: 992px) {
+  .header-container {
+    padding: 0 30px;
+  }
+
+  .search-box {
+    width: 400px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .header-icon {
+    font-size: 20px;
+  }
+
+  .header-right {
+    gap: 18px;
+  }
+}
+
+/* Tablet (768px) */
+@media (max-width: 768px) {
+  .header {
+    height: 65px;
+  }
+
+  .header-container {
+    padding: 0 20px;
+  }
+
+  .search-box {
+    width: 300px;
+  }
+
+  .search-box input {
+    height: 45px;
+    font-size: 13px;
+  }
+
+  .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  .header-profile-txt {
+    display: none;
+  }
+
+  .header-right {
+    gap: 15px;
+  }
+
+  .header-icon {
+    font-size: 24px;
+  }
+
+  .login-btn {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+}
+
+/* Mobile (520px) */
+@media (max-width: 520px) {
+  .header {
+    height: 60px;
+  }
+
+  .header-container {
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  .header-left {
+    gap: 10px;
+  }
+
+  .logo-img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  /* Hide search box on mobile - show only search icon */
+  .search-box {
+    width: auto;
+  }
+
+  .search-box input {
+    display: none;
+  }
+
+  .search-box i {
+    position: static;
+    transform: none;
+    font-size: 22px;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .header-right {
+    gap: 12px;
+  }
+
+  .header-icon {
+    font-size: 22px;
+  }
+
+  .pro {
+    font-size: 24px;
+  }
+
+  .login-btn {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  .profile-name {
+    font-size: 13px;
+  }
+
+  /* Adjust dropdown menu */
+  .profile-menu {
+    width: 220px;
+    padding: 12px;
+  }
+
+  .profile-avatar1 {
+    font-size: 36px;
+  }
+
+  .profile-btn {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+/* Small Mobile (360px) */
+@media (max-width: 360px) {
+  .header {
+    height: 55px;
+  }
+
+  .header-container {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .logo-img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .logo-text {
+    font-size: 15px;
+  }
+
+  .search-box i {
+    font-size: 20px;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .header-icon {
+    font-size: 20px;
+  }
+
+  .pro {
+    font-size: 22px;
+  }
+
+  .login-btn {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .profile-menu {
+    width: 200px;
+    right: -10px;
+  }
+
+  .down {
+    right: 0;
+  }
+}

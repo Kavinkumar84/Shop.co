@@ -72,7 +72,7 @@ const UserDashboard = () => {
         fetchUserData();
     }, [navigate]);
 
-    // Fetch addresses
+
     const fetchAddresses = async () => {
         setAddressesLoading(true);
         try {
@@ -153,26 +153,22 @@ const UserDashboard = () => {
         fetchAddresses();
     };
 
-    // Edit address
     const handleEditAddress = (address) => {
         setEditMode(true);
         setSelectedAddress(address);
         setIsAddressModalOpen(true);
     };
 
-    // Open delete confirmation modal
     const handleOpenDeleteModal = (address) => {
         setAddressToDelete(address);
         setIsDeleteModalOpen(true);
     };
 
-    // Close delete confirmation modal
     const handleCloseDeleteModal = () => {
         setIsDeleteModalOpen(false);
         setAddressToDelete(null);
     };
 
-    // Confirm delete address
     const handleConfirmDelete = async () => {
         if (!addressToDelete) return;
 
@@ -208,7 +204,7 @@ const UserDashboard = () => {
 
     return (
         <div className="user-dashboard">
-            {/* Mobile Menu Toggle Button */}
+           
             <button
                 className="mobile-menu-toggle"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -216,16 +212,14 @@ const UserDashboard = () => {
             >
                 <i className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}></i>
             </button>
-
-            {/* Sidebar Overlay (for mobile) */}
+       
             {isMobileMenuOpen && (
                 <div
                     className="sidebar-overlay"
                     onClick={() => setIsMobileMenuOpen(false)}
                 />
             )}
-
-            {/* Sidebar Navigation */}
+           
             <aside className={`dashboard-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-menu">
                     <div
@@ -305,8 +299,7 @@ const UserDashboard = () => {
                     </div>
                 </div>
             </aside>
-
-            {/* Main Content */}
+         
             <main className="dashboard-content">
                 {loading ? (
                     <div className="loading-state">
@@ -314,7 +307,6 @@ const UserDashboard = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Profile Header */}
                         <div className="profile-header">
                             <div className="profile-info">
                                 <div className="profile-avatar">
@@ -338,7 +330,6 @@ const UserDashboard = () => {
                             <button className="btn-update-profile" onClick={handleOpenModal}>Update Profile</button>
                         </div>
 
-                        {/* Statistics Cards */}
                         <div className="stats-grid">
                             <div className="stat-card">
                                 <div className="stat-header">
@@ -363,7 +354,6 @@ const UserDashboard = () => {
                             </div>
                         </div>
 
-                        {/* Ongoing Orders */}
                         <section className="dashboard-section">
                             <div className="section-header">
                                 <h3>Ongoing Orders</h3>
@@ -415,7 +405,6 @@ const UserDashboard = () => {
                             </div>
                         </section>
 
-                        {/* Saved Addresses */}
                         <section className="dashboard-section">
                             <div className="section-header">
                                 <h3>Saved Addresses ({addresses.length}/{ADDRESS_LIMIT})</h3>
@@ -471,7 +460,6 @@ const UserDashboard = () => {
                             )}
                         </section>
 
-                        {/* Order History */}
                         <section className="dashboard-section">
                             <div className="section-header">
                                 <h3>Order History</h3>
@@ -515,7 +503,6 @@ const UserDashboard = () => {
                 )}
             </main>
 
-            {/* Update Profile Modal */}
             <UpdateProfileModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
@@ -523,7 +510,6 @@ const UserDashboard = () => {
                 onUpdateSuccess={handleUpdateSuccess}
             />
 
-            {/* Add/Edit Address Modal */}
             <AddAddressModal
                 isOpen={isAddressModalOpen}
                 onClose={handleCloseAddressModal}
@@ -534,7 +520,6 @@ const UserDashboard = () => {
                 addressData={selectedAddress}
             />
 
-            {/* Delete Confirmation Modal */}
             <DeleteConfirmModal
                 isOpen={isDeleteModalOpen}
                 onClose={handleCloseDeleteModal}
