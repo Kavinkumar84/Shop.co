@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/Header.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Logo from "../assets/Logo.webp";
+import Logo from "../assets/Logo.png";
 import { BsBoxSeam, BsThreeDotsVertical } from "react-icons/bs";
 import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline, IoIosLogOut } from "react-icons/io";
