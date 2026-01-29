@@ -1,6 +1,4 @@
-/* User Dashboard - Dark Theme Styling */
 
-/* Custom Scrollbar Styling */
 .user-dashboard *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -30,7 +28,6 @@
   position: relative;
 }
 
-/* ==================== MOBILE MENU TOGGLE ==================== */
 .mobile-menu-toggle {
   display: none;
   position: fixed;
@@ -60,7 +57,6 @@
   transform: scale(0.95);
 }
 
-/* Sidebar Overlay */
 .sidebar-overlay {
   display: none;
   position: fixed;
@@ -83,7 +79,6 @@
   }
 }
 
-/* ==================== SIDEBAR ==================== */
 .dashboard-sidebar {
   width: 240px;
   background-color: #1D2939;
@@ -151,7 +146,6 @@
   color: #EF4444;
 }
 
-/* ==================== MAIN CONTENT ==================== */
 .dashboard-content {
   flex: 1;
   padding: 2rem 2.5rem;
@@ -159,7 +153,6 @@
   max-width: 1400px;
 }
 
-/* ==================== PROFILE HEADER ==================== */
 .profile-header {
   display: flex;
   justify-content: space-between;
@@ -255,7 +248,6 @@
   box-shadow: 0 6px 16px rgba(21, 112, 239, 0.4);
 }
 
-/* ==================== STATISTICS CARDS ==================== */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -305,7 +297,6 @@
   color: #ffffff;
 }
 
-/* ==================== DASHBOARD SECTIONS ==================== */
 .dashboard-section {
   margin-bottom: 2.5rem;
 }
@@ -399,9 +390,6 @@
   margin: 0;
 }
 
-
-
-/* ==================== ORDER TRACKING CARD ==================== */
 .order-tracking-card {
   background-color: #1D2939;
   padding: 1.5rem 2rem;
@@ -454,7 +442,6 @@
   font-weight: 600;
 }
 
-/* ==================== PROGRESS TRACKER ==================== */
 .progress-tracker {
   display: flex;
   align-items: center;
@@ -516,7 +503,6 @@
   background-color: #1570EF;
 }
 
-/* ==================== ORDER PRODUCTS ==================== */
 .order-products {
   display: flex;
   gap: 1rem;
@@ -549,7 +535,6 @@
   border: 1px solid rgba(21, 112, 239, 0.3);
 }
 
-/* ==================== SAVED ADDRESSES ==================== */
 .address-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -651,7 +636,6 @@
   color: #DC2626;
 }
 
-/* ==================== ORDER HISTORY ==================== */
 .order-history-list {
   display: flex;
   flex-direction: column;
@@ -711,7 +695,6 @@
   color: #ffffff;
 }
 
-/* ==================== RESPONSIVE DESIGN ==================== */
 @media (max-width: 1200px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -719,17 +702,14 @@
 }
 
 @media (max-width: 992px) {
-  /* Show mobile menu toggle */
   .mobile-menu-toggle {
     display: flex;
   }
 
-  /* Show overlay when menu is open */
   .sidebar-overlay {
     display: block;
   }
 
-  /* Make sidebar slide from left */
   .dashboard-sidebar {
     position: fixed;
     top: 0;
@@ -758,7 +738,7 @@
 
   .dashboard-content {
     padding: 2rem 1.5rem;
-    padding-top: 5rem; /* Account for mobile menu button */
+    padding-top: 5rem; 
   }
 
   .profile-header {

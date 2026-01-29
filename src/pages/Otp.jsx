@@ -69,7 +69,7 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
       setIsResending(true);
 
       const res = await axios.post(
-        "https://api.shopco.site/Auth/forgetPass",
+        `${import.meta.env.VITE_API_KEY}/Auth/forgetPass`,
         { email }
       );
 
@@ -96,7 +96,7 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
 
     try {
       const res = await axios.post(
-        "https://api.shopco.site/Auth/verifyOtp",
+        `${import.meta.env.VITE_API_KEY}/Auth/verifyOtp`,
         {
           email,
           otp: enteredOtp,
@@ -107,7 +107,7 @@ const Otp = ({ onClose, onBack, email, onVerified }) => {
         toast.success("OTP verified successfully!");
         setTimeout(() => onVerified(), 1000);
       }
-      
+
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Invalid OTP. Please try again.";
       toast.error(errorMsg);

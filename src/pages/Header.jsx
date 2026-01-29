@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../css/Header.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Logo from "../assets/logo.png";
-import { BsBoxSeam, BsThreeDotsVertical } from "react-icons/bs";
+import { BsBoxSeam } from "react-icons/bs";
 import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline, IoIosLogOut } from "react-icons/io";
 

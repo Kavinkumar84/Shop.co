@@ -3,7 +3,6 @@
   font-family: "Inter", sans-serif;
 }
 
-/* ========== Main Container ========== */
 .login-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
@@ -14,7 +13,6 @@
   padding: 40px 20px;
 }
 
-/* ========== Logo Section ========== */
 .logo-container {
   display: flex;
   flex-direction: column;
@@ -54,7 +52,6 @@
   margin-top: 4px;
 }
 
-/* ========== Login Card ========== */
 .login-card {
   width: 100%;
   max-width: 480px;
@@ -81,7 +78,6 @@
   margin: 0 0 24px 0;
 }
 
-/* ========== Error Box ========== */
 .error-box {
   width: 100%;
   max-width: 480px;
@@ -119,7 +115,6 @@
   opacity: 1;
 }
 
-/* ========== Form Fields ========== */
 .form-field {
   margin-bottom: 16px;
   display: flex;
@@ -133,7 +128,6 @@
   margin-bottom: 8px;
 }
 
-/* ========== Input Box ========== */
 .input-box {
   display: flex;
   align-items: center;
@@ -261,7 +255,6 @@
   color: #22d3ee;
 }
 
-/* ========== Sign In Button ========== */
 .signin-btn {
   width: 100%;
   padding: 14px;
@@ -285,7 +278,6 @@
   cursor: not-allowed;
 }
 
-/* ========== Loading Button ========== */
 .signin-btn.loading {
   position: relative;
   cursor: not-allowed;
@@ -314,7 +306,6 @@
   }
 }
 
-/* ========== Divider ========== */
 .divider {
   display: flex;
   align-items: center;
@@ -333,7 +324,6 @@
   font-size: 13px;
 }
 
-/* ========== Google Button ========== */
 .google-btn {
   width: 100%;
   padding: 14px;
@@ -369,7 +359,6 @@
   cursor: not-allowed;
 }
 
-/* ========== Footer Text ========== */
 .signup-text {
   text-align: center;
   margin-top: 20px;
@@ -383,7 +372,6 @@
   cursor: pointer;
 }
 
-/* ========== Static Error Box ========== */
 .static-error-box {
   width: 100%;
   padding: 12px;
@@ -453,7 +441,6 @@
   color: #16a34a;
 }
 
-/* ========== Success Box ========== */
 .otp-success-box {
   padding: 12px 14px;
   border-radius: 10px;
@@ -469,7 +456,6 @@
   margin-bottom: 15px;
 }
 
-/* ========== Country Dropdown ========== */
 .country-dropdown {
   position: relative;
 }
@@ -549,7 +535,6 @@
   min-width: 90px;
 }
 
-/* ========== Responsive ========== */
 @media (max-width: 520px) {
   .login-card {
     padding: 24px 16px;
@@ -564,7 +549,6 @@
     height: 40px;
   }
 
-  /* Phone number field fixes */
   .d-flex.gap-2 {
     gap: 8px !important;
     flex-wrap: nowrap;
@@ -580,10 +564,9 @@
     font-size: 14px !important;
   }
 
-  /* Phone input container */
   .d-flex.gap-2 > div:last-child {
     flex: 1;
-    min-width: 0; /* Important for flex child overflow */
+    min-width: 0; 
   }
 
   .input-box {
@@ -597,7 +580,6 @@
     min-width: 0;
   }
 
-  /* Country dropdown menu positioning */
   .country-menu {
     width: 100%;
     max-width: calc(100vw - 40px);
@@ -605,12 +587,10 @@
     right: auto;
   }
 
-  /* Password requirements */
   .password-requirements {
     grid-template-columns: 1fr;
   }
 
-  /* Form options - keep on same line */
   .form-options {
     gap: 8px;
     font-size: 13px;
@@ -624,7 +604,6 @@
     font-size: 13px;
   }
 
-  /* Terms & Conditions - Better mobile layout */
   .remember-me {
     font-size: 12px;
     line-height: 1.6;
@@ -643,7 +622,6 @@
     word-wrap: break-word;
   }
 
-  /* Adjust form field spacing */
   .form-field {
     margin-bottom: 14px;
   }
@@ -652,7 +630,6 @@
     font-size: 13px;
   }
 
-  /* Button adjustments */
   .signin-btn,
   .google-btn {
     font-size: 14px;
@@ -668,7 +645,6 @@ input:-webkit-autofill:active {
   transition: background-color 9999s ease-in-out 0s;
 }
 
-/* Ensure input height & alignment stays same */
 .input-box input {
   line-height: normal;
   height: auto;

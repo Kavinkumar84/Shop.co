@@ -202,7 +202,6 @@
   font-weight: 500;
 }
 
-/* Mobile Menu Toggle */
 .mobile-menu-toggle {
   display: none;
   font-size: 28px;
@@ -213,11 +212,6 @@
   padding: 5px;
 }
 
-/* ===================================
-   RESPONSIVE DESIGN
-   =================================== */
-
-/* Tablet and below (992px) */
 @media (max-width: 992px) {
   .header-container {
     padding: 0 30px;
@@ -240,7 +234,6 @@
   }
 }
 
-/* Tablet (768px) */
 @media (max-width: 768px) {
   .header {
     height: 65px;
@@ -286,7 +279,6 @@
   }
 }
 
-/* Mobile (520px) */
 @media (max-width: 520px) {
   .header {
     height: 60px;
@@ -309,8 +301,7 @@
   .logo-text {
     font-size: 16px;
   }
-
-  /* Hide search box on mobile - show only search icon */
+  
   .search-box {
     width: auto;
   }
@@ -348,7 +339,6 @@
     font-size: 13px;
   }
 
-  /* Adjust dropdown menu */
   .profile-menu {
     width: 220px;
     padding: 12px;
@@ -364,7 +354,6 @@
   }
 }
 
-/* Small Mobile (360px) */
 @media (max-width: 360px) {
   .header {
     height: 55px;

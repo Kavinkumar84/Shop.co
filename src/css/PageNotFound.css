@@ -10,7 +10,6 @@
   position: relative;
 }
 
-/* Animated background gradient */
 .page-not-found-wrapper::before {
   content: '';
   position: absolute;
@@ -153,7 +152,6 @@
   z-index: 1;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .page-not-found-wrapper {
     padding: 1.5rem;

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../css/HeroCarousel.css';
-
-// Import carousel images
 import samsungTvImage from '../assets/carosel/samsung-tv.webp';
 import samsungS25Image from '../assets/carosel/samsung-s25.webp';
 import vivoImage from '../assets/carosel/Vivo.webp';
@@ -20,7 +18,6 @@ const HeroCarousel = () => {
             description: "Immerse yourself in stunning 4K resolution with Quantum Dot technology",
             cta: "Shop Now",
             // bgGradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-            // bgGradient: "linear-gradient(135deg, #000000ff 0%rgba(0, 0, 0, 1)a2 100%)"
         },
         {
             id: 2,
@@ -82,7 +79,6 @@ const HeroCarousel = () => {
             className="hero-carousel"
         >
             <div className="carousel-container">
-                {/* Slides */}
                 <div className="carousel-slides">
                     {carouselSlides.map((slide, index) => (
                         <div
@@ -93,14 +89,12 @@ const HeroCarousel = () => {
                                 } ${index === (currentSlide + 1) % carouselSlides.length ? 'next' : ''}`}
                             style={{ background: slide.bgGradient }}
                         >
-                            {/* Background Animated Shapes */}
                             <div className="animated-bg">
                                 <div className="shape shape-1"></div>
                                 <div className="shape shape-2"></div>
                                 <div className="shape shape-3"></div>
                             </div>
 
-                            {/* Content */}
                             <div className="slide-content">
                                 <div className="content-text">
                                     <div className="text-wrapper">
@@ -127,7 +121,6 @@ const HeroCarousel = () => {
                     ))}
                 </div>
 
-                {/* Navigation Arrows */}
                 <button
                     className="carousel-nav prev-btn"
                     onClick={prevSlide}

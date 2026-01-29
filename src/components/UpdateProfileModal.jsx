@@ -19,7 +19,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Pre-fill form with current user data when modal opens
     useEffect(() => {
         if (userData && isOpen) {
             setFormData({
@@ -29,23 +28,38 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                 password: '',
                 profilePhoto: null
             });
-            setProfilePreview(userData.profileUrl || null);
+
+            let initialPreview = null;
+            if (userData.profileUrl) {
+                if (userData.profileUrl.startsWith('http')) {
+                    initialPreview = userData.profileUrl;
+                } else {
+                    const cleanPath = userData.profileUrl.replace(/^\/+/, '');
+                    initialPreview = `${import.meta.env.VITE_API_KEY}/${cleanPath}`;
+                }
+            }
+            setProfilePreview(initialPreview);
+
             setErrors({});
             setShowSuccess(false);
         }
+
+        // Cleanup function for blob URLs
+        return () => {
+            if (profilePreview && typeof profilePreview === 'string' && profilePreview.startsWith('blob:')) {
+                URL.revokeObjectURL(profilePreview);
+            }
+        };
     }, [userData, isOpen]);
 
-    // Handle file upload
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Validate file type
             if (!file.type.startsWith('image/')) {
                 setErrors({ ...errors, photo: 'Please select a valid image file' });
                 return;
             }
 
-            // Validate file size (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 setErrors({ ...errors, photo: 'Image size must be less than 5MB' });
                 return;
@@ -53,26 +67,24 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
 
             setFormData({ ...formData, profilePhoto: file });
 
-            // Create preview
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfilePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+            // Revoke previous blob if exists
+            if (profilePreview && profilePreview.startsWith('blob:')) {
+                URL.revokeObjectURL(profilePreview);
+            }
 
-            // Clear photo error if exists
+            const previewUrl = URL.createObjectURL(file);
+            setProfilePreview(previewUrl);
+
             const newErrors = { ...errors };
             delete newErrors.photo;
             setErrors(newErrors);
         }
     };
 
-    // Handle input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
 
-        // Clear specific error when user starts typing
         if (errors[name]) {
             const newErrors = { ...errors };
             delete newErrors[name];
@@ -80,7 +92,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
     };
 
-    // Format phone number
     const formatPhoneNumber = (value) => {
         const phone = value.replace(/\D/g, '');
         if (phone.length <= 3) return phone;
@@ -99,24 +110,20 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
     };
 
-    // Validate form
     const validateForm = () => {
         const newErrors = {};
 
-        // Name validation
         if (!formData.name.trim()) {
             newErrors.name = 'Full name is required';
         } else if (formData.name.trim().length < 2) {
             newErrors.name = 'Name must be at least 2 characters';
         }
 
-        // Phone validation
         const phoneDigits = formData.phone.replace(/\D/g, '');
         if (formData.phone && phoneDigits.length !== 10) {
             newErrors.phone = 'Phone number must be 10 digits';
         }
 
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!formData.email.trim()) {
             newErrors.email = 'Email is required';
@@ -124,7 +131,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
             newErrors.email = 'Please enter a valid email address';
         }
 
-        // Password validation
         if (!formData.password) {
             newErrors.password = 'Password is required to confirm changes';
         } else if (formData.password.length < 6) {
@@ -135,7 +141,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -156,21 +161,18 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
 
             const parsedData = JSON.parse(userDataLocal);
             const token = parsedData.token;
-
-            // Prepare form data for submission
             const submitData = new FormData();
             submitData.append('name', formData.name);
             submitData.append('email', formData.email);
-            submitData.append('phone', formData.phone.replace(/\D/g, '')); // Send only digits
+            submitData.append('phone', formData.phone.replace(/\D/g, ''));
             submitData.append('password', formData.password);
 
             if (formData.profilePhoto) {
                 submitData.append('profilePhoto', formData.profilePhoto);
             }
 
-            // Make API call (adjust endpoint as per your backend)
             const response = await axios.put(
-                'https://api.shopco.site/Auth/updateProfile',
+                `${import.meta.env.VITE_API_KEY}/Auth/updateProfile`,
                 submitData,
                 {
                     headers: {
@@ -184,18 +186,17 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                 setShowSuccess(true);
                 toast.success('Profile updated successfully!');
 
-                // Call success callback to refresh user data
                 if (onUpdateSuccess) {
                     onUpdateSuccess(response.data.user);
                 }
 
-                // Close modal after showing success message
                 setTimeout(() => {
                     setShowSuccess(false);
                     onClose();
                 }, 1500);
             }
         } catch (error) {
+            console.error("Update Profile Error:", error);
             if (error.response?.status === 401 || error.response?.data?.message?.includes('password')) {
                 setErrors({ ...errors, password: 'Incorrect password' });
                 toast.error('Incorrect password');
@@ -209,7 +210,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
     };
 
-    // Handle cancel
     const handleCancel = () => {
         if (!isSubmitting) {
             setFormData({
@@ -226,13 +226,11 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
     };
 
-    // Don't render if modal is not open
     if (!isOpen) return null;
 
     return (
         <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={handleCancel}>
             <div className={`modal-container ${isOpen ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
-                {/* Close button */}
                 <button
                     className="modal-close-btn"
                     onClick={handleCancel}
@@ -242,7 +240,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                     <FiX size={24} />
                 </button>
 
-                {/* Success message */}
                 {showSuccess && (
                     <div className="success-message-overlay">
                         <div className="success-message">
@@ -253,13 +250,11 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                     </div>
                 )}
 
-                {/* Modal header */}
                 <div className="modal-header">
                     <h2>Update Profile</h2>
                     <p>Keep your information up to date</p>
                 </div>
 
-                {/* Profile photo section */}
                 <div className="profile-photo-section">
                     <div className="profile-photo-preview">
                         {profilePreview ? (
@@ -285,9 +280,7 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                     {errors.photo && <span className="error-text">{errors.photo}</span>}
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="profile-form">
-                    {/* Full Name */}
                     <div className="form-group">
                         <label htmlFor="name">Full Name</label>
                         <div className={`input-wrapper ${errors.name ? 'error' : ''}`}>
@@ -305,7 +298,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                         {errors.name && <span className="error-text">{errors.name}</span>}
                     </div>
 
-                    {/* Phone Number */}
                     <div className="form-group">
                         <label htmlFor="phone">Phone Number</label>
                         <div className={`input-wrapper ${errors.phone ? 'error' : ''}`}>
@@ -324,7 +316,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                         {errors.phone && <span className="error-text">{errors.phone}</span>}
                     </div>
 
-                    {/* Email */}
                     <div className="form-group">
                         <label htmlFor="email">Email Address</label>
                         <div className={`input-wrapper ${errors.email ? 'error' : ''}`}>
@@ -342,7 +333,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                         {errors.email && <span className="error-text">{errors.email}</span>}
                     </div>
 
-                    {/* Password Confirmation */}
                     <div className="form-group password-section">
                         <label htmlFor="password">Enter your password to confirm changes</label>
                         <div className={`input-wrapper ${errors.password ? 'error' : ''}`}>
@@ -369,7 +359,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                         {errors.password && <span className="error-text">{errors.password}</span>}
                     </div>
 
-                    {/* Action buttons */}
                     <div className="modal-actions">
                         <button
                             type="button"

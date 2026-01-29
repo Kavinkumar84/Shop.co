@@ -45,7 +45,7 @@ const UserDashboard = () => {
                 }
 
                 const response = await axios.get(
-                    'https://api.shopco.site/Auth/getUserDetail',
+                    `${import.meta.env.VITE_API_KEY}/Auth/getUserDetail`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -83,7 +83,7 @@ const UserDashboard = () => {
             const token = parsedData.token;
 
             const response = await axios.get(
-                'https://api.shopco.site/Auth/getAddress',
+                `${import.meta.env.VITE_API_KEY}/Auth/getAddress`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -182,7 +182,7 @@ const UserDashboard = () => {
             const token = parsedData.token;
 
             const response = await axios.delete(
-                `https://api.shopco.site/Auth/deleteAddress/${addressToDelete.addressId}`,
+                `${import.meta.env.VITE_API_KEY}/Auth/deleteAddress/${addressToDelete.addressId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -204,7 +204,7 @@ const UserDashboard = () => {
 
     return (
         <div className="user-dashboard">
-           
+
             <button
                 className="mobile-menu-toggle"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -212,14 +212,14 @@ const UserDashboard = () => {
             >
                 <i className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}></i>
             </button>
-       
+
             {isMobileMenuOpen && (
                 <div
                     className="sidebar-overlay"
                     onClick={() => setIsMobileMenuOpen(false)}
                 />
             )}
-           
+
             <aside className={`dashboard-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-menu">
                     <div
@@ -299,7 +299,7 @@ const UserDashboard = () => {
                     </div>
                 </div>
             </aside>
-         
+
             <main className="dashboard-content">
                 {loading ? (
                     <div className="loading-state">
@@ -311,7 +311,12 @@ const UserDashboard = () => {
                             <div className="profile-info">
                                 <div className="profile-avatar">
                                     {userData?.profileUrl ? (
-                                        <img src={userData.profileUrl} alt={userData.name} />
+                                        <img
+                                            src={userData.profileUrl.startsWith('http')
+                                                ? userData.profileUrl
+                                                : `${import.meta.env.VITE_API_KEY}/${userData.profileUrl.replace(/^\/+/, '')}`}
+                                            alt={userData.name}
+                                        />
                                     ) : (
                                         <i className="bi bi-person-circle"></i>
                                     )}

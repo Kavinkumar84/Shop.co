@@ -65,7 +65,7 @@ const ResetPassword = ({ onClose, email }) => {
 
     try {
       const res = await axios.post(
-        "https://api.shopco.site/Auth/resetPass",
+        `${import.meta.env.VITE_API_KEY}/Auth/resetPass`,
         {
           email,
           password: form.password,
@@ -107,7 +107,7 @@ const ResetPassword = ({ onClose, email }) => {
         <div className="form-email-field mb-3">
           <label>New Password</label>
           <div
-            className={`input-box ${submitted && !isStrongPassword ? "input-error" : ""}`}
+            className={`input - box ${submitted && !isStrongPassword ? "input-error" : ""}`}
           >
             {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
             <input
@@ -132,23 +132,23 @@ const ResetPassword = ({ onClose, email }) => {
 
           {!isStrongPassword && (
             <div className="password-requirements">
-              <div className={`req-item ${hasMinLength ? "valid" : ""}`}>
+              <div className={`req - item ${hasMinLength ? "valid" : ""} `}>
                 <span className="req-icon">{hasMinLength ? "✓" : "×"}</span>
                 At least 8 characters
               </div>
-              <div className={`req-item ${hasUppercase ? "valid" : ""}`}>
+              <div className={`req - item ${hasUppercase ? "valid" : ""} `}>
                 <span className="req-icon">{hasUppercase ? "✓" : "×"}</span>
                 One uppercase letter
               </div>
-              <div className={`req-item ${hasLowercase ? "valid" : ""}`}>
+              <div className={`req - item ${hasLowercase ? "valid" : ""} `}>
                 <span className="req-icon">{hasLowercase ? "✓" : "×"}</span>
                 One lowercase letter
               </div>
-              <div className={`req-item ${hasNumber ? "valid" : ""}`}>
+              <div className={`req - item ${hasNumber ? "valid" : ""} `}>
                 <span className="req-icon">{hasNumber ? "✓" : "×"}</span>
                 One number
               </div>
-              <div className={`req-item ${hasSpecial ? "valid" : ""}`}>
+              <div className={`req - item ${hasSpecial ? "valid" : ""} `}>
                 <span className="req-icon">{hasSpecial ? "✓" : "×"}</span>
                 One special character
               </div>
@@ -159,7 +159,7 @@ const ResetPassword = ({ onClose, email }) => {
         <div className="form-email-field mb-3">
           <label>Confirm Password</label>
           <div
-            className={`input-box ${(submitted && matchError) || matchError ? "input-error" : ""}`}
+            className={`input - box ${(submitted && matchError) || matchError ? "input-error" : ""} `}
           >
             {showPassword1 ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
             <input
@@ -186,7 +186,7 @@ const ResetPassword = ({ onClose, email }) => {
         {matchError && <div className="password-error mb-2 mt-0">{matchError}</div>}
 
         <button
-          className={`signin-btn mt-2 ${isResetting ? "loading" : ""}`}
+          className={`signin - btn mt - 2 ${isResetting ? "loading" : ""} `}
           onClick={handleReset}
           disabled={isResetting}
           aria-busy={isResetting}

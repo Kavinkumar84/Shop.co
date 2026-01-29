@@ -51,7 +51,7 @@ const Login = () => {
     setIsLoading(true);
 
     axios
-      .post("https://api.shopco.site/Auth/loginUser", UserData)
+      .post(`${import.meta.env.VITE_API_KEY}/Auth/loginUser`, UserData)
       .then((res) => {
         if (res.data.success) {
           toast.success("Login successful! Redirecting...");
@@ -130,7 +130,7 @@ const Login = () => {
         };
 
         return axios.post(
-          "https://api.shopco.site/Auth/googleAuth",
+          `${import.meta.env.VITE_API_KEY}/Auth/googleAuth`,
           googleUserData
         );
       })

@@ -23,7 +23,7 @@ const SignUp = () => {
     password: "",
     repassword: "",
     phoneNumber: "",
-    countryCode: "",
+    countryCode: "+91",
     istyping: false,
   });
 
@@ -93,7 +93,7 @@ const SignUp = () => {
         };
 
         return axios.post(
-          "https://api.shopco.site/Auth/googleAuth",
+          `${import.meta.env.VITE_API_KEY}/Auth/googleAuth`,
           googleUserData
         );
       })
@@ -150,7 +150,7 @@ const SignUp = () => {
     setIsSubmitting(true);
 
     axios
-      .post("https://api.shopco.site/Auth/createUser", UserData)
+      .post(`${import.meta.env.VITE_API_KEY}/Auth/createUser`, UserData)
       .then((res) => {
         toast.success("Account created successfully! Redirecting to login...");
         setTimeout(() => {
