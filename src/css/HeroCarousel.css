@@ -485,7 +485,7 @@
 
     .slide-content {
         padding: 0 40px;
-        gap: 30px;
+        /* gap: 30px; */
     }
 
     .slide-title {
@@ -506,8 +506,9 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        padding: 40px 30px;
-        gap: 30px;
+        padding: 20px 15px;
+        /* gap: 15px; */
+        /* Reduced gap */
     }
 
     .content-text {
@@ -520,26 +521,29 @@
     }
 
     .slide-subtitle {
-        font-size: 12px;
-        margin: 0 0 16px 0;
+        font-size: 11px;
+        margin: 0 0 10px 0;
         /* Reset margins */
-        padding: 6px 14px;
+        padding: 5px 12px;
     }
 
     .slide-title {
-        font-size: 36px;
-        margin: 0 0 16px 0;
+        font-size: 28px;
+        margin: 0 0 10px 0;
     }
 
     .slide-description {
-        font-size: 15px;
-        margin: 0 0 24px 0;
+        font-size: 13px;
+        margin: 0 0 15px 0;
         max-width: 100%;
+        line-height: 1.4;
     }
 
     .cta-button {
-        padding: 12px 30px;
-        font-size: 14px;
+        padding: 10px 24px;
+        font-size: 13px;
+        margin-bottom: 5px;
+        /* Add slight margin */
     }
 
     .content-image {
@@ -547,38 +551,63 @@
         max-width: 100%;
         flex: 1;
         /* Allow taking available space */
-        max-height: 250px;
+        max-height: 200px;
         /* Constrain image height on mobile */
+        margin-top: 10px;
+        /* Reduced margin */
     }
 
     .image-wrapper {
         width: auto;
-        max-width: 80%;
-        max-height: 220px;
+        max-width: 70%;
+        max-height: 180px;
     }
 
     .image-wrapper img {
-        max-height: 220px;
+        max-height: 180px;
     }
 
+    /* Show nav arrows on mobile but smaller */
     .carousel-nav {
-        display: none;
-        /* Hide arrows on tablets/mobile to avoid overlap */
+        display: flex;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.15);
+        /* Slightly more visible */
+    }
+
+    .prev-btn {
+        left: 10px;
+    }
+
+    .next-btn {
+        right: 10px;
     }
 
     .carousel-pagination {
-        bottom: 20px;
+        bottom: 15px;
+        gap: 8px;
+    }
+
+    .pagination-dot {
+        width: 30px;
+        height: 3px;
+    }
+
+    .hero-carousel:hover .pagination-dot.active .dot-progress {
+        animation-play-state: running;
     }
 }
 
 @media (max-width: 480px) {
     .hero-carousel {
-        height: 580px;
-        /* slightly taller for small screens to fit stacked content vertically if needed */
+        height: 500px;
+        /* Reduced height */
     }
 
     .slide-content {
-        padding: 30px 20px;
+        padding: 15px 10px;
     }
 
     .slide-title {
@@ -602,5 +631,10 @@
 
     .image-wrapper img {
         max-height: 180px;
+    }
+
+    .hero-carousel:hover .pagination-dot.active .dot-progress {
+        animation-play-state: running;
+        /* Force running on hover/touch for mobile */
     }
 }
