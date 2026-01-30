@@ -18,3 +18,14 @@
   position: relative;
   width: 100%;
 }
+@media (max-width: 768px) {
+  #Home {
+  padding-top: 65px;
+}
+}
+@media (max-width: 450px) {
+  #Home {
+  padding-top: 60px;
+}
+}
+

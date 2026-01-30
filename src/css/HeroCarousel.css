@@ -89,12 +89,16 @@
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(0, 0) scale(1);
     }
+
     33% {
         transform: translate(50px, -50px) scale(1.1);
     }
+
     66% {
         transform: translate(-50px, 50px) scale(0.9);
     }
@@ -255,19 +259,25 @@
 }
 
 @keyframes float-image {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
+
     50% {
         transform: translateY(-20px);
     }
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 0.5;
         transform: translate(-50%, -50%) scale(1);
     }
+
     50% {
         opacity: 0.8;
         transform: translate(-50%, -50%) scale(1.1);
@@ -362,33 +372,7 @@
     from {
         width: 0%;
     }
-    to {
-        width: 100%;
-    }
-}
 
-.carousel-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    z-index: 10;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.5) 100%);
-    width: 0;
-    animation: progressBar 5s linear infinite;
-}
-
-@keyframes progressBar {
-    from {
-        width: 0%;
-    }
     to {
         width: 100%;
     }
@@ -399,6 +383,7 @@
         opacity: 0;
         transform: translateX(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -410,6 +395,7 @@
         opacity: 0;
         transform: translateX(50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -421,6 +407,7 @@
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -432,33 +419,22 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+/* --- RESPONSIVE STYLES --- */
+
 @media (max-width: 1440px) {
     .slide-content {
-        flex-direction: row; 
-        text-align: left;
         padding: 0 70px;
-    }
-
-    .content-text {
-        align-items: flex-start;
     }
 
     .slide-title {
         font-size: 52px;
-    }
-
-    .slide-subtitle {
-        margin: 0 0 20px 0;
-    }
-
-    .slide-description {
-        margin: 0 0 30px 0;
     }
 
     .image-wrapper {
@@ -468,8 +444,6 @@
 
 @media (max-width: 1200px) {
     .slide-content {
-        flex-direction: row;
-        text-align: left;
         padding: 0 50px;
     }
 
@@ -488,90 +462,6 @@
     .content-text {
         max-width: 500px;
     }
-}
-
-@media (max-width: 1024px) {
-    .hero-carousel {
-        height: 550px;
-    }
-
-    .slide-content {
-        flex-direction: row; 
-        text-align: left;
-        padding: 0 40px;
-        gap: 30px;
-    }
-
-    .content-text {
-        align-items: flex-start;
-    }
-
-    .slide-title {
-        font-size: 42px;
-    }
-
-    .slide-subtitle {
-        font-size: 13px;
-        padding: 7px 18px;
-        margin: 0 0 18px 0;
-    }
-
-    .slide-description {
-        font-size: 15px;
-        margin: 0 0 28px 0;
-    }
-
-    .cta-button {
-        padding: 15px 36px;
-        font-size: 15px;
-    }
-
-    .content-text {
-        max-width: 450px;
-    }
-
-    .image-wrapper {
-        max-width: 420px;
-    }
-
-    .carousel-nav {
-        width: 55px;
-        height: 55px;
-        font-size: 22px;
-    }
-
-    .prev-btn {
-        left: 25px;
-    }
-
-    .next-btn {
-        right: 25px;
-    }
-}
-
-@media (max-width: 900px) {
-    .hero-carousel {
-        height: 520px;
-    }
-
-    .slide-content {
-        flex-direction: row;
-        text-align: left;
-        padding: 0 35px;
-        gap: 25px;
-    }
-
-    .slide-title {
-        font-size: 38px;
-    }
-
-    .slide-description {
-        font-size: 14px;
-    }
-
-    .image-wrapper {
-        max-width: 380px;
-    }
 
     .carousel-nav {
         width: 50px;
@@ -588,9 +478,28 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .hero-carousel {
+        height: 550px;
+    }
+
+    .slide-content {
+        padding: 0 40px;
+        gap: 30px;
+    }
+
+    .slide-title {
+        font-size: 42px;
+    }
+
+    .image-wrapper {
+        max-width: 420px;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-carousel {
-        height: 600px;
+        height: 550px;
     }
 
     .slide-content {
@@ -598,18 +507,23 @@
         justify-content: center;
         text-align: center;
         padding: 40px 30px;
-        gap: 20px;
+        gap: 30px;
     }
 
     .content-text {
         max-width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Center buttons and text */
     }
 
     .slide-subtitle {
         font-size: 12px;
-        padding: 6px 16px;
-        margin: 0 auto 16px;
+        margin: 0 0 16px 0;
+        /* Reset margins */
+        padding: 6px 14px;
     }
 
     .slide-title {
@@ -619,193 +533,74 @@
 
     .slide-description {
         font-size: 15px;
-        margin: 0 auto 24px;
-        max-width: 90%;
-    }
-
-    .cta-button {
-        padding: 14px 32px;
-        font-size: 14px;
-    }
-
-    .content-image {
-        max-width: 450px;
-        width: 100%;
-    }
-
-    .image-wrapper {
+        margin: 0 0 24px 0;
         max-width: 100%;
     }
 
-    .carousel-pagination {
-        bottom: 25px;
-        gap: 10px;
-    }
-
-    .pagination-dot {
-        width: 45px;
-        height: 4px;
-    }
-
-    .carousel-nav {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
-
-    .prev-btn {
-        left: 20px;
-    }
-
-    .next-btn {
-        right: 20px;
-    }
-}
-
-@media (max-width: 640px) {
-    .hero-carousel {
-        height: 550px;
-    }
-
-    .slide-content {
-        padding: 30px 25px;
-    }
-
-    .slide-title {
-        font-size: 32px;
-    }
-
-    .slide-description {
+    .cta-button {
+        padding: 12px 30px;
         font-size: 14px;
     }
 
     .content-image {
-        max-width: 380px;
+        width: 100%;
+        max-width: 100%;
+        flex: 1;
+        /* Allow taking available space */
+        max-height: 250px;
+        /* Constrain image height on mobile */
     }
 
-    .carousel-pagination {
-        bottom: 20px;
-        gap: 8px;
+    .image-wrapper {
+        width: auto;
+        max-width: 80%;
+        max-height: 220px;
     }
 
-    .pagination-dot {
-        width: 40px;
-    }
-}
-
-@media (max-width: 520px) {
-    .hero-carousel {
-        height: 520px;
-    }
-
-    .slide-content {
-        padding: 25px 20px;
-    }
-
-    .slide-subtitle {
-        font-size: 11px;
-        padding: 5px 14px;
-        margin-bottom: 14px;
-    }
-
-    .slide-title {
-        font-size: 28px;
-        margin-bottom: 14px;
-    }
-
-    .slide-description {
-        font-size: 13px;
-        line-height: 1.5;
-        margin-bottom: 20px;
-    }
-
-    .cta-button {
-        padding: 12px 28px;
-        font-size: 13px;
-    }
-
-    .content-image {
-        max-width: 320px;
+    .image-wrapper img {
+        max-height: 220px;
     }
 
     .carousel-nav {
         display: none;
+        /* Hide arrows on tablets/mobile to avoid overlap */
     }
 
     .carousel-pagination {
-        bottom: 18px;
-    }
-
-    .shape {
-        filter: blur(60px);
-    }
-
-    .shape-1,
-    .shape-2,
-    .shape-3 {
-        width: 300px;
-        height: 300px;
+        bottom: 20px;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
     .hero-carousel {
-        height: 480px;
+        height: 580px;
+        /* slightly taller for small screens to fit stacked content vertically if needed */
     }
 
     .slide-content {
-        padding: 20px 15px;
+        padding: 30px 20px;
     }
 
     .slide-title {
-        font-size: 26px;
+        font-size: 28px;
     }
 
     .slide-description {
-        font-size: 12px;
+        font-size: 13px;
+        line-height: 1.4;
     }
 
     .content-image {
-        max-width: 280px;
+        max-height: 200px;
+        margin-top: 20px;
     }
 
-    .pagination-dot {
-        width: 35px;
-        height: 3px;
-    }
-}
-
-@media (max-width: 360px) {
-    .hero-carousel {
-        height: 450px;
+    .image-wrapper {
+        max-width: 70%;
+        max-height: 180px;
     }
 
-    .slide-content {
-        padding: 20px 12px;
-    }
-
-    .slide-title {
-        font-size: 24px;
-    }
-
-    .slide-description {
-        font-size: 11px;
-    }
-
-    .cta-button {
-        padding: 11px 24px;
-        font-size: 12px;
-    }
-
-    .content-image {
-        max-width: 250px;
-    }
-
-    .pagination-dot {
-        width: 30px;
-    }
-
-    .carousel-pagination {
-        gap: 6px;
+    .image-wrapper img {
+        max-height: 180px;
     }
 }

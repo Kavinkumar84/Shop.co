@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiX, FiEye, FiEyeOff, FiCamera, FiUser, FiPhone, FiMail, FiLock } from 'react-icons/fi';
+import { FiX, FiCamera, FiUser, FiPhone, FiMail, FiCheckCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import '../css/UpdateProfileModal.css';
@@ -9,15 +9,22 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         name: '',
         phone: '',
         email: '',
-        password: '',
         profilePhoto: null
     });
 
     const [profilePreview, setProfilePreview] = useState(null);
-    const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+
+    const [otp, setOtp] = useState('');
+    const [showOtpInput, setShowOtpInput] = useState(false);
+    const [isOtpSent, setIsOtpSent] = useState(false);
+    const [verificationToken, setVerificationToken] = useState(null);
+    const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [timer, setTimer] = useState(0);
+    const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+    const [isSendingOtp, setIsSendingOtp] = useState(false);
 
     useEffect(() => {
         if (userData && isOpen) {
@@ -25,7 +32,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                 name: userData.name || '',
                 phone: userData.phone || '',
                 email: userData.email || '',
-                password: '',
                 profilePhoto: null
             });
 
@@ -42,15 +48,35 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
 
             setErrors({});
             setShowSuccess(false);
+
+            resetOtpState();
         }
 
-        // Cleanup function for blob URLs
         return () => {
             if (profilePreview && typeof profilePreview === 'string' && profilePreview.startsWith('blob:')) {
                 URL.revokeObjectURL(profilePreview);
             }
         };
     }, [userData, isOpen]);
+
+    useEffect(() => {
+        let interval;
+        if (timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [timer]);
+
+    const resetOtpState = () => {
+        setOtp('');
+        setShowOtpInput(false);
+        setIsOtpSent(false);
+        setVerificationToken(null);
+        setIsEmailVerified(false);
+        setTimer(0);
+    };
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
@@ -67,7 +93,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
 
             setFormData({ ...formData, profilePhoto: file });
 
-            // Revoke previous blob if exists
             if (profilePreview && profilePreview.startsWith('blob:')) {
                 URL.revokeObjectURL(profilePreview);
             }
@@ -84,6 +109,12 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        if (name === 'email') {
+            setIsEmailVerified(false);
+            setVerificationToken(null);
+            setShowOtpInput(false);
+        }
 
         if (errors[name]) {
             const newErrors = { ...errors };
@@ -110,13 +141,84 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
     };
 
+    const handleSendOtp = async () => {
+        if (!formData.email) {
+            setErrors({ ...errors, email: 'Email is required' });
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setErrors({ ...errors, email: 'Invalid email address' });
+            return;
+        }
+
+        setIsSendingOtp(true);
+        try {
+            const userDataLocal = localStorage.getItem('user');
+            const parsedData = JSON.parse(userDataLocal);
+            const token = parsedData.token;
+
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_KEY}/Auth/send-update-otp`,
+                { email: formData.email },
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+
+            if (response.data.success) {
+                toast.success('OTP sent successfully');
+                setIsOtpSent(true);
+                setShowOtpInput(true);
+                setTimer(60); 
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to send OTP');
+        } finally {
+            setIsSendingOtp(false);
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        if (!otp || otp.length !== 6) {
+            toast.error('Please enter a valid 6-digit OTP');
+            return;
+        }
+
+        setIsVerifyingOtp(true);
+        try {
+            const userDataLocal = localStorage.getItem('user');
+            const parsedData = JSON.parse(userDataLocal);
+            const token = parsedData.token;
+
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_KEY}/Auth/verify-update-otp`,
+                { email: formData.email, otp },
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+
+            if (response.data.success) {
+                toast.success('Email verified successfully');
+                setVerificationToken(response.data.verificationToken);
+                setIsEmailVerified(true);
+                setShowOtpInput(false);
+                setIsOtpSent(false); 
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Invalid OTP');
+        } finally {
+            setIsVerifyingOtp(false);
+        }
+    };
+
     const validateForm = () => {
         const newErrors = {};
 
         if (!formData.name.trim()) {
             newErrors.name = 'Full name is required';
-        } else if (formData.name.trim().length < 2) {
-            newErrors.name = 'Name must be at least 2 characters';
         }
 
         const phoneDigits = formData.phone.replace(/\D/g, '');
@@ -129,12 +231,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
             newErrors.email = 'Email is required';
         } else if (!emailRegex.test(formData.email)) {
             newErrors.email = 'Please enter a valid email address';
-        }
-
-        if (!formData.password) {
-            newErrors.password = 'Password is required to confirm changes';
-        } else if (formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters';
         }
 
         setErrors(newErrors);
@@ -153,19 +249,20 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
 
         try {
             const userDataLocal = localStorage.getItem('user');
-            if (!userDataLocal) {
-                toast.error('Please login again');
-                onClose();
-                return;
-            }
-
             const parsedData = JSON.parse(userDataLocal);
             const token = parsedData.token;
+
             const submitData = new FormData();
             submitData.append('name', formData.name);
-            submitData.append('email', formData.email);
             submitData.append('phone', formData.phone.replace(/\D/g, ''));
-            submitData.append('password', formData.password);
+            submitData.append('email', formData.email);
+
+            if (!verificationToken) {
+                toast.error("Please verify your email to update profile.");
+                setIsSubmitting(false);
+                return;
+            }
+            submitData.append('verificationToken', verificationToken);
 
             if (formData.profilePhoto) {
                 submitData.append('profilePhoto', formData.profilePhoto);
@@ -197,14 +294,7 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
             }
         } catch (error) {
             console.error("Update Profile Error:", error);
-            if (error.response?.status === 401 || error.response?.data?.message?.includes('password')) {
-                setErrors({ ...errors, password: 'Incorrect password' });
-                toast.error('Incorrect password');
-            } else if (error.response?.data?.message) {
-                toast.error(error.response.data.message);
-            } else {
-                toast.error('Failed to update profile. Please try again.');
-            }
+            toast.error(error.response?.data?.message || 'Failed to update profile.');
         } finally {
             setIsSubmitting(false);
         }
@@ -216,17 +306,19 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                 name: '',
                 phone: '',
                 email: '',
-                password: '',
                 profilePhoto: null
             });
             setProfilePreview(null);
             setErrors({});
             setShowSuccess(false);
+            resetOtpState();
             onClose();
         }
     };
 
     if (!isOpen) return null;
+
+    const canSubmit = !isSubmitting && isEmailVerified;
 
     return (
         <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={handleCancel}>
@@ -327,36 +419,85 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 placeholder="Enter your email"
-                                disabled={isSubmitting}
+                                disabled={true}
+                                style={{ paddingRight: '100px', cursor: 'not-allowed', opacity: 0.7 }}
                             />
+                            {!isEmailVerified && (
+                                <button
+                                    type="button"
+                                    className="verify-btn"
+                                    onClick={handleSendOtp}
+                                    disabled={isSendingOtp || timer > 0}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '10px',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        padding: '5px 10px',
+                                        fontSize: '12px',
+                                        backgroundColor: '#6c63ff',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        opacity: (isSendingOtp || timer > 0) ? 0.7 : 1
+                                    }}
+                                >
+                                    {timer > 0 ? `Resend in ${timer}s` : (isSendingOtp ? 'Sending...' : 'Verify')}
+                                </button>
+                            )}
+                            {isEmailVerified && (
+                                <FiCheckCircle
+                                    color="green"
+                                    size={20}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '10px',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                    }}
+                                />
+                            )}
                         </div>
                         {errors.email && <span className="error-text">{errors.email}</span>}
-                    </div>
 
-                    <div className="form-group password-section">
-                        <label htmlFor="password">Enter your password to confirm changes</label>
-                        <div className={`input-wrapper ${errors.password ? 'error' : ''}`}>
-                            <FiLock className="input-icon" />
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                placeholder="Enter your password"
-                                disabled={isSubmitting}
-                            />
-                            <button
-                                type="button"
-                                className="password-toggle"
-                                onClick={() => setShowPassword(!showPassword)}
-                                disabled={isSubmitting}
-                                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                            >
-                                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-                            </button>
-                        </div>
-                        {errors.password && <span className="error-text">{errors.password}</span>}
+                        {showOtpInput && !isEmailVerified && (
+                            <div className="otp-section" style={{ marginTop: '10px' }}>
+                                <label style={{ fontSize: '12px', display: 'block', marginBottom: '5px' }}>Enter OTP sent to your email</label>
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <input
+                                        type="text"
+                                        value={otp}
+                                        onChange={(e) => setOtp(e.target.value)}
+                                        maxLength={6}
+                                        placeholder="000000"
+                                        style={{
+                                            width: '120px',
+                                            padding: '8px',
+                                            border: '1px solid #ddd',
+                                            borderRadius: '4px',
+                                            textAlign: 'center',
+                                            letterSpacing: '2px'
+                                        }}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleVerifyOtp}
+                                        disabled={isVerifyingOtp}
+                                        style={{
+                                            padding: '8px 15px',
+                                            backgroundColor: '#28a745',
+                                            color: '#fff',
+                                            border: 'none',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        {isVerifyingOtp ? 'Verifying...' : 'Submit'}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="modal-actions">
@@ -371,7 +512,8 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                         <button
                             type="submit"
                             className="btn-submit"
-                            disabled={isSubmitting}
+                            disabled={!canSubmit}
+                            style={{ opacity: !canSubmit ? 0.6 : 1, cursor: !canSubmit ? 'not-allowed' : 'pointer' }}
                         >
                             {isSubmitting ? (
                                 <>

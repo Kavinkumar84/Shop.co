@@ -1,7 +1,6 @@
 
 
 
-
 .sbc-container {
     display: flex;
     justify-content: space-between;
@@ -68,10 +67,42 @@
 @media (max-width: 768px) {
     .sbc-container {
         justify-content: flex-start;
+        gap: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .sbc-image-wrapper {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sbc-container {
+        gap: 15px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 5px;
+    }
+
+    .sbc-card {
+        min-width: 80px;
+    }
+
+    .sbc-image-wrapper {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 8px;
+        border-width: 1px; /* Ensure border doesn't look too thick */
+    }
+
+    .sbc-name {
+        font-size: 11px;
+        line-height: 1.2;
+    }
+    
+    .sbc-card:hover {
+        transform: none; /* Disable hover effect on touch devices mostly */
     }
 }
