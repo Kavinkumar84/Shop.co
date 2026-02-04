@@ -1,0 +1,342 @@
+.popular-products-section {
+    max-width: 100%;
+    /* margin: 40px auto; */
+    padding: 0 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.pp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* Align to the line */
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0;
+    position: relative;
+}
+
+.pp-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.pp-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    /* On top of the header border */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #1570EF;
+}
+
+.pp-tabs {
+    display: flex;
+    gap: 25px;
+    padding-bottom: 15px;
+}
+
+.pp-tab {
+    border: none;
+    background: none;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4b5563;
+    cursor: pointer;
+    text-transform: uppercase;
+    position: relative;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.pp-tab.active {
+    color: #1570EF;
+}
+
+.pp-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    /* Align with header bottom */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #1570EF;
+}
+
+/* Grid Layout */
+.pp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+/* Card Styles */
+.pp-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.pp-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Badge */
+.pp-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    z-index: 2;
+    text-transform: uppercase;
+}
+
+.pp-badge.new {
+    background-color: #10B981;
+}
+
+/* Green */
+.pp-badge.sale {
+    background-color: #EF4444;
+}
+
+/* Red */
+.pp-badge.hot {
+    background-color: #F59E0B;
+}
+
+/* Orange */
+.pp-badge.pack {
+    background-color: #8B5CF6;
+}
+
+/* Purple */
+
+/* Wishlist Top Right */
+.pp-wishlist-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #98A2B3;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.2s;
+    z-index: 2;
+}
+
+.pp-wishlist-icon:hover {
+    color: #EF4444;
+}
+
+/* Image Area */
+.pp-image-container {
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: visible;
+}
+
+.pp-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.pp-card:hover .pp-image-container img {
+    transform: scale(1.05);
+}
+
+/* Hover Action Bar (Right Side) */
+.pp-action-bar {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%) translateX(20px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.pp-card:hover .pp-action-bar {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.pp-action-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.pp-action-btn:hover {
+    background: #1570EF;
+    color: #fff;
+    border-color: #1570EF;
+}
+
+/* Countdown - Updated Design */
+.pp-countdown {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(0);
+    z-index: 1;
+}
+
+/* Hide countdown on hover */
+.pp-card:hover .pp-countdown {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+.pp-countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FEF2F2;
+    border: 1px solid #E5E7EB;
+    border-radius: 4px;
+    min-width: 38px;
+    padding: 6px 4px;
+}
+
+.pp-countdown-val {
+    font-size: 12px;
+    font-weight: 700;
+    color: #EF4444;
+    line-height: 1.2;
+    display: block;
+}
+
+.pp-countdown-label {
+    font-size: 8px;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+    line-height: 1;
+}
+
+/* Details */
+.pp-details {
+    margin-top: auto;
+}
+
+.pp-brand {
+    font-size: 12px;
+    color: #98A2B3;
+    margin-bottom: 4px;
+}
+
+.pp-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 40px;
+    /* fixed height for alignment */
+    line-height: 1.4;
+}
+
+.pp-rating {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.pp-rating-count {
+    color: #98A2B3;
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.pp-price-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pp-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1570EF;
+}
+
+.pp-mrp {
+    font-size: 13px;
+    color: #98A2B3;
+    text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+    .pp-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .pp-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .pp-countdown-item {
+        min-width: 35px;
+        padding: 5px 3px;
+    }
+
+    .pp-countdown-val {
+        font-size: 11px;
+    }
+
+    .pp-countdown-label {
+        font-size: 7px;
+    }
+}

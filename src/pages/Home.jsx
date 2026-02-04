@@ -3,6 +3,7 @@ import "../css/Home.css";
 import "../css/ShopByCategory.css";
 import HeroCarousel from "../components/HeroCarousel";
 import axios from "axios";
+import PopularProducts from "../components/PopularProducts";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -34,7 +35,11 @@ const Home = () => {
                 <div className="sbc-card" key={cat._id}>
                   <div className="sbc-image-wrapper">
                     <img
-                      src={cat.image?.path ? `${import.meta.env.VITE_API_KEY}/${cat.image.path.replace(/^\/+/, '')}` : ''}
+                      src={
+                        cat.image?.path?.startsWith("http")
+                          ? cat.image.path
+                          : `${import.meta.env.VITE_API_KEY}/${cat.image?.path?.replace(/^\/+/, "")}`
+                      }
                       alt={cat.image?.alt || cat.name}
                     />
                   </div>
@@ -46,6 +51,7 @@ const Home = () => {
       </div>
 
       <HeroCarousel />
+      <PopularProducts />
     </div>
   );
 };
