@@ -4,7 +4,7 @@ import {
     FiMapPin, FiMap, FiNavigation
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import apiClient from '../utils/apiClient';
 import '../css/AddAddressModal.css';
 
 const AddAddressModal = ({ isOpen, onClose, onAddressAdded, addressLimit = 5, currentAddressCount = 0, editMode = false, addressData = null }) => {
@@ -212,16 +212,6 @@ const AddAddressModal = ({ isOpen, onClose, onAddressAdded, addressLimit = 5, cu
         setIsSubmitting(true);
 
         try {
-            const userDataLocal = localStorage.getItem('user');
-            if (!userDataLocal) {
-                toast.error('Please login again');
-                onClose();
-                return;
-            }
-
-            const parsedData = JSON.parse(userDataLocal);
-            const token = parsedData.token;
-
             const submitData = {
                 name: formData.recipientName.trim(),
                 phone: formData.contactNumber.replace(/\D/g, ''),
@@ -238,26 +228,14 @@ const AddAddressModal = ({ isOpen, onClose, onAddressAdded, addressLimit = 5, cu
 
             let response;
             if (editMode && addressData) {
-                response = await axios.put(
-                    `${import.meta.env.VITE_API_KEY}/Auth/updateAddress/${addressData.addressId}`,
-                    submitData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    }
+                response = await apiClient.put(
+                    `/Auth/updateAddress/${addressData.addressId}`,
+                    submitData
                 );
             } else {
-                response = await axios.post(
-                    `${import.meta.env.VITE_API_KEY}/Auth/createAddress`,
-                    submitData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    }
+                response = await apiClient.post(
+                    `/Auth/createAddress`,
+                    submitData
                 );
             }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiX, FiCamera, FiUser, FiPhone, FiMail, FiCheckCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import apiClient from '../utils/apiClient';
 import '../css/UpdateProfileModal.css';
 
 const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
@@ -154,24 +154,18 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
 
         setIsSendingOtp(true);
+        setIsSendingOtp(true);
         try {
-            const userDataLocal = localStorage.getItem('user');
-            const parsedData = JSON.parse(userDataLocal);
-            const token = parsedData.token;
-
-            const response = await axios.post(
-                `${import.meta.env.VITE_API_KEY}/Auth/send-update-otp`,
-                { email: formData.email },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
+            const response = await apiClient.post(
+                `/Auth/send-update-otp`,
+                { email: formData.email }
             );
 
             if (response.data.success) {
                 toast.success('OTP sent successfully');
                 setIsOtpSent(true);
                 setShowOtpInput(true);
-                setTimer(60); 
+                setTimer(60);
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to send OTP');
@@ -187,17 +181,11 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         }
 
         setIsVerifyingOtp(true);
+        setIsVerifyingOtp(true);
         try {
-            const userDataLocal = localStorage.getItem('user');
-            const parsedData = JSON.parse(userDataLocal);
-            const token = parsedData.token;
-
-            const response = await axios.post(
-                `${import.meta.env.VITE_API_KEY}/Auth/verify-update-otp`,
-                { email: formData.email, otp },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
+            const response = await apiClient.post(
+                `/Auth/verify-update-otp`,
+                { email: formData.email, otp }
             );
 
             if (response.data.success) {
@@ -205,7 +193,7 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                 setVerificationToken(response.data.verificationToken);
                 setIsEmailVerified(true);
                 setShowOtpInput(false);
-                setIsOtpSent(false); 
+                setIsOtpSent(false);
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Invalid OTP');
@@ -248,10 +236,6 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
         setIsSubmitting(true);
 
         try {
-            const userDataLocal = localStorage.getItem('user');
-            const parsedData = JSON.parse(userDataLocal);
-            const token = parsedData.token;
-
             const submitData = new FormData();
             submitData.append('name', formData.name);
             submitData.append('phone', formData.phone.replace(/\D/g, ''));
@@ -268,12 +252,11 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                 submitData.append('profilePhoto', formData.profilePhoto);
             }
 
-            const response = await axios.put(
-                `${import.meta.env.VITE_API_KEY}/Auth/updateProfile`,
+            const response = await apiClient.put(
+                `/Auth/updateProfile`,
                 submitData,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'
                     }
                 }

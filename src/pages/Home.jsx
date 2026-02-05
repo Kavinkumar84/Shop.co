@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "../css/Home.css";
 import "../css/ShopByCategory.css";
 import HeroCarousel from "../components/HeroCarousel";
@@ -7,6 +7,7 @@ import PopularProducts from "../components/PopularProducts";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -15,37 +16,49 @@ const Home = () => {
           `${import.meta.env.VITE_API_KEY}/category/get`
         );
         setCategories(response.data);
-
       } catch (error) {
         console.error("Error fetching categories:", error);
         setCategories([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCategories();
   }, []);
 
+  const categoryItems = useMemo(() => {
+    if (!Array.isArray(categories)) return null;
+
+    return categories.map((cat) => (
+      <div className="sbc-card" key={cat._id}>
+        <div className="sbc-image-wrapper">
+          <img
+            src={
+              cat.image?.path?.startsWith("http")
+                ? cat.image.path
+                : `${import.meta.env.VITE_API_KEY}/${cat.image?.path?.replace(/^\/+/, "")}`
+            }
+            alt={cat.image?.alt || cat.name}
+            loading="lazy" 
+            decoding="async" 
+          />
+        </div>
+        <p className="sbc-name">{cat.name}</p>
+      </div>
+    ));
+  }, [categories]);
+
   return (
     <div id="Home">
       <div className="home-category">
         <div className="category-wrapper">
           <div className="sbc-container">
-            {Array.isArray(categories) &&
-              categories.map((cat) => (
-                <div className="sbc-card" key={cat._id}>
-                  <div className="sbc-image-wrapper">
-                    <img
-                      src={
-                        cat.image?.path?.startsWith("http")
-                          ? cat.image.path
-                          : `${import.meta.env.VITE_API_KEY}/${cat.image?.path?.replace(/^\/+/, "")}`
-                      }
-                      alt={cat.image?.alt || cat.name}
-                    />
-                  </div>
-                  <p className="sbc-name">{cat.name}</p>
-                </div>
-              ))}
+            {loading ? (
+              <div className="loading-skeleton">Loading categories...</div>
+            ) : (
+              categoryItems
+            )}
           </div>
         </div>
       </div>
@@ -56,4 +69,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default React.memo(Home);

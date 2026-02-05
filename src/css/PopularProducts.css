@@ -1,6 +1,5 @@
 .popular-products-section {
     max-width: 100%;
-    /* margin: 40px auto; */
     padding: 0 20px;
     font-family: 'Inter', sans-serif;
 }
@@ -9,7 +8,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    /* Align to the line */
     margin-bottom: 2rem;
     border-bottom: 1px solid #e5e7eb;
     padding-bottom: 0;
@@ -29,7 +27,6 @@
     content: '';
     position: absolute;
     bottom: -1px;
-    /* On top of the header border */
     left: 0;
     width: 100%;
     height: 2px;
@@ -63,7 +60,6 @@
     content: '';
     position: absolute;
     bottom: -16px;
-    /* Align with header bottom */
     left: 0;
     width: 100%;
     height: 2px;
@@ -111,22 +107,17 @@
     background-color: #10B981;
 }
 
-/* Green */
 .pp-badge.sale {
     background-color: #EF4444;
 }
 
-/* Red */
 .pp-badge.hot {
     background-color: #F59E0B;
 }
 
-/* Orange */
 .pp-badge.pack {
     background-color: #8B5CF6;
 }
-
-/* Purple */
 
 /* Wishlist Top Right */
 .pp-wishlist-icon {
@@ -281,7 +272,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     height: 40px;
-    /* fixed height for alignment */
     line-height: 1.4;
 }
 
@@ -314,6 +304,13 @@
     font-size: 13px;
     color: #98A2B3;
     text-decoration: line-through;
+}
+
+.pp-empty {
+    text-align: center;
+    padding: 40px;
+    color: #98A2B3;
+    font-size: 14px;
 }
 
 @media (max-width: 768px) {

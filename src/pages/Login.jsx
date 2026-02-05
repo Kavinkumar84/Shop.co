@@ -5,7 +5,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Logo from "../assets/Logo.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import apiClient from "../utils/apiClient";
 import ForgotPass from "./ForgetPass";
 import Otp from "./Otp";
 import ResetPassword from "./ResetPassword";
@@ -50,18 +50,13 @@ const Login = () => {
 
     setIsLoading(true);
 
-    axios
-      .post(`${import.meta.env.VITE_API_KEY}/Auth/loginUser`, UserData)
+    apiClient
+      .post("/Auth/loginUser", UserData)
       .then((res) => {
         if (res.data.success) {
           toast.success("Login successful! Redirecting...");
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              user: res.data.user,
-              token: res.data.token,
-            })
-          );
+          // Only store user info, token is in HTTP-only cookie
+          localStorage.setItem("user", JSON.stringify(res.data.user));
           setTimeout(() => navigate("/"), 1500);
         } else {
           toast.error("Invalid credentials. Please check your credentials.");
@@ -129,21 +124,13 @@ const Login = () => {
           profileUrl: user.photoURL,
         };
 
-        return axios.post(
-          `${import.meta.env.VITE_API_KEY}/Auth/googleAuth`,
-          googleUserData
-        );
+        return apiClient.post("/Auth/googleAuth", googleUserData);
       })
       .then((res) => {
         if (res.data.success) {
           toast.success("Login successful! Redirecting...");
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              user: res.data.user,
-              token: res.data.token,
-            })
-          );
+          // Only store user info, token is in HTTP-only cookie
+          localStorage.setItem("user", JSON.stringify(res.data.user));
           setTimeout(() => navigate("/"), 1500);
         } else {
           toast.error("Google login failed. Please try again.");

@@ -13,7 +13,7 @@ const PopularProducts = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/popularProducts`);
+                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/popular/popularProducts`);
                 if (response.data.success) {
                     setProducts(response.data.data);
                     const initialFiltered = response.data.data.filter(p =>
@@ -38,19 +38,8 @@ const PopularProducts = () => {
         );
         setFilteredProducts(filtered);
     };
-   
-    const calculateTimeLeft = (endTime) => {
-        const difference = +new Date(endTime) - +new Date();
-        if (difference > 0) {
-            return {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hrs: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                min: Math.floor((difference / 1000 / 60) % 60),
-                sec: Math.floor((difference / 1000) % 60)
-            };
-        }
-        return null;
-    };
+
+
 
     if (loading) return <div style={{ textAlign: 'center', padding: '40px' }}>Loading Popular Products...</div>;
     if (!products.length) return null;
@@ -74,7 +63,7 @@ const PopularProducts = () => {
 
             <div className="pp-grid">
                 {filteredProducts.map((product) => (
-                    <ProductCard key={product.productId || product._id} product={product} calculateTimeLeft={calculateTimeLeft} />
+                    <ProductCard key={product.productId || product._id} product={product} />
                 ))}
             </div>
             {!loading && filteredProducts.length === 0 && (
@@ -84,19 +73,34 @@ const PopularProducts = () => {
     );
 };
 
-const ProductCard = ({ product, calculateTimeLeft }) => {
+const ProductCard = ({ product }) => {
     const [timeLeft, setTimeLeft] = useState(null);
+
+    const calculateTimeLeft = (endTime) => {
+        const difference = +new Date(endTime) - +new Date();
+        if (difference > 0) {
+            return {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hrs: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                min: Math.floor((difference / 1000 / 60) % 60),
+                sec: Math.floor((difference / 1000) % 60)
+            };
+        }
+        return null;
+    };
 
     useEffect(() => {
         if (product.deal?.isDealActive && product.deal?.dealEndTime) {
+            setTimeLeft(calculateTimeLeft(product.deal.dealEndTime));
             const timer = setInterval(() => {
                 setTimeLeft(calculateTimeLeft(product.deal.dealEndTime));
             }, 1000);
             return () => clearInterval(timer);
         }
-    }, [product.deal, calculateTimeLeft]);
+    }, [product.deal]);
 
     let imageUrl = product.images?.[0] || 'https://placehold.co/200?text=No+Image';
+
     if (imageUrl.startsWith('/uploads')) {
         imageUrl = `${import.meta.env.VITE_API_KEY}${imageUrl}`;
     }
@@ -108,8 +112,6 @@ const ProductCard = ({ product, calculateTimeLeft }) => {
                     {product.badge.type === 'SALE' && product.discountPercentage ? `-${product.discountPercentage}%` : product.badge.type}
                 </div>
             )}
-
-            {/* <FiHeart className="pp-wishlist-icon" /> */}
 
             <div className="pp-image-container">
                 <img src={imageUrl} alt={product.name} />

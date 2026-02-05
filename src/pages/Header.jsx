@@ -1,35 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/Header.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Logo from "../assets/logo.png";
 import { BsBoxSeam } from "react-icons/bs";
 import { IoPersonCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline, IoIosLogOut } from "react-icons/io";
+import apiClient from "../utils/apiClient";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [loggedUser, setLoggedUser] = useState(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("user") ;
+      const stored = localStorage.getItem("user");
       if (stored) {
         let parseData = JSON.parse(stored);
         setLoggedUser(parseData);
-        console.log(parseData.user.name);
-        
+        console.log(parseData.name);
       }
     } catch (err) {
       console.error("Corrupted user data");
       localStorage.removeItem("user");
     }
   }, []);
-  function handleSignOut() {
-    if(loggedUser.provider == "google"){
-      signOut(auth);
+
+  async function handleSignOut() {
+    try {
+      // Call backend to clear HTTP-only cookie
+      await apiClient.post("/Auth/logout");
+
+      // Clear local storage
+      localStorage.removeItem("user");
+      setLoggedUser(null);
+
+      toast.success("Logged out successfully");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Clear local data anyway
+      localStorage.removeItem("user");
+      setLoggedUser(null);
+      navigate("/login");
     }
-  localStorage.removeItem("user");
-  setLoggedUser(null); 
-}
+  }
 
 
   return (
@@ -51,15 +67,15 @@ const Header = () => {
               {!loggedUser && <Link to="/login" className="login-btn">
                 Login / Signup
               </Link>}
-              {loggedUser && <div className="profile-name">{loggedUser.user.name}</div> }
+              {loggedUser && <div className="profile-name">{loggedUser.name}</div>}
             </div>
-            {loggedUser&& <div className="down">
+            {loggedUser && <div className="down">
               <div className="profile-menu">
                 <div className="profile-header1">
                   <IoPersonCircleOutline className="profile-avatar1" />
-                 <div className="">
-                    <p className="profile-name">{loggedUser.user.name}</p>
-                    <p className="profile-email">{loggedUser.user.email}</p>
+                  <div className="">
+                    <p className="profile-name">{loggedUser.name}</p>
+                    <p className="profile-email">{loggedUser.email}</p>
                   </div>
                 </div>
 
@@ -82,7 +98,7 @@ const Header = () => {
                   <IoIosLogOut /> <span>Sign out</span>
                 </div>
               </div>
-            </div> }
+            </div>}
           </div>
           <div className="header-profile">
             <i className="bi bi-bag header-icon"></i>
@@ -96,7 +112,7 @@ const Header = () => {
               Wishlist
             </Link>
           </div>
-          
+
         </div>
       </div>
     </header>

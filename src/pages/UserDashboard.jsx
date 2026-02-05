@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../utils/apiClient';
 import toast from 'react-hot-toast';
 import UpdateProfileModal from '../components/UpdateProfileModal';
 import AddAddressModal from '../components/AddAddressModal';
@@ -35,23 +35,8 @@ const UserDashboard = () => {
                     navigate('/login');
                     return;
                 }
-                const parsedData = JSON.parse(userData);
-                const token = parsedData.token;
 
-                if (!token) {
-                    toast.error('Please login to access dashboard');
-                    navigate('/login');
-                    return;
-                }
-
-                const response = await axios.get(
-                    `${import.meta.env.VITE_API_KEY}/Auth/getUserDetail`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                );
+                const response = await apiClient.get('/Auth/getUserDetail');
 
                 if (response.data.success) {
                     setUserData(response.data.user);
@@ -76,20 +61,7 @@ const UserDashboard = () => {
     const fetchAddresses = async () => {
         setAddressesLoading(true);
         try {
-            const userData = localStorage.getItem('user');
-            if (!userData) return;
-
-            const parsedData = JSON.parse(userData);
-            const token = parsedData.token;
-
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_KEY}/Auth/getAddress`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+            const response = await apiClient.get('/Auth/getAddress');
 
             if (response.data.success) {
                 setAddresses(response.data.address || []);
@@ -109,10 +81,17 @@ const UserDashboard = () => {
         }
     }, [userData]);
 
-    const handleLogout = () => {
-        localStorage.removeItem('user');
-        toast.success('Logged out successfully');
-        navigate('/');
+    const handleLogout = async () => {
+        try {
+            await apiClient.post('/Auth/logout');
+            localStorage.removeItem('user');
+            toast.success('Logged out successfully');
+            navigate('/');
+        } catch (error) {
+            console.error("Logout error:", error);
+            localStorage.removeItem('user');
+            navigate('/');
+        }
     };
 
     const handleOpenModal = () => {
@@ -125,12 +104,8 @@ const UserDashboard = () => {
 
     const handleUpdateSuccess = (updatedUser) => {
         setUserData(updatedUser);
-        const userDataLocal = localStorage.getItem('user');
-        if (userDataLocal) {
-            const parsedData = JSON.parse(userDataLocal);
-            parsedData.user = updatedUser;
-            localStorage.setItem('user', JSON.stringify(parsedData));
-        }
+        // Update localStorage with new user info only (no token)
+        localStorage.setItem('user', JSON.stringify(updatedUser));
     };
 
     const handleOpenAddressModal = () => {
@@ -175,20 +150,7 @@ const UserDashboard = () => {
         setIsDeleting(true);
 
         try {
-            const userData = localStorage.getItem('user');
-            if (!userData) return;
-
-            const parsedData = JSON.parse(userData);
-            const token = parsedData.token;
-
-            const response = await axios.delete(
-                `${import.meta.env.VITE_API_KEY}/Auth/deleteAddress/${addressToDelete.addressId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+            const response = await apiClient.delete(`/Auth/deleteAddress/${addressToDelete.addressId}`);
 
             if (response.data.success) {
                 toast.success('Address deleted successfully');

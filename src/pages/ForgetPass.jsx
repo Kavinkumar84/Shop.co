@@ -64,7 +64,7 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
 
         <div className="form-email-field">
           <label>Email Address</label>
-          <div className={`input - box ${error ? "input-error" : ""}`}>
+          <div className={`input-box ${error ? "input-error" : ""}`}>
             <HiOutlineMail />
             <input
               type="email"
@@ -81,7 +81,7 @@ const ForgotPass = ({ onClose, onSendOtp }) => {
         </div>
 
         <button
-          className={`signin - btn ${isLoading ? 'loading' : ''}`}
+          className={`signin-btn ${isLoading ? 'loading' : ''}`}
           onClick={handleSendOtp}
           disabled={isLoading}
           aria-busy={isLoading}

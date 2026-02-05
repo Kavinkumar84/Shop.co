@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import axios from "axios";
+import apiClient from "../utils/apiClient";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
 import Logo from "../assets/Logo.webp";
@@ -92,21 +92,13 @@ const SignUp = () => {
           profileUrl: user.photoURL,
         };
 
-        return axios.post(
-          `${import.meta.env.VITE_API_KEY}/Auth/googleAuth`,
-          googleUserData
-        );
+        return apiClient.post("/Auth/googleAuth", googleUserData);
       })
       .then((res) => {
         if (res.data.success) {
           toast.success("Account created successfully! Redirecting...");
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              user: res.data.user,
-              token: res.data.token,
-            })
-          );
+          // Only store user info, token is in HTTP-only cookie
+          localStorage.setItem("user", JSON.stringify(res.data.user));
           setTimeout(() => navigate("/"), 1500);
         } else {
           toast.error("Google signup failed. Please try again.");
