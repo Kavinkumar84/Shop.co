@@ -9,6 +9,7 @@ import Favorites from './pages/Favorites';
 import UserDashboard from './pages/UserDashboard';
 import PageNotFound from './pages/PageNotFound';
 import './css/App.css'
+import GlobalLoader from './components/GlobalLoader';
 
 const App = () => {
   return (
@@ -62,6 +63,8 @@ const App = () => {
 
 const AppContent = () => {
   const location = useLocation();
+  const [showGlobalLoader, setShowGlobalLoader] = React.useState(true);
+
   const hideHeaderRoutes = [
     "/login",
     "/signup",
@@ -69,12 +72,39 @@ const AppContent = () => {
     "/dashboard"
   ];
 
+  const excludeLoaderRoutes = [
+    "/login",
+    "/signup",
+    "/forgetpass",
+    "/otp",
+    "/reset-password",
+    "/resetpass"
+  ];
+
+  React.useEffect(() => {
+    const isExcluded = excludeLoaderRoutes.some(route =>
+      location.pathname.toLowerCase().startsWith(route)
+    );
+
+    if (isExcluded) {
+      setShowGlobalLoader(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowGlobalLoader(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []); 
+
   const validRoutes = ["/", "/login", "/signup", "/favorites",];
   const isAuthPage = hideHeaderRoutes.includes(location.pathname.toLowerCase());
   const isNotFoundPage = !validRoutes.includes(location.pathname.toLowerCase());
 
   return (
     <div className='App'>
+      {showGlobalLoader && <GlobalLoader />}
       {!isAuthPage && !isNotFoundPage && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />

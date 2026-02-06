@@ -1,0 +1,73 @@
+.global-loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1900;
+    /* Below Header (2000) */
+}
+
+/* Ensure no scrolling while loading */
+body.loading-active {
+    overflow: hidden;
+}
+
+.loader-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+}
+
+.loader-logo {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    z-index: 2;
+}
+
+/* Spinner rotating around the logo */
+.spinner-ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #2563eb;
+    /* Primary Blue from Login/Header */
+    border-right-color: #2563eb;
+    /* Optional for partial ring */
+    position: absolute;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);
+}
+
+.spinner-ring::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #a5b4fc;
+    /* Lighter blue */
+    animation: spin 2s linear infinite reverse;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

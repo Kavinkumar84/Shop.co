@@ -66,14 +66,12 @@
     background-color: #1570EF;
 }
 
-/* Grid Layout */
 .pp-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 20px;
 }
 
-/* Card Styles */
 .pp-card {
     background: #fff;
     border: 1px solid #eee;
@@ -89,7 +87,6 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Badge */
 .pp-badge {
     position: absolute;
     top: 15px;
@@ -119,7 +116,6 @@
     background-color: #8B5CF6;
 }
 
-/* Wishlist Top Right */
 .pp-wishlist-icon {
     position: absolute;
     top: 15px;
@@ -135,7 +131,6 @@
     color: #EF4444;
 }
 
-/* Image Area */
 .pp-image-container {
     height: 180px;
     display: flex;
@@ -157,7 +152,6 @@
     transform: scale(1.05);
 }
 
-/* Hover Action Bar (Right Side) */
 .pp-action-bar {
     position: absolute;
     right: 10px;
@@ -196,7 +190,6 @@
     border-color: #1570EF;
 }
 
-/* Countdown - Updated Design */
 .pp-countdown {
     position: absolute;
     bottom: -10px;
@@ -213,7 +206,6 @@
     z-index: 1;
 }
 
-/* Hide countdown on hover */
 .pp-card:hover .pp-countdown {
     opacity: 0;
     transform: translateY(10px);
@@ -250,7 +242,6 @@
     line-height: 1;
 }
 
-/* Details */
 .pp-details {
     margin-top: auto;
 }

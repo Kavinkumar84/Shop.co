@@ -40,8 +40,8 @@ const Home = () => {
                 : `${import.meta.env.VITE_API_KEY}/${cat.image?.path?.replace(/^\/+/, "")}`
             }
             alt={cat.image?.alt || cat.name}
-            loading="lazy" 
-            decoding="async" 
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <p className="sbc-name">{cat.name}</p>
@@ -55,7 +55,13 @@ const Home = () => {
         <div className="category-wrapper">
           <div className="sbc-container">
             {loading ? (
-              <div className="loading-skeleton">Loading categories...</div>
+              // Skeleton Loader
+              Array.from({ length: 6 }).map((_, index) => (
+                <div className="skeleton-card" key={index}>
+                  <div className="skeleton-circle"></div>
+                  <div className="skeleton-text"></div>
+                </div>
+              ))
             ) : (
               categoryItems
             )}
