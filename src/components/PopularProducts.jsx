@@ -114,7 +114,7 @@ const ProductCard = ({ product }) => {
             )}
 
             <div className="pp-image-container">
-                <img src={imageUrl} alt={product.name} />
+                <img src={imageUrl} alt={product.name} loading="lazy" decoding="async" />
 
                 <div className="pp-action-bar">
                     <div className="pp-action-btn" title="Compare"><FiHeart /></div>

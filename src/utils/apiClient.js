@@ -25,7 +25,7 @@ apiClient.interceptors.response.use(
         if (error.response?.status === 401) {
             localStorage.removeItem('user');
 
-            if (window.location.pathname !== '/login' && window.location.pathname !== '/signup') {
+            if (window.location.pathname !== '/login' && window.location.pathname !== '/signup' && window.location.pathname !== '/') {
                 window.location.href = '/login';
             }
         }

@@ -51,15 +51,18 @@ const Home = () => {
 
   return (
     <div id="Home">
+      <h1 className="seo-title" style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: '0' }}>
+        ShopCo - Premium Electronics, Smart Gadgets & Home Appliances
+      </h1>
       <div className="home-category">
         <div className="category-wrapper">
           <div className="sbc-container">
             {loading ? (
               // Skeleton Loader
               Array.from({ length: 6 }).map((_, index) => (
-                <div className="skeleton-card" key={index}>
-                  <div className="skeleton-circle"></div>
-                  <div className="skeleton-text"></div>
+                <div className="sbc-card skeleton" key={index}>
+                  <div className="sbc-image-wrapper"></div>
+                  <div className="sbc-name"></div>
                 </div>
               ))
             ) : (
