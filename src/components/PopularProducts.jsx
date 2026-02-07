@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import '../css/PopularProducts.css';
-import { FiHeart, FiEye, FiBarChart2, FiShoppingCart, FiStar } from 'react-icons/fi';
+import { FiHeart, FiEye, FiBarChart2, FiShoppingCart, FiStar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 
 const PopularProducts = () => {
@@ -9,6 +9,7 @@ const PopularProducts = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('ELECTRONICS');
+    const productsScrollRef = useRef(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -37,6 +38,28 @@ const PopularProducts = () => {
             p.category.toUpperCase() === tab.toUpperCase()
         );
         setFilteredProducts(filtered);
+        // Reset scroll position when tab changes
+        if (productsScrollRef.current) {
+            productsScrollRef.current.scrollLeft = 0;
+        }
+    };
+
+    const scrollProducts = (direction) => {
+        if (!productsScrollRef.current) return;
+        const container = productsScrollRef.current;
+        const firstCard = container.querySelector('.pp-card');
+        if (!firstCard) return;
+        
+        // Calculate scroll amount based on one card width
+        const cardWidth = firstCard.offsetWidth;
+        const gap = 20;
+        const scrollAmount = cardWidth + gap;
+        
+        if (direction === 'left') {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
     };
 
 
@@ -61,10 +84,26 @@ const PopularProducts = () => {
                 </div>
             </div>
 
-            <div className="pp-grid">
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.productId || product._id} product={product} />
-                ))}
+            <div className="pp-wrapper">
+                <button 
+                    className="pp-arrow pp-arrow-left" 
+                    onClick={() => scrollProducts('left')}
+                    aria-label="Scroll products left"
+                >
+                    <FiChevronLeft />
+                </button>
+                <div className="pp-grid" ref={productsScrollRef}>
+                    {filteredProducts.map((product) => (
+                        <ProductCard key={product.productId || product._id} product={product} />
+                    ))}
+                </div>
+                <button 
+                    className="pp-arrow pp-arrow-right" 
+                    onClick={() => scrollProducts('right')}
+                    aria-label="Scroll products right"
+                >
+                    <FiChevronRight />
+                </button>
             </div>
             {!loading && filteredProducts.length === 0 && (
                 <div className="pp-empty">No products found for this category.</div>

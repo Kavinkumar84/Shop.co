@@ -66,13 +66,31 @@
     background-color: #1570EF;
 }
 
+.pp-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .pp-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    display: flex;
+    overflow-x: auto;
+    overflow-y: visible;
     gap: 20px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1;
+}
+
+.pp-grid::-webkit-scrollbar {
+    display: none;
 }
 
 .pp-card {
+    width: 230px;
+    flex-shrink: 0;
     background: #fff;
     border: 1px solid #eee;
     border-radius: 8px;
@@ -82,6 +100,7 @@
     display: flex;
     flex-direction: column;
 }
+
 
 .pp-card:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
@@ -304,6 +323,36 @@
     font-size: 14px;
 }
 
+/* Arrow Navigation Styles */
+.pp-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    z-index: 10;
+    color: #4b5563;
+    font-size: 20px;
+}
+
+.pp-arrow:hover {
+    background: #1570EF;
+    color: #fff;
+    border-color: #1570EF;
+    box-shadow: 0 4px 12px rgba(21, 112, 239, 0.3);
+}
+
+.pp-arrow:active {
+    transform: scale(0.95);
+}
+
 @media (max-width: 768px) {
     .pp-header {
         flex-direction: column;
@@ -311,8 +360,14 @@
         gap: 15px;
     }
 
-    .pp-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    .pp-card {
+        width: 200px;
+    }
+
+    .pp-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
     }
 
     .pp-countdown-item {
@@ -326,5 +381,21 @@
 
     .pp-countdown-label {
         font-size: 7px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pp-card {
+        width: 180px;
+    }
+    
+    .pp-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    
+    .pp-wrapper {
+        gap: 5px;
     }
 }

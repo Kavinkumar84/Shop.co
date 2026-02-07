@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     overflow-x: auto;
+    overflow-y: visible;
     gap: 45px;
     padding-left: 20px;
     padding-bottom: 0px;
@@ -11,8 +12,8 @@
     padding-top: 10px;
     padding-left: 40px;
     padding-right: 40px;
-
-
+    flex: 1;
+    scroll-behavior: smooth;
 }
 
 
@@ -73,6 +74,11 @@
         width: 90px;
         height: 90px;
     }
+
+    .sbc-card.skeleton .sbc-image-wrapper {
+        width: 90px;
+        height: 90px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -110,10 +116,16 @@
 }
 
 .sbc-card.skeleton .sbc-image-wrapper {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
     background-color: #f0f0f0;
     border-color: transparent;
     box-shadow: none;
+    margin-bottom: 15px;
     animation: pulse 1.5s infinite ease-in-out;
+    flex-shrink: 0;
+    overflow: visible;
 }
 
 .sbc-card.skeleton .sbc-name {
@@ -124,6 +136,7 @@
     margin: 0 auto;
     color: transparent;
     animation: pulse 1.5s infinite ease-in-out;
+    display: block;
 }
 
 @keyframes pulse {
@@ -141,8 +154,69 @@
 }
 
 @media (max-width: 480px) {
+    .sbc-card.skeleton .sbc-image-wrapper {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 8px;
+    }
+
     .sbc-card.skeleton .sbc-name {
         height: 10px;
         width: 70%;
+    }
+}
+
+/* Arrow Navigation Styles */
+.sbc-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    z-index: 10;
+    color: #4b5563;
+    font-size: 20px;
+}
+
+.sbc-arrow:hover {
+    background: #1570EF;
+    color: #fff;
+    border-color: #1570EF;
+    box-shadow: 0 4px 12px rgba(21, 112, 239, 0.3);
+}
+
+.sbc-arrow:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .sbc-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sbc-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    
+    .category-wrapper {
+        gap: 5px;
+    }
+    
+    .sbc-container {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
