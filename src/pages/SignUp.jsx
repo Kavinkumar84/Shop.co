@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import apiClient from "../utils/apiClient";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
@@ -12,6 +12,7 @@ import {
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdPersonOutline, MdPhone } from "react-icons/md";
 import CountryDropdown from "./CountryDropdown";
+import SEO from "../components/SEO";
 import toast from 'react-hot-toast';
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase/FirebaseAuth";
@@ -44,6 +45,13 @@ const SignUp = () => {
   const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
   const phoneInputRef = useRef(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const hasMinLength = UserData.password.length >= 8;
   const hasLowercase = /[a-z]/.test(UserData.password);
@@ -159,238 +167,241 @@ const SignUp = () => {
   }
 
   return (
-    <div className="login-page">
-      <div className="logo-container">
-        <div className="logo">
-          <div className="logo-icon">
-            <img src={Logo} alt="ShopCo Logo" />
+    <>
+      <SEO title="Sign Up" description="Create a new ShopCo account." url="https://shopco.site/signup" />
+      <div className="login-page">
+        <div className="logo-container">
+          <div className="logo">
+            <div className="logo-icon">
+              <img src={Logo} alt="ShopCo Logo" />
+            </div>
+            <div className="txt">ShopCo</div>
           </div>
-          <div className="txt">ShopCo</div>
-        </div>
-        <p className="subtitle">Your Electronics Destination</p>
-      </div>
-
-      <div className="login-card">
-        <h2 className="card-title1">Create Account</h2>
-        <p className="card-subtitle1">Join us and start shopping</p>
-
-        <div className="form-field">
-          <label>Full Name</label>
-          <div className={`input-box ${submitted && fieldErrors.name ? "input-error" : ""}`}>
-            <MdPersonOutline />
-            <input
-              type="text"
-              placeholder="Enter your name"
-              name="name"
-              value={UserData.name}
-              onChange={handleChange}
-            />
-          </div>
-          {submitted && fieldErrors.name && (
-            <p className="password-error">{fieldErrors.name}</p>
-          )}
+          <p className="subtitle">Your Electronics Destination</p>
         </div>
 
-        <div className="form-field">
-          <label>Email Address</label>
-          <div className={`input-box ${submitted && fieldErrors.email ? "input-error" : ""}`}>
-            <HiOutlineMail />
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={UserData.email}
-              name="email"
-              onChange={handleChange}
-            />
-          </div>
-          {submitted && fieldErrors.email && (
-            <p className="password-error">{fieldErrors.email}</p>
-          )}
-        </div>
+        <div className="login-card">
+          <h2 className="card-title1">Create Account</h2>
+          <p className="card-subtitle1">Join us and start shopping</p>
 
-        <div className="form-field">
-          <label>Phone Number (Optional)</label>
-          <div className="d-flex gap-2" style={{ pointerEvents: 'none' }}>
-            <div style={{ pointerEvents: 'auto' }}>
-              <CountryDropdown
-                value={UserData.countryCode || "+91"}
-                onSelect={(code) => {
-                  setUserData({ ...UserData, countryCode: code });
-                  if (submitted) setFieldErrors((prev) => ({ ...prev, countryCode: "" }));
-                }}
+          <div className="form-field">
+            <label>Full Name</label>
+            <div className={`input-box ${submitted && fieldErrors.name ? "input-error" : ""}`}>
+              <MdPersonOutline />
+              <input
+                type="text"
+                placeholder="Enter your name"
+                name="name"
+                value={UserData.name}
+                onChange={handleChange}
               />
             </div>
-            <div style={{ flex: 1, pointerEvents: 'auto' }} onClick={(e) => e.stopPropagation()}>
-              <div
-                className={`input-box ${submitted && fieldErrors.phoneNumber ? "input-error" : ""}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  phoneInputRef.current?.focus();
-                }}
-              >
-                <MdPhone style={{ pointerEvents: 'none' }} />
-                <input
-                  ref={phoneInputRef}
-                  type="tel"
-                  pattern="[0-9]{10}"
-                  placeholder="10-digit phone number"
-                  name="phoneNumber"
-                  value={UserData.phoneNumber}
-                  onChange={(e) => {
-                    setUserData({
-                      ...UserData,
-                      phoneNumber: e.target.value.replace(/\D/g, ""),
-                    });
-                    if (submitted) setFieldErrors((prev) => ({ ...prev, phoneNumber: "" }));
+            {submitted && fieldErrors.name && (
+              <p className="password-error">{fieldErrors.name}</p>
+            )}
+          </div>
+
+          <div className="form-field">
+            <label>Email Address</label>
+            <div className={`input-box ${submitted && fieldErrors.email ? "input-error" : ""}`}>
+              <HiOutlineMail />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={UserData.email}
+                name="email"
+                onChange={handleChange}
+              />
+            </div>
+            {submitted && fieldErrors.email && (
+              <p className="password-error">{fieldErrors.email}</p>
+            )}
+          </div>
+
+          <div className="form-field">
+            <label>Phone Number (Optional)</label>
+            <div className="d-flex gap-2" style={{ pointerEvents: 'none' }}>
+              <div style={{ pointerEvents: 'auto' }}>
+                <CountryDropdown
+                  value={UserData.countryCode || "+91"}
+                  onSelect={(code) => {
+                    setUserData({ ...UserData, countryCode: code });
+                    if (submitted) setFieldErrors((prev) => ({ ...prev, countryCode: "" }));
                   }}
-                  maxLength={10}
                 />
               </div>
+              <div style={{ flex: 1, pointerEvents: 'auto' }} onClick={(e) => e.stopPropagation()}>
+                <div
+                  className={`input-box ${submitted && fieldErrors.phoneNumber ? "input-error" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    phoneInputRef.current?.focus();
+                  }}
+                >
+                  <MdPhone style={{ pointerEvents: 'none' }} />
+                  <input
+                    ref={phoneInputRef}
+                    type="tel"
+                    pattern="[0-9]{10}"
+                    placeholder="10-digit phone number"
+                    name="phoneNumber"
+                    value={UserData.phoneNumber}
+                    onChange={(e) => {
+                      setUserData({
+                        ...UserData,
+                        phoneNumber: e.target.value.replace(/\D/g, ""),
+                      });
+                      if (submitted) setFieldErrors((prev) => ({ ...prev, phoneNumber: "" }));
+                    }}
+                    maxLength={10}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          {submitted && (fieldErrors.countryCode || fieldErrors.phoneNumber) && (
-            <p className="password-error">{fieldErrors.countryCode || fieldErrors.phoneNumber}</p>
-          )}
-        </div>
-
-        <div className="form-field">
-          <label>Password</label>
-          <div className={`input-box ${submitted && fieldErrors.password ? "input-error" : ""}`}>
-            {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Create a password"
-              value={UserData.password}
-              onChange={handleChange}
-            />
-            {showPassword ? (
-              <AiOutlineEyeInvisible
-                className="eye-icon"
-                onClick={() => setShowPassword(false)}
-              />
-            ) : (
-              <AiOutlineEye
-                className="eye-icon"
-                onClick={() => setShowPassword(true)}
-              />
+            {submitted && (fieldErrors.countryCode || fieldErrors.phoneNumber) && (
+              <p className="password-error">{fieldErrors.countryCode || fieldErrors.phoneNumber}</p>
             )}
           </div>
 
-          {submitted && fieldErrors.password && (
-            <p className="password-error">{fieldErrors.password}</p>
-          )}
-
-          {!isStrongPassword && (
-            <div className="password-requirements">
-              <div className={`req-item ${hasMinLength ? "valid" : ""}`}>
-                <span className="req-icon">{hasMinLength ? "✓" : "×"}</span>
-                At least 8 characters
-              </div>
-              <div className={`req-item ${hasUppercase ? "valid" : ""}`}>
-                <span className="req-icon">{hasUppercase ? "✓" : "×"}</span>
-                One uppercase letter
-              </div>
-              <div className={`req-item ${hasLowercase ? "valid" : ""}`}>
-                <span className="req-icon">{hasLowercase ? "✓" : "×"}</span>
-                One lowercase letter
-              </div>
-              <div className={`req-item ${hasNumber ? "valid" : ""}`}>
-                <span className="req-icon">{hasNumber ? "✓" : "×"}</span>
-                One number
-              </div>
-              <div className={`req-item ${hasSpecial ? "valid" : ""}`}>
-                <span className="req-icon">{hasSpecial ? "✓" : "×"}</span>
-                One special character
-              </div>
+          <div className="form-field">
+            <label>Password</label>
+            <div className={`input-box ${submitted && fieldErrors.password ? "input-error" : ""}`}>
+              {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Create a password"
+                value={UserData.password}
+                onChange={handleChange}
+              />
+              {showPassword ? (
+                <AiOutlineEyeInvisible
+                  className="eye-icon"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <AiOutlineEye
+                  className="eye-icon"
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
             </div>
-          )}
-        </div>
 
-        <div className="form-field">
-          <label>Confirm Password</label>
-          <div className={`input-box ${(submitted && fieldErrors.repassword) || matchError ? "input-error" : ""}`}>
-            {showRePassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
-            <input
-              type={showRePassword ? "text" : "password"}
-              name="repassword"
-              placeholder="Confirm your password"
-              value={UserData.repassword}
-              onChange={handleChange}
-            />
-            {showRePassword ? (
-              <AiOutlineEyeInvisible
-                className="eye-icon"
-                onClick={() => setShowRePassword(false)}
-              />
-            ) : (
-              <AiOutlineEye
-                className="eye-icon"
-                onClick={() => setShowRePassword(true)}
-              />
+            {submitted && fieldErrors.password && (
+              <p className="password-error">{fieldErrors.password}</p>
+            )}
+
+            {!isStrongPassword && (
+              <div className="password-requirements">
+                <div className={`req-item ${hasMinLength ? "valid" : ""}`}>
+                  <span className="req-icon">{hasMinLength ? "✓" : "×"}</span>
+                  At least 8 characters
+                </div>
+                <div className={`req-item ${hasUppercase ? "valid" : ""}`}>
+                  <span className="req-icon">{hasUppercase ? "✓" : "×"}</span>
+                  One uppercase letter
+                </div>
+                <div className={`req-item ${hasLowercase ? "valid" : ""}`}>
+                  <span className="req-icon">{hasLowercase ? "✓" : "×"}</span>
+                  One lowercase letter
+                </div>
+                <div className={`req-item ${hasNumber ? "valid" : ""}`}>
+                  <span className="req-icon">{hasNumber ? "✓" : "×"}</span>
+                  One number
+                </div>
+                <div className={`req-item ${hasSpecial ? "valid" : ""}`}>
+                  <span className="req-icon">{hasSpecial ? "✓" : "×"}</span>
+                  One special character
+                </div>
+              </div>
             )}
           </div>
-          {submitted && fieldErrors.repassword && (
-            <p className="password-error">{fieldErrors.repassword}</p>
-          )}
-          {matchError && <p className="password-error">{matchError}</p>}
+
+          <div className="form-field">
+            <label>Confirm Password</label>
+            <div className={`input-box ${(submitted && fieldErrors.repassword) || matchError ? "input-error" : ""}`}>
+              {showRePassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
+              <input
+                type={showRePassword ? "text" : "password"}
+                name="repassword"
+                placeholder="Confirm your password"
+                value={UserData.repassword}
+                onChange={handleChange}
+              />
+              {showRePassword ? (
+                <AiOutlineEyeInvisible
+                  className="eye-icon"
+                  onClick={() => setShowRePassword(false)}
+                />
+              ) : (
+                <AiOutlineEye
+                  className="eye-icon"
+                  onClick={() => setShowRePassword(true)}
+                />
+              )}
+            </div>
+            {submitted && fieldErrors.repassword && (
+              <p className="password-error">{fieldErrors.repassword}</p>
+            )}
+            {matchError && <p className="password-error">{matchError}</p>}
+          </div>
+
+          <div className="form-field">
+            <label className="remember-me">
+              <input type="checkbox" />
+              I agree to the <a href="/terms" style={{ color: "#4F46E5" }}>Terms & Conditions</a> and <a href="/privacy" style={{ color: "#4F46E5" }}>Privacy Policy</a>
+            </label>
+          </div>
+
+          <button
+            className={`signin-btn ${isSubmitting ? 'loading' : ''}`}
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+            aria-disabled={isSubmitting}
+          >
+            {isSubmitting && <div className="btn-spinner"></div>}
+            {isSubmitting ? 'Creating account...' : 'Create Account'}
+          </button>
+
+          <div className="divider">
+            <div className="or-line"></div>
+            <span>or continue with</span>
+            <div className="or-line"></div>
+          </div>
+
+          <button
+            className={`google-btn ${googleLoading ? "loading" : ""}`}
+            onClick={handleGoogleSignup}
+            disabled={googleLoading || isSubmitting}
+            aria-busy={googleLoading}
+          >
+            {googleLoading && <div className="btn-spinner"></div>}
+            {googleLoading ? (
+              "Signing up..."
+            ) : (
+              <>
+                <FcGoogle size={22} />
+                Sign up with Google
+              </>
+            )}
+          </button>
+
+
+          <p className="signup-text">
+            Already have an account?{" "}
+            <span>
+              <Link
+                to={"/login"}
+                style={{ textDecoration: "none", color: "rgb(79 70 229)" }}
+              >
+                Sign In
+              </Link>
+            </span>
+          </p>
         </div>
-
-        <div className="form-field">
-          <label className="remember-me">
-            <input type="checkbox" />
-            I agree to the <a href="/terms" style={{ color: "#4F46E5" }}>Terms & Conditions</a> and <a href="/privacy" style={{ color: "#4F46E5" }}>Privacy Policy</a>
-          </label>
-        </div>
-
-        <button
-          className={`signin-btn ${isSubmitting ? 'loading' : ''}`}
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          aria-busy={isSubmitting}
-          aria-disabled={isSubmitting}
-        >
-          {isSubmitting && <div className="btn-spinner"></div>}
-          {isSubmitting ? 'Creating account...' : 'Create Account'}
-        </button>
-
-        <div className="divider">
-          <div className="or-line"></div>
-          <span>or continue with</span>
-          <div className="or-line"></div>
-        </div>
-
-        <button
-          className={`google-btn ${googleLoading ? "loading" : ""}`}
-          onClick={handleGoogleSignup}
-          disabled={googleLoading || isSubmitting}
-          aria-busy={googleLoading}
-        >
-          {googleLoading && <div className="btn-spinner"></div>}
-          {googleLoading ? (
-            "Signing up..."
-          ) : (
-            <>
-              <FcGoogle size={22} />
-              Sign up with Google
-            </>
-          )}
-        </button>
-
-
-        <p className="signup-text">
-          Already have an account?{" "}
-          <span>
-            <Link
-              to={"/login"}
-              style={{ textDecoration: "none", color: "rgb(79 70 229)" }}
-            >
-              Sign In
-            </Link>
-          </span>
-        </p>
       </div>
-    </div>
+    </>
   );
 };
 

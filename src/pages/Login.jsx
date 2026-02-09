@@ -4,7 +4,7 @@ import { HiOutlineMail, HiOutlineLockClosed, HiOutlineLockOpen } from "react-ico
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Logo from "../assets/Logo.webp";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import apiClient from "../utils/apiClient";
 import ForgotPass from "./ForgetPass";
 import Otp from "./Otp";
@@ -12,6 +12,7 @@ import ResetPassword from "./ResetPassword";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase/FirebaseAuth";
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO';
 
 const Login = () => {
   const [isValid, setIsValid] = useState(false);
@@ -26,12 +27,21 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const [UserData, setUserData] = useState({
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -143,155 +153,158 @@ const Login = () => {
   }
 
   return (
-    <div className="login-page">
-      <div className="logo-container">
-        <div className="logo">
-          <div className="logo-icon">
-            <img src={Logo} alt="ShopCo Logo" />
+    <>
+      <SEO title="Login" description="Login to your ShopCo account." url="https://shopco.site/login" />
+      <div className="login-page">
+        <div className="logo-container">
+          <div className="logo">
+            <div className="logo-icon">
+              <img src={Logo} alt="ShopCo Logo" />
+            </div>
+            <div className="txt">ShopCo</div>
           </div>
-          <div className="txt">ShopCo</div>
-        </div>
-        <p className="subtitle">Your Electronics Destination</p>
-      </div>
-
-      <div className="login-card">
-        <h2 className="card-title1">Welcome Back</h2>
-        <p className="card-subtitle1">Sign in to continue shopping</p>
-
-        <div className="form-field">
-          <label>Email Address</label>
-          <div className={`input-box ${submitted && emailError ? "input-error" : ""}`}>
-            <HiOutlineMail />
-            <input
-              type="email"
-              placeholder="Enter your email"
-              name="email"
-              value={UserData.email}
-              onChange={handleChange}
-            />
-          </div>
-          {submitted && emailError && (
-            <p className="password-error mb-0">{emailError}</p>
-          )}
+          <p className="subtitle">Your Electronics Destination</p>
         </div>
 
-        <div className="form-field">
-          <label>Password</label>
-          <div className={`input-box ${submitted && passwordError ? "input-error" : ""}`}>
-            {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              name="password"
-              value={UserData.password}
-              onChange={handleChange}
-            />
-            {showPassword ? (
-              <AiOutlineEyeInvisible
-                className="eye-icon"
-                onClick={() => setShowPassword(false)}
+        <div className="login-card">
+          <h2 className="card-title1">Welcome Back</h2>
+          <p className="card-subtitle1">Sign in to continue shopping</p>
+
+          <div className="form-field">
+            <label>Email Address</label>
+            <div className={`input-box ${submitted && emailError ? "input-error" : ""}`}>
+              <HiOutlineMail />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                name="email"
+                value={UserData.email}
+                onChange={handleChange}
               />
-            ) : (
-              <AiOutlineEye
-                className="eye-icon"
-                onClick={() => setShowPassword(true)}
-              />
+            </div>
+            {submitted && emailError && (
+              <p className="password-error mb-0">{emailError}</p>
             )}
           </div>
-          {submitted && passwordError && (
-            <p className="password-error mb-0">{passwordError}</p>
-          )}
+
+          <div className="form-field">
+            <label>Password</label>
+            <div className={`input-box ${submitted && passwordError ? "input-error" : ""}`}>
+              {showPassword ? <HiOutlineLockOpen /> : <HiOutlineLockClosed />}
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                name="password"
+                value={UserData.password}
+                onChange={handleChange}
+              />
+              {showPassword ? (
+                <AiOutlineEyeInvisible
+                  className="eye-icon"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <AiOutlineEye
+                  className="eye-icon"
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
+            </div>
+            {submitted && passwordError && (
+              <p className="password-error mb-0">{passwordError}</p>
+            )}
+          </div>
+
+          <div className="form-options">
+            <label className="remember-me">
+              <input type="checkbox" />
+              Remember me
+            </label>
+            <span className="forgot" onClick={() => setShowForgot(true)}>
+              Forgot Password?
+            </span>
+          </div>
+
+          <button
+            className={`signin-btn ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading || (submitted && (!isEmailValid || !isValid))}
+            onClick={handleSubmit}
+            aria-busy={isLoading}
+            aria-disabled={isLoading}
+          >
+            {isLoading && <div className="btn-spinner"></div>}
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </button>
+
+          <div className="divider">
+            <div className="or-line"></div>
+            <span>or continue with</span>
+            <div className="or-line"></div>
+          </div>
+
+          <button
+            className={`google-btn ${googleLoading ? 'loading' : ''}`}
+            onClick={handleGoogle}
+            disabled={googleLoading || isLoading}
+            aria-busy={googleLoading}
+          >
+            {googleLoading && <div className="btn-spinner"></div>}
+            {googleLoading ? (
+              'Signing in...'
+            ) : (
+              <>
+                <FcGoogle size={22} />
+                Sign in with Google
+              </>
+            )}
+          </button>
+
+          <p className="signup-text">
+            Don&apos;t have an account?{" "}
+            <span>
+              <Link
+                to={"/signup"}
+                style={{ textDecoration: "none", color: "rgb(79 70 229)" }}
+              >
+                Create Account
+              </Link>
+            </span>
+          </p>
         </div>
 
-        <div className="form-options">
-          <label className="remember-me">
-            <input type="checkbox" />
-            Remember me
-          </label>
-          <span className="forgot" onClick={() => setShowForgot(true)}>
-            Forgot Password?
-          </span>
-        </div>
+        {showForgot && forgotStep === "email" && (
+          <ForgotPass
+            onClose={() => setShowForgot(false)}
+            onSendOtp={(email) => {
+              setResetEmail(email);
+              setForgotStep("otp");
+            }}
+          />
+        )}
 
-        <button
-          className={`signin-btn ${isLoading ? 'loading' : ''}`}
-          disabled={isLoading || (submitted && (!isEmailValid || !isValid))}
-          onClick={handleSubmit}
-          aria-busy={isLoading}
-          aria-disabled={isLoading}
-        >
-          {isLoading && <div className="btn-spinner"></div>}
-          {isLoading ? 'Signing in...' : 'Sign In'}
-        </button>
+        {showForgot && forgotStep === "otp" && (
+          <Otp
+            email={resetEmail}
+            onClose={() => {
+              setShowForgot(false);
+              setForgotStep("email");
+            }}
+            onBack={() => setForgotStep("email")}
+            onVerified={() => setForgotStep("reset")}
+          />
+        )}
 
-        <div className="divider">
-          <div className="or-line"></div>
-          <span>or continue with</span>
-          <div className="or-line"></div>
-        </div>
-
-        <button
-          className={`google-btn ${googleLoading ? 'loading' : ''}`}
-          onClick={handleGoogle}
-          disabled={googleLoading || isLoading}
-          aria-busy={googleLoading}
-        >
-          {googleLoading && <div className="btn-spinner"></div>}
-          {googleLoading ? (
-            'Signing in...'
-          ) : (
-            <>
-              <FcGoogle size={22} />
-              Sign in with Google
-            </>
-          )}
-        </button>
-
-        <p className="signup-text">
-          Don&apos;t have an account?{" "}
-          <span>
-            <Link
-              to={"/signup"}
-              style={{ textDecoration: "none", color: "rgb(79 70 229)" }}
-            >
-              Create Account
-            </Link>
-          </span>
-        </p>
+        {showForgot && forgotStep === "reset" && (
+          <ResetPassword
+            email={resetEmail}
+            onClose={() => {
+              setShowForgot(false);
+              setForgotStep("email");
+            }}
+          />
+        )}
       </div>
-
-      {showForgot && forgotStep === "email" && (
-        <ForgotPass
-          onClose={() => setShowForgot(false)}
-          onSendOtp={(email) => {
-            setResetEmail(email);
-            setForgotStep("otp");
-          }}
-        />
-      )}
-
-      {showForgot && forgotStep === "otp" && (
-        <Otp
-          email={resetEmail}
-          onClose={() => {
-            setShowForgot(false);
-            setForgotStep("email");
-          }}
-          onBack={() => setForgotStep("email")}
-          onVerified={() => setForgotStep("reset")}
-        />
-      )}
-
-      {showForgot && forgotStep === "reset" && (
-        <ResetPassword
-          email={resetEmail}
-          onClose={() => {
-            setShowForgot(false);
-            setForgotStep("email");
-          }}
-        />
-      )}
-    </div>
+    </>
   );
 };
 
