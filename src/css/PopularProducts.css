@@ -399,7 +399,7 @@
         gap: 5px;
     }
 }
-@media (max-width: 480px) {
+@media (max-width: 380px) {
     .pp-card {
         width: 230px;
     }
