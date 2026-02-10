@@ -304,10 +304,11 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
     const canSubmit = !isSubmitting && isEmailVerified;
 
     return (
-        <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={handleCancel}>
-            <div className={`modal-container ${isOpen ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+        <div className={`update-modal-overlay ${isOpen ? 'show' : ''}`} onClick={handleCancel}>
+            <div className={`update-modal-container ${isOpen ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+
                 <button
-                    className="modal-close-btn"
+                    className="update-modal-close-btn"
                     onClick={handleCancel}
                     disabled={isSubmitting}
                     aria-label="Close modal"
@@ -325,7 +326,7 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                     </div>
                 )}
 
-                <div className="modal-header">
+                <div className="update-modal-header">
                     <h2>Update Profile</h2>
                     <p>Keep your information up to date</p>
                 </div>
@@ -483,7 +484,7 @@ const UpdateProfileModal = ({ isOpen, onClose, userData, onUpdateSuccess }) => {
                         )}
                     </div>
 
-                    <div className="modal-actions">
+                    <div className="update-modal-actions">
                         <button
                             type="button"
                             className="btn-cancel"

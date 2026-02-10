@@ -399,3 +399,18 @@
         gap: 5px;
     }
 }
+@media (max-width: 480px) {
+    .pp-card {
+        width: 230px;
+    }
+    
+    .pp-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    
+    .pp-wrapper {
+        gap: 5px;
+    }
+}

@@ -218,17 +218,41 @@
     }
 
     .category-wrapper {
-        gap: 5px;
+        gap: 0px;
+        /* Reduced gap between arrows and list */
     }
 
     .sbc-container {
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-left: 40px;
-        gap: 50px;
+        padding-left: 5px;
+        /* Minimal padding since arrows take space */
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        gap: 20px;
+        /* Reduced from 50px to show more items */
     }
 
     .sbc-card {
-        margin-top: 40px;
+        min-width: 75px;
+        margin-top: 0;
+        /* Removed excessive top margin */
+    }
+
+    .sbc-image-wrapper {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 6px;
+        border-width: 1px;
+    }
+
+    .sbc-name {
+        font-size: 12px;
+        line-height: 1.2;
+        white-space: nowrap;
+        /* Prevent wrapping for cleaner look if desired, or keep normal */
+    }
+
+    .sbc-card:hover {
+        transform: none;
     }
 }

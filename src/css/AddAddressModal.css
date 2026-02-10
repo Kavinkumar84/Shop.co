@@ -1,165 +1,105 @@
-
-
-
+/* AddAddressModal.css */
 .address-modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
-    opacity: 0;
-    animation: addressFadeIn 0.3s ease forwards;
+    z-index: 1000;
     padding: 1rem;
-    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
 .address-modal-overlay.show {
     opacity: 1;
+    visibility: visible;
 }
-
-@keyframes addressFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 
 .address-modal-container {
-    background-color: #1D2939;
-    border-radius: 20px;
+    background-color: var(--card-bg, #ffffff);
+    border-radius: var(--radius-xl, 1rem);
+    box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1));
     width: 100%;
-    max-width: 900px;
+    max-width: 800px;
     max-height: 90vh;
-    overflow-y: auto;
-    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    transform: scale(0.9) translateY(30px);
-    opacity: 0;
-    animation: addressModalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    margin: auto;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .address-modal-container.show {
-    transform: scale(1) translateY(0);
-    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
-@keyframes addressModalSlideIn {
-    from {
-        transform: scale(0.9) translateY(30px);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
+/* Header */
+.address-modal-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+    background-color: var(--bg-color, #f9fafb);
 }
 
-
-.address-modal-container::-webkit-scrollbar {
-    width: 8px;
+.address-modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 0.5rem 0;
 }
 
-.address-modal-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+.header-icon {
+    color: var(--primary-color, #4f46e5);
 }
 
-.address-modal-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+.address-modal-header p {
+    color: var(--text-secondary, #6b7280);
+    font-size: 0.95rem;
+    margin: 0;
 }
-
-.address-modal-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
 
 .address-modal-close-btn {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary, #9ca3af);
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    color: #98A2B3;
-    transition: all 0.3s ease;
-    padding: 0;
-    z-index: 10;
+    padding: 0.5rem;
+    border-radius: 50%;
 }
 
 .address-modal-close-btn:hover {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: #EF4444;
-    transform: rotate(90deg);
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary, #111827);
 }
 
-.address-modal-close-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-
-.address-modal-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding-right: 2rem;
-}
-
-.address-modal-header h2 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-}
-
-.address-modal-header .header-icon {
-    color: #1570EF;
-    font-size: 1.875rem;
-}
-
-.address-modal-header p {
-    margin: 0;
-    color: #98A2B3;
-    font-size: 0.875rem;
-}
-
-
+/* Form Area */
 .address-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    padding: 2rem;
+    overflow-y: auto;
+    flex: 1;
 }
-
 
 .address-form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .address-form-group {
@@ -173,17 +113,15 @@
 }
 
 .address-form-group label {
-    color: #ffffff;
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-left: 0.25rem;
+    color: var(--text-primary, #374151);
 }
 
-.required {
-    color: #EF4444;
-    margin-left: 0.125rem;
+.address-form-group label .required {
+    color: #ef4444;
+    margin-left: 2px;
 }
-
 
 .address-input-wrapper {
     position: relative;
@@ -191,148 +129,104 @@
     align-items: center;
 }
 
-.address-input-wrapper.error input,
-.address-input-wrapper.error select {
-    border-color: #EF4444;
-}
-
 .address-input-icon {
     position: absolute;
     left: 1rem;
-    color: #98A2B3;
-    font-size: 1.125rem;
+    color: var(--text-secondary, #9ca3af);
+    font-size: 1.1rem;
     pointer-events: none;
-    z-index: 1;
 }
 
 .address-input-wrapper input,
 .address-input-wrapper select {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 3rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: #ffffff;
-    font-size: 0.9375rem;
-    transition: all 0.3s ease;
-}
-
-.address-input-wrapper input::placeholder {
-    color: #6B7280;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border: 1px solid var(--border-color, #d1d5db);
+    border-radius: var(--radius-lg, 0.5rem);
+    font-size: 0.95rem;
+    color: var(--text-primary, #111827);
+    background-color: white;
+    transition: all 0.2s;
 }
 
 .address-input-wrapper input:focus,
 .address-input-wrapper select:focus {
     outline: none;
-    border-color: #1570EF;
-    background-color: rgba(21, 112, 239, 0.05);
-    box-shadow: 0 0 0 3px rgba(21, 112, 239, 0.1);
+    border-color: var(--primary-color, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
-.address-input-wrapper input:disabled,
-.address-input-wrapper select:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.address-input-wrapper.error input,
+.address-input-wrapper.error select {
+    border-color: #ef4444;
+    background-color: #fef2f2;
 }
 
-
-.address-select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2398A2B3' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    padding-right: 2.5rem;
+.address-input-wrapper.error .address-input-icon {
+    color: #ef4444;
 }
-
-.address-select option {
-    background-color: #1D2939;
-    color: #ffffff;
-    padding: 0.5rem;
-}
-
 
 .address-error-text {
-    color: #EF4444;
-    font-size: 0.8125rem;
-    margin-left: 0.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    animation: addressShake 0.3s ease;
+    font-size: 0.8rem;
+    color: #ef4444;
+    margin-top: 0.25rem;
 }
 
-@keyframes addressShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-
+/* Address Type */
 .address-type-section {
-    margin-top: 0.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 2rem;
 }
 
 .address-section-label {
     display: block;
-    color: #ffffff;
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    color: var(--text-primary, #374151);
+    margin-bottom: 0.75rem;
 }
 
 .address-type-buttons {
     display: flex;
     gap: 1rem;
-    flex-wrap: wrap;
 }
 
 .address-type-btn {
     flex: 1;
-    min-width: 120px;
-    padding: 0.875rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: #98A2B3;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #d1d5db);
+    background-color: white;
+    border-radius: var(--radius-lg, 0.5rem);
+    color: var(--text-secondary, #4b5563);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .address-type-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    background-color: var(--bg-color, #f9fafb);
+    border-color: var(--text-secondary, #9ca3af);
 }
 
 .address-type-btn.active {
-    background: linear-gradient(135deg, rgba(21, 112, 239, 0.2) 0%, rgba(21, 112, 239, 0.1) 100%);
-    border-color: #1570EF;
-    color: #1570EF;
+    background-color: #eef2ff;
+    border-color: var(--primary-color, #4f46e5);
+    color: var(--primary-color, #4f46e5);
 }
 
-.address-type-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-
+/* Checkboxes */
 .address-checkbox-section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--bg-color, #f9fafb);
+    border-radius: var(--radius-lg, 0.5rem);
+    border: 1px solid var(--border-color, #e5e7eb);
 }
 
 .address-checkbox-label {
@@ -340,445 +234,200 @@
     align-items: center;
     gap: 0.75rem;
     cursor: pointer;
-    position: relative;
+    user-select: none;
 }
 
-.address-checkbox-label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+.address-checkbox-label input {
+    display: none;
 }
 
 .checkbox-custom {
     width: 20px;
     height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    position: relative;
-    flex-shrink: 0;
+    border: 2px solid var(--text-secondary, #9ca3af);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background-color: white;
 }
 
-.address-checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
-    background: linear-gradient(135deg, #1570EF 0%, #1260D4 100%);
-    border-color: #1570EF;
+.address-checkbox-label input:checked+.checkbox-custom {
+    background-color: var(--primary-color, #4f46e5);
+    border-color: var(--primary-color, #4f46e5);
 }
 
-.address-checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+.address-checkbox-label input:checked+.checkbox-custom::after {
     content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffffff;
-    font-size: 0.875rem;
+    color: white;
     font-weight: bold;
+    font-size: 14px;
 }
 
 .checkbox-text {
-    color: #ffffff;
-    font-size: 0.9375rem;
-    user-select: none;
+    font-size: 0.95rem;
+    color: var(--text-primary, #374151);
 }
 
-.address-checkbox-label:hover .checkbox-custom {
-    border-color: #1570EF;
-}
-
-.address-checkbox-label input[type="checkbox"]:disabled + .checkbox-custom {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-
+/* Actions */
 .address-modal-actions {
     display: flex;
+    justify-content: flex-end;
     gap: 1rem;
     margin-top: 1rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--border-color, #e5e7eb);
 }
 
 .address-btn-cancel,
 .address-btn-submit {
-    flex: 1;
-    padding: 0.9375rem 1.5rem;
-    border-radius: 10px;
-    font-size: 0.9375rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg, 0.5rem);
     font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    transition: all 0.2s;
 }
 
 .address-btn-cancel {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid var(--border-color, #d1d5db);
+    color: var(--text-primary, #374151);
 }
 
 .address-btn-cancel:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.address-btn-cancel:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    background-color: var(--bg-color, #f3f4f6);
+    border-color: var(--text-secondary, #9ca3af);
 }
 
 .address-btn-submit {
-    background: linear-gradient(135deg, #1570EF 0%, #1260D4 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(21, 112, 239, 0.3);
+    background-color: var(--primary-color, #4f46e5);
+    border: 1px solid transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
 }
 
 .address-btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(21, 112, 239, 0.4);
+    background-color: var(--primary-hover, #4338ca);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
 }
 
-.address-btn-submit:active {
-    transform: translateY(0);
-}
-
-.address-btn-submit:disabled {
+.address-btn-submit:disabled,
+.address-btn-cancel:disabled {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
 }
 
-
+/* Spinner */
 .address-spinner {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #ffffff;
     border-radius: 50%;
-    animation: addressSpin 0.8s linear infinite;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
 }
 
-@keyframes addressSpin {
+@keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
 
-
+/* Success Overlay */
 .address-success-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(29, 41, 57, 0.98);
-    backdrop-filter: blur(10px);
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.95);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
-    z-index: 100;
-    animation: addressFadeIn 0.3s ease forwards;
+    z-index: 20;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .address-success-message {
     text-align: center;
-    animation: addressSuccessPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes addressSuccessPop {
+.address-success-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #ecfdf5;
+    color: #059669;
+    font-size: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.1);
+}
+
+.address-success-message h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary, #111827);
+    margin-bottom: 0.5rem;
+}
+
+.address-success-message p {
+    color: var(--text-secondary, #6b7280);
+}
+
+@keyframes scaleUp {
     from {
         transform: scale(0.8);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
     }
 }
 
-.address-success-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    color: #ffffff;
-    font-weight: bold;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-    animation: addressSuccessIconPulse 0.6s ease;
-}
-
-@keyframes addressSuccessIconPulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-}
-
-.address-success-message h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.address-success-message p {
-    margin: 0;
-    color: #98A2B3;
-    font-size: 0.9375rem;
-}
-
-
-
-@media (max-width: 992px) {
+@media (max-width: 640px) {
     .address-modal-container {
-        max-width: 700px;
-    }
-}
-
-@media (max-width: 768px) {
-    .address-form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .address-form-group.full-width {
-        grid-column: 1;
-    }
-
-    .address-modal-container {
-        padding: 2rem 1.5rem;
-        max-height: 95vh;
-    }
-
-    .address-modal-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .address-type-buttons {
-        flex-direction: column;
-    }
-
-    .address-type-btn {
-        min-width: auto;
         width: 100%;
-    }
-
-    .address-modal-actions {
-        flex-direction: column;
-    }
-
-    .address-btn-cancel,
-    .address-btn-submit {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .address-modal-overlay {
-        padding: 0;
-        align-items: flex-start;
-        overflow-y: auto;
-    }
-
-    .address-modal-container {
-        padding: 1.5rem 1rem;
-        border-radius: 12px;
-        max-height: none;
-        min-height: 100vh;
-        margin: 0;
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .address-modal-close-btn {
-        top: 1rem;
-        right: 1rem;
-        width: 36px;
-        height: 36px;
-        background: rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .address-modal-close-btn:hover {
-        background: rgba(239, 68, 68, 0.2);
-    }
-
-    .address-modal-header {
-        padding-right: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .address-modal-header h2 {
-        font-size: 1.375rem;
-        flex-direction: row;
-        gap: 0.625rem;
-    }
-
-    .address-modal-header .header-icon {
-        font-size: 1.5rem;
-    }
-
-    .address-modal-header p {
-        font-size: 0.8125rem;
-        line-height: 1.5;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
     }
 
     .address-form-grid {
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
 
+    .address-modal-header {
+        padding: 1.25rem 1.5rem;
+    }
+
     .address-form {
-        gap: 1.25rem;
-    }
-
-    .address-form-group {
-        gap: 0.375rem;
-    }
-
-    .address-form-group label {
-        font-size: 0.8125rem;
-    }
-
-    .address-input-wrapper input,
-    .address-input-wrapper select {
-        padding: 0.8125rem 0.875rem 0.8125rem 2.75rem;
-        font-size: 0.875rem;
-        border-radius: 8px;
-    }
-
-    .address-input-icon {
-        left: 0.875rem;
-        font-size: 1rem;
-    }
-
-    .address-type-section {
-        padding-top: 1.25rem;
-    }
-
-    .address-section-label {
-        font-size: 0.875rem;
-        margin-bottom: 0.875rem;
+        padding: 1.5rem;
     }
 
     .address-type-buttons {
-        gap: 0.75rem;
-    }
-
-    .address-type-btn {
-        padding: 0.8125rem 1.25rem;
-        font-size: 0.875rem;
-        min-width: auto;
-    }
-
-    .address-checkbox-section {
-        padding: 1rem;
-        gap: 0.875rem;
-    }
-
-    .checkbox-text {
-        font-size: 0.8125rem;
-        line-height: 1.5;
+        flex-direction: column;
     }
 
     .address-modal-actions {
+        flex-direction: column-reverse;
+        /* Put submit on top or keep standard? Stack them */
         gap: 0.75rem;
-        margin-top: 1rem;
-        padding-top: 1.25rem;
     }
 
     .address-btn-cancel,
     .address-btn-submit {
-        padding: 0.875rem 1.25rem;
-        font-size: 0.875rem;
-    }
-
-    .address-success-icon {
-        width: 64px;
-        height: 64px;
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .address-success-message h3 {
-        font-size: 1.25rem;
-    }
-
-    .address-success-message p {
-        font-size: 0.875rem;
+        width: 100%;
+        justify-content: center;
     }
 }
-
-@media (max-width: 360px) {
-    .address-modal-container {
-        padding: 1rem 0.75rem;
-    }
-
-    .address-modal-header h2 {
-        font-size: 1.125rem;
-    }
-
-    .address-modal-header .header-icon {
-        font-size: 1.25rem;
-    }
-
-    .address-input-wrapper input,
-    .address-input-wrapper select {
-        padding: 0.6875rem 0.75rem 0.6875rem 2.25rem;
-        font-size: 0.8125rem;
-    }
-
-    .address-input-icon {
-        left: 0.625rem;
-        font-size: 0.875rem;
-    }
-
-    .address-type-btn {
-        padding: 0.6875rem 1rem;
-        font-size: 0.8125rem;
-    }
-
-    .address-btn-cancel,
-    .address-btn-submit {
-        padding: 0.75rem 1rem;
-        font-size: 0.8125rem;
-    }
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-    .address-modal-overlay,
-    .address-modal-container,
-    .address-success-overlay,
-    .address-success-message,
-    .address-success-icon {
-        animation: none;
-    }
-
-    .address-modal-close-btn:hover,
-    .address-type-btn:hover,
-    .address-btn-submit:hover {
-        transform: none;
-    }
-}
-
-
-@media print {
-    .address-modal-overlay {
-        display: none;
-    }
-}
-
