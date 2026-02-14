@@ -60,23 +60,28 @@
   align-items: center;
   gap: 22px;
 }
+
 .header-profile {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .drop {
   padding: 14px 0px;
 }
+
 .down {
   position: absolute;
   display: none;
   margin-top: 15px;
   z-index: 1000;
 }
-.drop:hover .down{
+
+.drop:hover .down {
   display: block;
 }
+
 .profile-menu {
   width: 260px;
   background: #fff;
@@ -84,7 +89,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   padding: 14px;
   font-family: Arial, sans-serif;
-  
+
 }
 
 .profile-header1 {
@@ -157,6 +162,7 @@
   text-decoration: none;
   color: #000;
 }
+
 .search-box {
   position: relative;
   width: 520px;
@@ -187,7 +193,8 @@
   cursor: pointer;
   /* color: #ce4141; */
 }
-.pro{
+
+.pro {
   font-size: 26px;
   color: #313030;
 }
@@ -301,7 +308,7 @@
   .logo-text {
     font-size: 16px;
   }
-  
+
   .search-box {
     width: auto;
   }

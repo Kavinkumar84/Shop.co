@@ -10,6 +10,7 @@ import UserDashboard from './pages/UserDashboard';
 import PageNotFound from './pages/PageNotFound';
 import './css/App.css'
 import GlobalLoader from './components/GlobalLoader';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
@@ -96,7 +97,7 @@ const AppContent = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, []); 
+  }, []);
 
   const validRoutes = ["/", "/login", "/signup", "/favorites",];
   const isAuthPage = hideHeaderRoutes.includes(location.pathname.toLowerCase());
@@ -114,6 +115,7 @@ const AppContent = () => {
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      {!isAuthPage && !isNotFoundPage && <Footer />}
     </div>
   );
 };
