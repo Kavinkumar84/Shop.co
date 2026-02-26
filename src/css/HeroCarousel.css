@@ -5,6 +5,8 @@
     overflow: hidden;
     margin: 0 auto;
     background: #0a0a0a;
+    /* ✅ Isolate carousel from page layout — prevents reflows */
+    contain: layout style;
 }
 
 .carousel-container {
@@ -30,6 +32,8 @@
     transform: scale(0.95);
     transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
     overflow: hidden;
+    /* ✅ Pre-promote to GPU layer for smooth transitions */
+    will-change: transform, opacity;
 }
 
 .carousel-slide.active {
@@ -60,6 +64,12 @@
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.3);
     filter: blur(80px);
+    /* ✅ Only animate shapes in active slide — skip for hidden slides */
+    animation: none;
+    will-change: transform;
+}
+
+.carousel-slide.active .shape {
     animation: float 20s infinite ease-in-out;
 }
 
@@ -255,6 +265,12 @@
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+    /* ✅ Only animate image in the active slide */
+    animation: none;
+    will-change: transform;
+}
+
+.carousel-slide.active .image-wrapper img {
     animation: float-image 4s ease-in-out infinite;
 }
 

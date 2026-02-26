@@ -2,6 +2,9 @@
     max-width: 100%;
     padding: 0 20px;
     font-family: 'Inter', sans-serif;
+    /* ✅ Skip rendering until scrolled into view — saves TBT & LCP */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
 }
 
 .pp-header {
@@ -388,28 +391,29 @@
     .pp-card {
         width: 180px;
     }
-    
+
     .pp-arrow {
         width: 30px;
         height: 30px;
         font-size: 16px;
     }
-    
+
     .pp-wrapper {
         gap: 5px;
     }
 }
+
 @media (max-width: 480px) {
     .pp-card {
         width: 230px;
     }
-    
+
     .pp-arrow {
         width: 30px;
         height: 30px;
         font-size: 16px;
     }
-    
+
     .pp-wrapper {
         gap: 5px;
     }

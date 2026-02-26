@@ -19,7 +19,6 @@ const Header = () => {
       if (stored) {
         let parseData = JSON.parse(stored);
         setLoggedUser(parseData);
-        console.log(parseData.name);
       }
     } catch (err) {
       console.error("Corrupted user data");
