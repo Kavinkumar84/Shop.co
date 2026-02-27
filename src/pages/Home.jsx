@@ -97,6 +97,31 @@ const Home = () => {
     }
   };
 
+  if (loading && (!categories || categories.length === 0)) {
+    return (
+      <div id="Home">
+        <SEO
+          title="Home"
+          description="ShopCo - Your one-stop shop for premium electronics, smart gadgets, and home appliances at the best prices."
+          keywords="ShopCo, electronics, gadgets, smart home, mobile phones, headphones"
+          url="https://shopco.site/"
+        />
+        <div
+          style={{
+            minHeight: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1rem",
+            color: "#666",
+          }}
+        >
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div id="Home">
       <SEO
